@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.List;
 
-public interface MessageAPI extends IManager {
+public interface MessageManager extends IManager {
 
     @NotNull String colored(@NotNull String text);
     @NotNull List<String> colored(@NotNull List<String> list);
