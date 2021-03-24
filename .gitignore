@@ -1,0 +1,5 @@
+/target/
+**/*.swp
+.settings/
+dependency-reduced-pom.xml
+/.idea
