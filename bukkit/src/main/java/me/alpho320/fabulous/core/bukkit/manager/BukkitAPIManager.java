@@ -5,12 +5,29 @@ import me.alpho320.fabulous.core.api.manager.impl.interact.InteractableObjManage
 import me.alpho320.fabulous.core.api.manager.impl.message.MessageManager;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
 import me.alpho320.fabulous.core.api.manager.impl.worldborder.WorldBorderManager;
+import me.alpho320.fabulous.core.bukkit.BukkitCore;
+import me.alpho320.fabulous.core.bukkit.manager.impl.BukkitSignManager;
 import org.jetbrains.annotations.Nullable;
 
 public class BukkitAPIManager implements APIManager {
 
+    private final BukkitCore core;
+
+    private BukkitSignManager signManager;
+
+    public BukkitAPIManager(BukkitCore core) {
+        this.core = core;
+    }
+
     @Override
-    public boolean init(Object plugin) {
+    public boolean init() {
+        try {
+
+            signManager = new BukkitSignManager(core);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

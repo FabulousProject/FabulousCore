@@ -2,6 +2,7 @@ package me.alpho320.fabulous.core.bukkit;
 
 import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.APIManager;
+import me.alpho320.fabulous.core.bukkit.manager.BukkitAPIManager;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +18,14 @@ public class BukkitCore implements FCore<Plugin> {
 
     @Override
     public boolean init(Plugin initializer) {
-        //todo
+        try {
+
+            apiManager = new BukkitAPIManager(this);
+            apiManager.init();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

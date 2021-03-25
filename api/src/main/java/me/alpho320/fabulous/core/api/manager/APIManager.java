@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface APIManager {
 
-    boolean init(Object plugin);
+    boolean init();
 
     @Nullable MessageManager messageManager();
     @Nullable SignManager signManager();
