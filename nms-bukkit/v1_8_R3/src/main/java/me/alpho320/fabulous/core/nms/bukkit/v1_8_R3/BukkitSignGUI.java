@@ -1,6 +1,8 @@
 package me.alpho320.fabulous.core.nms.bukkit.v1_8_R3;
 
+import me.alpho320.fabulous.core.api.manager.impl.interact.InteractableObject;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

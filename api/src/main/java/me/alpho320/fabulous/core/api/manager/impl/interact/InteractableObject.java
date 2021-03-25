@@ -1,26 +1,36 @@
 package me.alpho320.fabulous.core.api.manager.impl.interact;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public interface InteractableObject<T> {
+public abstract class InteractableObject<T> {
 
-    @NotNull UUID id();
+    private final UUID id;
+    private final T object;
 
-    @NotNull T object();
-    @NotNull Consumer<InteractEvent> interactEvent();
+    private final Consumer<InteractEvent> eventConsumer;
 
-    interface InteractEvent {
-
-        Object object();
-
+    public InteractableObject(UUID id, T object, Consumer<InteractEvent> eventConsumer) {
+        this.id = id;
+        this.object = object;
+        this.eventConsumer = eventConsumer;
     }
 
-    interface InteractListener {
+    public UUID getId() {
+        return id;
+    }
 
-        void onInteract(InteractEvent event);
+    public T getObject() {
+        return object;
+    }
+
+    public Consumer<InteractEvent> getEventConsumer() {
+        return eventConsumer;
+    }
+
+    public interface InteractEvent {
+
+        Object object();
 
     }
 
