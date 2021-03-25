@@ -17,13 +17,14 @@ public interface InteractableObjManager extends IManager {
     boolean remove(UUID id, InteractableObject<Object> interactableObject);
     boolean remove(InteractableObject<Object> interactableObject);
 
-    boolean contains(UUID id);
-    boolean contains(String id);
-    boolean contains(Object id);
-    boolean contains(InteractableObject<Object> object);
-
     @Nullable InteractableObject<Object> get(UUID id);
     @Nullable InteractableObject<Object> get(String id);
     @Nullable InteractableObject<Object> get(Object id);
+
+    boolean contains(UUID id);
+    boolean contains(String id);
+    boolean contains(InteractableObject<Object> object);
+
+
 
 }

@@ -4,8 +4,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface SignGUI {
+
+    UUID id();
 
     boolean open(@NotNull Object player, SignType signType, SignCallback callback);
 

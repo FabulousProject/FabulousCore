@@ -9,11 +9,21 @@ import java.util.UUID;
 
 public interface WorldBorderManager extends IManager {
 
-    @NotNull Map<UUID, IWorldBorder> worldBorderMap();
+    @NotNull Map<UUID, IWorldBorder> map();
 
-    @Nullable IWorldBorder getWorldBorder(UUID id);
-    @Nullable IWorldBorder getWorldBorder(String id);
-    @Nullable IWorldBorder getWorldBorder(Object player);
+    boolean add(UUID id, IWorldBorder border);
+    boolean add(IWorldBorder border);
+
+    boolean remove(UUID id);
+    boolean remove(IWorldBorder border);
+
+    @Nullable IWorldBorder get(UUID id);
+    @Nullable IWorldBorder get(String id);
+    @Nullable IWorldBorder get(Object player);
+
+    boolean contains(UUID id);
+    boolean contains(String id);
+    boolean contains(IWorldBorder border);
 
     enum BorderColor {
         RED, GREEN, BLUE;
