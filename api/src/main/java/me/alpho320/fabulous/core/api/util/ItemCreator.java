@@ -1,4 +1,4 @@
-package me.alpho320.fabulous.core.api.util.item;
+package me.alpho320.fabulous.core.api.util;
 
 import java.util.List;
 
