@@ -1,5 +1,6 @@
 package me.alpho320.fabulous.core.api.manager.impl.sign;
 
+import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI.SignType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,6 +12,10 @@ public interface SignGUI {
     UUID id();
 
     boolean open(@NotNull Object player, SignType signType, SignCallback callback);
+
+    String[] lines();
+    SignType signType();
+    SignCallback callback();
 
     SignGUI withLines(String...lines);
     SignGUI withLines(List<String> lines);

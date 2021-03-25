@@ -19,7 +19,6 @@ public interface SignManager extends IManager {
 
     @Nullable SignGUI get(UUID id);
     @Nullable SignGUI get(String id);
-    @Nullable SignGUI get(Object player);
 
     boolean contains(UUID id);
     boolean contains(String id);

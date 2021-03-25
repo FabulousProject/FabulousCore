@@ -12,11 +12,6 @@ public class CooldownManager implements IManager {
 
     private final Map<UUID, List<Cooldown>> cooldowns = new HashMap<>();
 
-    @Override
-    public boolean setup(Object plugin) {
-        return true;
-    }
-
     public boolean remove(UUID id, UUID cooldownID) {
         if (!cooldowns.containsKey(id)) return false;
 
@@ -53,4 +48,8 @@ public class CooldownManager implements IManager {
         return cooldowns.getOrDefault(id, new ArrayList<>());
     }
 
+    @Override
+    public boolean setup() {
+        return true;
+    }
 }

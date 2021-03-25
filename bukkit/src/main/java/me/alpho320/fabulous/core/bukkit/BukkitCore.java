@@ -36,4 +36,10 @@ public class BukkitCore implements FCore<Plugin> {
         this.apiManager = manager;
     }
 
+    @Override
+    public @NotNull String version() {
+        String packageName = plugin.getServer().getClass().getPackage().getName();
+        return packageName.substring(packageName.lastIndexOf('.') + 1);
+    }
+
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>FabulousCore</artifactId>
+        <groupId>me.alpho320.fabulous.core</groupId>
+        <version>parent</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>nms-bukkit</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>v1_8_R3</module>
+        <module>v1_9_R0</module>
+        <module>v1_10_R1</module>
+        <module>v1_11_R1</module>
+        <module>v1_12_R2</module>
+        <module>v1_13_R2</module>
+        <module>v1_14_R1</module>
+        <module>v1_15_R1</module>
+        <module>v1_16_R3</module>
+    </modules>
+
+    <repositories>
+        <repository>
+            <url>https://repo.codemc.org/repository/nms/</url>
+            <id>nms-repo</id>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>me.alpho320.fabulous.core</groupId>
+            <artifactId>api</artifactId>
+            <version>1.0.16</version>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+</project>
