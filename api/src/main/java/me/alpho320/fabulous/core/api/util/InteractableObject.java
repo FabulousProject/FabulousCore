@@ -9,9 +9,14 @@ public interface InteractableObject<T> {
 
     interface InteractEvent {
 
-        boolean interact(InteractEvent event);
+        Object object();
 
     }
 
+    interface InteractListener {
+
+        void onInteract(InteractEvent event);
+
+    }
 
 }
