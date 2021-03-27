@@ -1,4 +1,4 @@
-package me.alpho320.fabulous.core.nms.bukkit.v1_8_R3;
+package me.alpho320.fabulous.core.bukkit.manager.impl.interact;
 
 import me.alpho320.fabulous.core.api.manager.impl.interact.InteractableObject;
 import org.bukkit.Bukkit;
@@ -9,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;

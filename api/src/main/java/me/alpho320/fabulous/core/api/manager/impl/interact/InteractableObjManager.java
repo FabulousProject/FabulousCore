@@ -14,7 +14,7 @@ public interface InteractableObjManager extends IManager {
     boolean add(UUID id, InteractableObject<Object> interactableObject);
     boolean add(InteractableObject<Object> interactableObject);
 
-    boolean remove(UUID id, InteractableObject<Object> interactableObject);
+    boolean remove(UUID id);
     boolean remove(InteractableObject<Object> interactableObject);
 
     @Nullable InteractableObject<Object> get(UUID id);

@@ -1,4 +1,4 @@
-package me.alpho320.fabulous.core.bukkit.manager.impl;
+package me.alpho320.fabulous.core.bukkit.manager.impl.sign;
 
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
