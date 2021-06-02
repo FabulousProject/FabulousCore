@@ -25,7 +25,7 @@ public class BukkitSignManager implements SignManager {
     public boolean setup() {
         try {
 
-            Class<?> clazz = Class.forName("me.alpho320.fabulous.core.nms.bukkit" + core.version() + ".BukkitSignGUI");
+            Class<?> clazz = Class.forName("me.alpho320.fabulous.core.nms.bukkit." + core.version() + ".BukkitSignGUI");
 
             if (SignGUI.class.isAssignableFrom(clazz)) {
                 this.bukkitSignGUIClass = clazz;
@@ -66,7 +66,7 @@ public class BukkitSignManager implements SignManager {
 
     @Override
     public boolean remove(UUID id) {
-        if (id == null) return  false;
+        if (id == null) return false;
 
         if (map.containsKey(id)) {
             map.remove(id);

@@ -43,7 +43,7 @@ public class BukkitMessageManager implements MessageManager {
 
         try {
 
-            Class<?> clazz = Class.forName("me.alpho320.fabulous.core.nms.bukkit" + core.version() + ".BukkitActionBar");
+            Class<?> clazz = Class.forName("me.alpho320.fabulous.core.nms.bukkit." + core.version() + ".BukkitActionBar");
 
             if (IActionBar.class.isAssignableFrom(clazz)) {
                 this.actionBar = (IActionBar) clazz.getConstructor().newInstance();
