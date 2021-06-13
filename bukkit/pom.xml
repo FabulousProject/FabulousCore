@@ -117,7 +117,7 @@
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>api</artifactId>
-            <version>1.0.17</version>
+            <version>API</version>
             <type>jar</type>
             <scope>compile</scope>
             <optional>true</optional>
