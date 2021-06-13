@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>v1_8_R3</artifactId>
+    <artifactId>v1_10_R1</artifactId>
     <version>1.0</version>
 
     <dependencies>
@@ -17,14 +17,14 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
-            <version>1.8.8-R0.1-20190527.160046-7</version>
+            <version>1.10.2-R0.1-20190527.154659-2</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <version>1.10.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 

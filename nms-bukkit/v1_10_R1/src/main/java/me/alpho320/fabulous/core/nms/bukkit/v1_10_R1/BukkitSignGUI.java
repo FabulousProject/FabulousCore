@@ -1,4 +1,4 @@
-package me.alpho320.fabulous.core.nms.bukkit.v1_8_R3;
+package me.alpho320.fabulous.core.nms.bukkit.v1_10_R1;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
@@ -6,19 +6,19 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
 import me.alpho320.fabulous.core.bukkit.BukkitCore;
-import net.minecraft.server.v1_8_R3.BlockPosition;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayInUpdateSign;
-import net.minecraft.server.v1_8_R3.PacketPlayOutBlockChange;
-import net.minecraft.server.v1_8_R3.PacketPlayOutOpenSignEditor;
-import net.minecraft.server.v1_8_R3.PlayerConnection;
-import net.minecraft.server.v1_8_R3.TileEntitySign;
+import net.minecraft.server.v1_10_R1.BlockPosition;
+import net.minecraft.server.v1_10_R1.IChatBaseComponent;
+import net.minecraft.server.v1_10_R1.PacketPlayInUpdateSign;
+import net.minecraft.server.v1_10_R1.PacketPlayOutBlockChange;
+import net.minecraft.server.v1_10_R1.PacketPlayOutOpenSignEditor;
+import net.minecraft.server.v1_10_R1.PlayerConnection;
+import net.minecraft.server.v1_10_R1.TileEntitySign;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.block.CraftSign;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_8_R3.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_10_R1.block.CraftSign;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_10_R1.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +38,7 @@ public class BukkitSignGUI extends SignGUI {
 
         IChatBaseComponent[] components = CraftSign.sanitizeLines(lines());
         TileEntitySign sign = new TileEntitySign();
-        sign.a(new BlockPosition(blockPosition.getX(), blockPosition.getY(), blockPosition.getZ()));
+        sign.setPosition(new BlockPosition(blockPosition.getX(), blockPosition.getY(), blockPosition.getZ()));
         System.arraycopy(components, 0, sign.lines, 0, sign.lines.length);
         playerConnection.sendPacket(sign.getUpdatePacket());
 
@@ -64,15 +64,8 @@ public class BukkitSignGUI extends SignGUI {
                             Block block = player.getWorld().getBlockAt(position.getX(), position.getY(), position.getZ());
                             block.setType(block.getType());
 
-                            int m = 0;
-                            String[] lines = new String[packetSign.b().length];
-                            for (IChatBaseComponent line : packetSign.b()) {
-                                lines[m] = line.getText();
-                                m++;
-                            }
-
                             if (callback() != null)
-                                callback().whenClose(lines);
+                                callback().whenClose(packetSign.b());
                             BukkitCore.instance().apiManager().signManager().remove(id());
 
                             Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
