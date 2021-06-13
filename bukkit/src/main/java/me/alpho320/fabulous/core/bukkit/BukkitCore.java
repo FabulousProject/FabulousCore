@@ -32,7 +32,7 @@ public class BukkitCore implements FCore<Plugin> {
             this.plugin = initializer;
 
             String packageName = plugin.getServer().getClass().getPackage().getName();
-            version = packageName.substring(packageName.lastIndexOf('.') + 1);;
+            version = packageName.substring(packageName.lastIndexOf('.') + 1);
             versionInt = Integer.parseInt(version.split("[_]")[1]);
 
             apiManager = new BukkitAPIManager(this);
