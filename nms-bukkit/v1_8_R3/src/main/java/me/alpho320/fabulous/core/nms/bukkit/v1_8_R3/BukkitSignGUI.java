@@ -1,5 +1,6 @@
 package me.alpho320.fabulous.core.nms.bukkit.v1_8_R3;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
@@ -79,9 +80,17 @@ public class BukkitSignGUI extends SignGUI {
                 super.channelRead(ctx, packet);
             }
         };
-        ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel.pipeline();
-        pipeline.addBefore("packet_handler", "sign_api_pipeline_channel_" + player.getName(), channelDuplexHandler);
 
+        Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
+        channel.eventLoop().submit(() -> {
+            channel.pipeline().remove("fsign_api_pipeline_channel_" + player.getName());
+
+            ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel.pipeline();
+            pipeline.addBefore("packet_handler", "fsign_api_pipeline_channel_" + player.getName(), channelDuplexHandler);
+
+            return null;
+        });
+        
         return this;
     }
 

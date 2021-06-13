@@ -11,6 +11,8 @@ public interface SignManager extends IManager {
 
     @NotNull Map<UUID, SignGUI> map();
 
+    @Nullable SignGUI create();
+
     boolean add(UUID id, SignGUI gui);
     boolean add(SignGUI gui);
 

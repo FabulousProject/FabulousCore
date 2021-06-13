@@ -6,6 +6,7 @@ import me.alpho320.fabulous.core.bukkit.BukkitCore;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -41,6 +42,16 @@ public class BukkitSignManager implements SignManager {
     @Override
     public @NotNull Map<UUID, SignGUI> map() {
         return map;
+    }
+
+    @Override
+    public @Nullable SignGUI create() {
+        try {
+            return (SignGUI) bukkitSignGUIClass.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
