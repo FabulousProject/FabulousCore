@@ -61,7 +61,7 @@ public class BukkitAPIManager implements APIManager {
 
     @Override
     public @Nullable MessageManager messageManager() {
-        return null;
+        return messageManager;
     }
 
     @Override

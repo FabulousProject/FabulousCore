@@ -2,23 +2,38 @@ package me.alpho320.fabulous.core.bukkit;
 
 import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.APIManager;
+import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
+import me.alpho320.fabulous.core.bukkit.debugger.Debug;
 import me.alpho320.fabulous.core.bukkit.manager.BukkitAPIManager;
+import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class BukkitCore implements FCore<Plugin> {
 
-    private final Plugin plugin;
+    private static BukkitCore instance;
+
+    private Plugin plugin;
     private APIManager apiManager;
 
-    public BukkitCore(Plugin plugin) {
+    private String version;
+    private int versionInt;
+
+    private BukkitCore(Plugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean init(Plugin initializer) {
+        if (this.plugin != null) return false;
+
         try {
+            this.plugin = initializer;
+
+            String packageName = plugin.getServer().getClass().getPackage().getName();
+            version = packageName.substring(packageName.lastIndexOf('.') + 1);;
+            versionInt = Integer.parseInt(version.split("[_]")[1]);
 
             apiManager = new BukkitAPIManager(this);
             apiManager.init();
@@ -46,8 +61,38 @@ public class BukkitCore implements FCore<Plugin> {
 
     @Override
     public @NotNull String version() {
-        String packageName = plugin.getServer().getClass().getPackage().getName();
-        return packageName.substring(packageName.lastIndexOf('.') + 1);
+        return version;
+    }
+
+    @Override
+    public int versionInt() {
+        return versionInt;
+    }
+
+    @Override
+    public @NotNull Material getSignMaterial(SignGUI.SignType type) {
+        Material material = Material.AIR;
+        if (type == null) return material;
+
+        try {
+            if (versionInt() >= 13) {
+                material = Material.matchMaterial(type.name() + "_WALL_SIGN");
+                Debug.debug(2, "SignMat: " + material + " (version 1.13+)");
+            } else {
+                material = Material.matchMaterial("WALL_SIGN");
+                Debug.debug(2, "SignMat: " + material + " (version 1.13-)");
+            }
+        } catch (Exception e) {
+            Debug.debug(1, "Sign type of " + type + " is not valid!");
+            e.printStackTrace();
+        }
+
+        return material == null ? Material.AIR : material;
+    }
+
+    public static BukkitCore instance() {
+        if (instance == null) throw new IllegalStateException("please init!");
+        return instance;
     }
 
 }

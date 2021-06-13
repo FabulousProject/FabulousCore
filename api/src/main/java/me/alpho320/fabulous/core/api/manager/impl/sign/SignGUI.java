@@ -1,33 +1,85 @@
 package me.alpho320.fabulous.core.api.manager.impl.sign;
 
-import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI.SignType;
+import me.alpho320.fabulous.core.api.Callback;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface SignGUI {
+public abstract class SignGUI {
 
-    UUID id();
+    private @NotNull UUID id = UUID.randomUUID();
 
-    boolean open(@NotNull Object player, SignType signType, SignCallback callback);
+    private @NotNull String[] lines = new String[]{"", "", "", ""};
+    private @NotNull SignType signType = SignType.OAK;
 
-    String[] lines();
-    SignType signType();
-    SignCallback callback();
+    private @Nullable Callback<String[]> callback = null;
+    private @Nullable String channelID;
 
-    SignGUI withLines(String...lines);
-    SignGUI withLines(List<String> lines);
+    public SignGUI() {}
 
-    interface SignCallback {
-
-        void whenOpened(String[] lines);
-        void whenClosed(String[] lines);
-
+    public @NotNull UUID id() {
+        return id;
     }
 
-    enum SignType {
+    public @NotNull String[] lines() {
+        return lines;
+    }
+
+    public @NotNull SignType type() {
+        return signType;
+    }
+
+    public @Nullable Callback<String[]> callback() {
+        return callback;
+    }
+
+    public @Nullable String channelID() {
+        return channelID;
+    }
+
+    public @NotNull SignGUI setType(@NotNull SignType signType) {
+        this.signType = signType;
+        return this;
+    }
+
+    public @NotNull SignGUI setID(@NotNull UUID id) {
+        this.id = id;
+        return this;
+    }
+
+    public @NotNull SignGUI withLines(String...lines) {
+        this.lines = lines;
+        return this;
+    }
+
+    public @NotNull SignGUI withLines(List<String> lines) {
+        return withLines(lines.toArray(new String[]{}));
+    }
+
+    public @NotNull SignGUI addLine(String line) {
+        return withLines(lines()[lines.length]);
+    }
+
+    public @NotNull SignGUI setLine(String line, int index) {
+        if (index < 4 && index >= 0) this.lines[index] = line;
+        return this;
+    }
+
+    public @NotNull SignGUI setCallback(@Nullable Callback<String[]> callback) {
+        this.callback = callback;
+        return this;
+    }
+
+    public @NotNull SignGUI setChannelID(String channelID) {
+        this.channelID = channelID;
+        return this;
+    }
+
+    public abstract @NotNull SignGUI open(@NotNull Object player, @NotNull SignType signType);
+
+    public enum SignType {
         OAK, ACACIA, BIRCH, SPRUCE, CRIMSON, DARK_OAK, JUNGLE;
 
         @Nullable

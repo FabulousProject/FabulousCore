@@ -48,10 +48,7 @@ public class BukkitSignManager implements SignManager {
         if (id == null || gui == null) return false;
 
         try {
-            map.put(
-                    id,
-                    (SignGUI) bukkitSignGUIClass.getConstructor().newInstance(gui.id(), gui.signType(), gui.callback())
-            );
+            map.put(id, gui);
         } catch (Exception e) {
             e.printStackTrace();
         }
