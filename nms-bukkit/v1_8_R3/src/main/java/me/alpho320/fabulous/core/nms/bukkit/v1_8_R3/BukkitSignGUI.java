@@ -44,7 +44,7 @@ public class BukkitSignGUI extends SignGUI {
 
         PacketPlayOutOpenSignEditor outOpenSignEditor = new PacketPlayOutOpenSignEditor(blockPosition);
         playerConnection.sendPacket(outOpenSignEditor);
-
+        System.out.println("deneme");
         setChannelID(blockPosition + player.getName());
 
         if (callback() != null)
