@@ -22,6 +22,7 @@ public class BukkitCore implements FCore<Plugin> {
 
     private BukkitCore(Plugin plugin) {
         this.plugin = plugin;
+        instance = this;
     }
 
     @Override
