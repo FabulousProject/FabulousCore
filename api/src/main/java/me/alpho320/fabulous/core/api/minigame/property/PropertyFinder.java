@@ -1,7 +1,7 @@
 package me.alpho320.fabulous.core.api.minigame.property;
 
+import me.alpho320.fabulous.core.api.minigame.IArena;
 import org.jetbrains.annotations.*;
-import io.github.shiryu.minigame.api.*;
 import java.util.function.*;
 
 public final class PropertyFinder<T>
