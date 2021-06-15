@@ -27,8 +27,6 @@ public class BukkitCore implements FCore<Plugin> {
 
     @Override
     public boolean init(Plugin initializer) {
-        if (this.plugin != null) return false;
-
         try {
             this.plugin = initializer;
 
