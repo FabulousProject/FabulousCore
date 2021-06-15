@@ -5,6 +5,8 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/fabulousproject/fabulouscore/badge?s=926aefc55e5fe4570a75af712259b4bfd3c02dcb)](https://www.codefactor.io/repository/github/fabulousproject/fabulouscore)
 [![Release](https://jitpack.io/v/FabulousProject/FabulousCore.svg)](https://jitpack.io/#FabulousProject/FabulousCore)
 
+The FabulousCore gives to you create a SignGUI, WorldBorder and send colored/timed message to player(s) with easy way.
+
 ## How to use (Bukkit)
 ```xml
 <repositories>
