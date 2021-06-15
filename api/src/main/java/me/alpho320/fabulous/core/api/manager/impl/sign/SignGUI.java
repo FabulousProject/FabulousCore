@@ -1,7 +1,6 @@
 package me.alpho320.fabulous.core.api.manager.impl.sign;
 
-import me.alpho320.fabulous.core.api.Callback;
-import me.alpho320.fabulous.core.api.FCore;
+import me.alpho320.fabulous.core.api.IOpenable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +16,7 @@ public abstract class SignGUI {
 
     private final @NotNull SignManager manager;
 
-    private @Nullable Callback<String[]> callback = null;
+    private @Nullable IOpenable<String[]> callback = null;
     private @Nullable String channelID;
 
     public SignGUI(@NotNull SignManager manager) {
@@ -36,7 +35,7 @@ public abstract class SignGUI {
         return signType;
     }
 
-    public @Nullable Callback<String[]> callback() {
+    public @Nullable IOpenable<String[]> callback() {
         return callback;
     }
 
@@ -47,6 +46,7 @@ public abstract class SignGUI {
     public @NotNull SignManager manager() {
         return manager;
     }
+
 
     public @NotNull SignGUI setType(@NotNull SignType signType) {
         this.signType = signType;
@@ -76,7 +76,7 @@ public abstract class SignGUI {
         return this;
     }
 
-    public @NotNull SignGUI setCallback(@Nullable Callback<String[]> callback) {
+    public @NotNull SignGUI setCallback(@Nullable IOpenable<String[]> callback) {
         this.callback = callback;
         return this;
     }
@@ -86,7 +86,9 @@ public abstract class SignGUI {
         return this;
     }
 
+    public abstract @NotNull SignGUI open(@NotNull Object player);
     public abstract @NotNull SignGUI open(@NotNull Object player, @NotNull SignType signType);
+    public abstract @NotNull SignGUI open(@NotNull Object player, @NotNull SignType signType, @Nullable IOpenable<String[]> callback);
 
     public enum SignType {
         OAK, ACACIA, BIRCH, SPRUCE, CRIMSON, DARK_OAK, JUNGLE;

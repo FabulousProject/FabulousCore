@@ -4,6 +4,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
+import me.alpho320.fabulous.core.api.IOpenable;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
 import net.minecraft.server.v1_13_R2.BlockPosition;
@@ -23,6 +24,7 @@ import org.bukkit.craftbukkit.v1_13_R2.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class BukkitSignGUI extends SignGUI {
 
@@ -31,20 +33,30 @@ public class BukkitSignGUI extends SignGUI {
     }
 
     @Override
-    public @NotNull SignGUI open(@NotNull Object p, @NotNull SignType signType) {
-        Player player = (Player) p;
+    public @NotNull SignGUI open(@NotNull Object player) {
+        return open(player, type());
+    }
 
+    @Override
+    public @NotNull SignGUI open(@NotNull Object p, @NotNull SignType signType) {
+        return open(p, signType, callback());
+    }
+
+    @Override
+    public @NotNull SignGUI open(@NotNull Object p, @NotNull SignType signType, @Nullable IOpenable<String[]> callback) {
+        Player player = (Player) p;
         PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
 
         BlockPosition blockPosition = new BlockPosition(player.getLocation().getBlockX(), 1, player.getLocation().getBlockZ());
-
         PacketPlayOutBlockChange packet = new PacketPlayOutBlockChange(((CraftWorld) player.getWorld()).getHandle(), blockPosition);
         packet.block = CraftMagicNumbers.getBlock((Material) manager().core().getSignMaterial(signType), (byte) 0);
+
         playerConnection.sendPacket(packet);
 
         IChatBaseComponent[] components = CraftSign.sanitizeLines(lines());
         TileEntitySign sign = new TileEntitySign();
         sign.setPosition(new BlockPosition(blockPosition.getX(), blockPosition.getY(), blockPosition.getZ()));
+
         System.arraycopy(components, 0, sign.lines, 0, sign.lines.length);
         playerConnection.sendPacket(sign.getUpdatePacket());
 
@@ -52,9 +64,7 @@ public class BukkitSignGUI extends SignGUI {
         playerConnection.sendPacket(outOpenSignEditor);
 
         setChannelID(blockPosition + player.getName());
-
-        if (callback() != null)
-            callback().whenOpen(lines());
+        if (callback != null) callback.whenOpen(lines());
 
         ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
             @Override
@@ -70,8 +80,7 @@ public class BukkitSignGUI extends SignGUI {
                             Block block = player.getWorld().getBlockAt(position.getX(), position.getY(), position.getZ());
                             block.setType(block.getType());
 
-                            if (callback() != null)
-                                callback().whenClose(packetSign.c());
+                            if (callback != null) callback.whenClose(packetSign.c());
                             manager().remove(id());
 
                             Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
@@ -95,7 +104,7 @@ public class BukkitSignGUI extends SignGUI {
 
             return null;
         });
-        
+
         return this;
     }
 
