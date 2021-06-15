@@ -20,7 +20,7 @@ public class BukkitCore implements FCore<Plugin> {
     private String version;
     private int versionInt;
 
-    private BukkitCore(Plugin plugin) {
+    public BukkitCore(Plugin plugin) {
         this.plugin = plugin;
         instance = this;
     }
