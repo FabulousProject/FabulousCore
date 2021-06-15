@@ -1,11 +1,37 @@
-[![idea](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/) 
-[![rultor](https://www.rultor.com/b/FabulousProject/FabulousCore)]
 
-[![Stars](https://img.shields.io/github/stars/FabulousProject/FabulousCore)](https://github.com/FabulousProject/FabulousCore/stargazers)
-[![CodeFactor](https://www.codefactor.io/repository/github/fabulousproject/fabulouscore/badge?s=926aefc55e5fe4570a75af712259b4bfd3c02dcb)](https://www.codefactor.io/repository/github/fabulousproject/fabulouscore)
-[![Release](https://jitpack.io/v/FabulousProject/FabulousCore.svg)](https://jitpack.io/#FabulousProject/FabulousCore)
+<p align="center">
+<img alt="FabulousCore"
+    src="https://cdn.discordapp.com/attachments/627487868343812106/854502480893050900/fabulouscore.png">
+</p>
 
-The FabulousCore gives to you create a SignGUI, WorldBorder and send colored/timed message to player(s) with easy way.
+<h1 align="center">FabulousCore</h1>
+
+<p align="center">
+ <b>
+      The FabulousCore gives to you create a SignGUI, WorldBorder and send colored/timed message to player(s) with easy way.
+</b>
+</p>
+
+
+<p align="center">
+    <a href="https://discord.gg/aRn7E7Ws2n">
+        <img alt="Discord" src="https://img.shields.io/discord/597922723762536510?color=7289DA&label=Discord&logo=discord&logoColor=7289DA">
+    </a>
+    <a href="https://www.patreon.com/join/alpho320">
+        <img alt="Patreon" src="https://img.shields.io/badge/-Support_on_Patreon-F96854.svg?logo=patreon&style=flat&logoColor=white">
+    </a> 
+    <br>
+    <img alt="Latest" src="https://jitpack.io/v/FabulousProject/FabulousCore.svg">
+    <a href="https://app.codacy.com/gh/songoda/EpicSpawners/dashboard">
+        <img alt="quality" src="https://img.shields.io/codacy/grade/1538be190da6406aa6a2bc711b2478a2">
+    </a>
+    <img alt="Last Updated" src="https://img.shields.io/github/last-commit/FabulousProject/FabulousCore">
+    <br>
+    <a href="https://bstats.org/plugin/bukkit/EpicSpawners/4181">
+        <img alt="Stars" src="https://img.shields.io/github/stars/FabulousProject/FabulousCore">
+    </a>
+    <img alt="Maintained" src="https://img.shields.io/maintenance/yes/2021"> 
+</p>
 
 ## How to use (Bukkit)
 ```xml
@@ -25,6 +51,36 @@ The FabulousCore gives to you create a SignGUI, WorldBorder and send colored/tim
 	    <version>${version}</version>
 	</dependency>
 </dependencies>
+
+<builds>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-shade-plugin</artifactId>
+      <version>3.2.4</version>
+      <executions>
+        <execution>
+          <phase>package</phase>
+          <goals>
+            <goal>shade</goal>
+          </goals>
+          <configuration>
+            <minimizeJar>true</minimizeJar>
+            <createDependencyReducedPom>false</createDependencyReducedPom>
+            <!-- Relocations(Optional)
+            <relocations>
+              <relocation>
+                <pattern>me.alpho320.fabulous.core</pattern>
+                <shadedPattern>[YOUR_PLUGIN_PACKAGE].shade</shadedPattern>
+              </relocation>
+            </relocations>
+            -->
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</builds>
 ```
 
 ### Gradle
