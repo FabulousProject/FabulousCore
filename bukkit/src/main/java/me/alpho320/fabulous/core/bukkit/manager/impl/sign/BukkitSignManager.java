@@ -1,5 +1,6 @@
 package me.alpho320.fabulous.core.bukkit.manager.impl.sign;
 
+import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
 import me.alpho320.fabulous.core.bukkit.BukkitCore;
@@ -40,6 +41,11 @@ public class BukkitSignManager implements SignManager {
     }
 
     @Override
+    public @NotNull FCore core() {
+        return core;
+    }
+
+    @Override
     public @NotNull Map<UUID, SignGUI> map() {
         return map;
     }
@@ -47,7 +53,7 @@ public class BukkitSignManager implements SignManager {
     @Override
     public @Nullable SignGUI create() {
         try {
-            return (SignGUI) bukkitSignGUIClass.getConstructor().newInstance();
+            return (SignGUI) bukkitSignGUIClass.getConstructor(SignManager.class).newInstance(this);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }

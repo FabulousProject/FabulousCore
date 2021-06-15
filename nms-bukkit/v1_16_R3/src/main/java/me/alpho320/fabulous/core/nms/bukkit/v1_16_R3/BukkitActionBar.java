@@ -1,4 +1,4 @@
-package me.alpho320.fabulous.core.nms.bukkit.v1_15_R1;
+package me.alpho320.fabulous.core.nms.bukkit.v1_16_R3;
 
 import me.alpho320.fabulous.core.api.manager.impl.message.IActionBar;
 import net.minecraft.server.v1_16_R3.ChatMessageType;

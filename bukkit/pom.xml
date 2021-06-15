@@ -20,11 +20,6 @@
         </repository>
 
         <repository>
-            <id>bukkit-repo</id>
-            <url>http://repo.bukkit.org/content/groups/public</url>
-        </repository>
-
-        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
@@ -98,6 +93,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.portlek</groupId>
+            <artifactId>SmartInventory</artifactId>
+            <version>4.4.10</version>
+        </dependency>
+
+        <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>api</artifactId>
             <version>API</version>
@@ -105,64 +106,84 @@
 
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
-            <artifactId>nms-bukkit</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>v1_8_R3</artifactId>
             <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>v1_9_R2</artifactId>
             <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>v1_10_R1</artifactId>
             <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>v1_11_R1</artifactId>
             <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>v1_12_R1</artifactId>
             <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>v1_13_R2</artifactId>
             <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>v1_14_R1</artifactId>
             <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>v1_15_R1</artifactId>
             <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>v1_16_R3</artifactId>
             <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
-
 
     </dependencies>
 

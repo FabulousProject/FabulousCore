@@ -39,7 +39,7 @@ public class BukkitAPIManager implements APIManager {
             messageManager = new BukkitMessageManager(core, prefix);
             messageManager.setup();
 
-            cooldownManager = new CooldownManager();
+            cooldownManager = new CooldownManager(core);
             cooldownManager.setup();
 
             signManager = new BukkitSignManager(core);

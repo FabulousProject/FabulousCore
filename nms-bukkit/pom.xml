@@ -26,18 +26,26 @@
     </modules>
 
     <repositories>
+
         <repository>
             <url>https://repo.codemc.org/repository/nms/</url>
             <id>nms-repo</id>
         </repository>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
     </repositories>
 
     <dependencies>
 
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.0.4</version>
+            <artifactId>api</artifactId>
+            <version>API</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

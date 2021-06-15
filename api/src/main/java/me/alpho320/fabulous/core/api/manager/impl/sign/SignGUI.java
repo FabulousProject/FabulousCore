@@ -1,6 +1,7 @@
 package me.alpho320.fabulous.core.api.manager.impl.sign;
 
 import me.alpho320.fabulous.core.api.Callback;
+import me.alpho320.fabulous.core.api.FCore;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,10 +15,14 @@ public abstract class SignGUI {
     private @NotNull String[] lines = new String[]{"", "", "", ""};
     private @NotNull SignType signType = SignType.OAK;
 
+    private final @NotNull SignManager manager;
+
     private @Nullable Callback<String[]> callback = null;
     private @Nullable String channelID;
 
-    public SignGUI() {}
+    public SignGUI(@NotNull SignManager manager) {
+        this.manager = manager;
+    }
 
     public @NotNull UUID id() {
         return id;
@@ -37,6 +42,10 @@ public abstract class SignGUI {
 
     public @Nullable String channelID() {
         return channelID;
+    }
+
+    public @NotNull SignManager manager() {
+        return manager;
     }
 
     public @NotNull SignGUI setType(@NotNull SignType signType) {

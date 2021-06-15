@@ -9,7 +9,7 @@ public interface FCore<T> {
 
     boolean init(T initializer);
 
-    T plugin();
+    @NotNull T plugin();
     @Nullable APIManager apiManager();
     void setAPIManager(APIManager manager);
 
@@ -17,6 +17,5 @@ public interface FCore<T> {
     int versionInt();
 
     @NotNull Object getSignMaterial(@Nullable SignGUI.SignType type);
-
 
 }

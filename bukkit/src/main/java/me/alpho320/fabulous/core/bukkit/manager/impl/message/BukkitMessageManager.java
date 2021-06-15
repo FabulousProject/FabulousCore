@@ -1,5 +1,6 @@
 package me.alpho320.fabulous.core.bukkit.manager.impl.message;
 
+import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.impl.message.IActionBar;
 import me.alpho320.fabulous.core.api.manager.impl.message.MessageManager;
 import me.alpho320.fabulous.core.api.manager.impl.message.MessageType;
@@ -54,6 +55,11 @@ public class BukkitMessageManager implements MessageManager {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public @NotNull FCore core() {
+        return core;
     }
 
     @Override

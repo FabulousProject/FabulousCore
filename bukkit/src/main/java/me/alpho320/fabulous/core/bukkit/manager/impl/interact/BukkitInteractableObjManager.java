@@ -1,5 +1,6 @@
 package me.alpho320.fabulous.core.bukkit.manager.impl.interact;
 
+import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.impl.interact.InteractableObjManager;
 import me.alpho320.fabulous.core.api.manager.impl.interact.InteractableObject;
 import me.alpho320.fabulous.core.bukkit.BukkitCore;
@@ -22,6 +23,11 @@ public class BukkitInteractableObjManager implements InteractableObjManager {
     @Override
     public boolean setup() {
         return true;
+    }
+
+    @Override
+    public @NotNull FCore core() {
+        return core;
     }
 
     @Override

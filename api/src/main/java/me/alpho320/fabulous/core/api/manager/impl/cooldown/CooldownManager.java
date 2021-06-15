@@ -1,6 +1,8 @@
 package me.alpho320.fabulous.core.api.manager.impl.cooldown;
 
+import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.IManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +12,12 @@ import java.util.UUID;
 
 public class CooldownManager implements IManager {
 
-    private final Map<UUID, List<Cooldown>> cooldowns = new HashMap<>();
+    private final @NotNull Map<UUID, List<Cooldown>> cooldowns = new HashMap<>();
+    private final @NotNull FCore core;
+
+    public CooldownManager(FCore core) {
+        this.core = core;
+    }
 
     public boolean remove(UUID id, UUID cooldownID) {
         if (!cooldowns.containsKey(id)) return false;
@@ -51,5 +58,10 @@ public class CooldownManager implements IManager {
     @Override
     public boolean setup() {
         return true;
+    }
+
+    @Override
+    public @NotNull FCore core() {
+        return core;
     }
 }
