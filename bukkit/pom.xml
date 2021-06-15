@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bukkit</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 
     <repositories>
 
@@ -242,14 +242,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>io.github.portlek</pattern>
-                            <shadedPattern>me.alpho320.fabulous.core.util.inv</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
             </plugin>
         </plugins>
 
