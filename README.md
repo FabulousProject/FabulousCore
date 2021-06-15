@@ -86,3 +86,5 @@ SignGUI sign = BukkitCore.instance().apiManager().signManager()
         })
         .open(player);
 ```
+
+### <b>NOTICE: Please report all bugs/issues in the Issues or send me a direct message here or on discord at Alpho320#9202</b>
