@@ -27,7 +27,7 @@
     </a>
     <img alt="Last Updated" src="https://img.shields.io/github/last-commit/FabulousProject/FabulousCore">
     <br>
-    <a href="https://bstats.org/plugin/bukkit/EpicSpawners/4181">
+    <a href="https://github.com/FabulousProject/FabulousCore/stargazers">
         <img alt="Stars" src="https://img.shields.io/github/stars/FabulousProject/FabulousCore">
     </a>
     <img alt="Maintained" src="https://img.shields.io/maintenance/yes/2021"> 
