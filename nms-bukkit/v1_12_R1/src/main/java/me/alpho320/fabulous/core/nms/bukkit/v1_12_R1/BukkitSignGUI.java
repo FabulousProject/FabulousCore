@@ -33,16 +33,6 @@ public class BukkitSignGUI extends SignGUI {
     }
 
     @Override
-    public @NotNull SignGUI open(@NotNull Object player) {
-        return open(player, type());
-    }
-
-    @Override
-    public @NotNull SignGUI open(@NotNull Object p, @NotNull SignType signType) {
-        return open(p, signType);
-    }
-
-    @Override
     public @NotNull SignGUI open(@NotNull Object p, @NotNull SignType signType, @Nullable IOpenable<String[]> callback) {
         Player player = (Player) p;
         PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;

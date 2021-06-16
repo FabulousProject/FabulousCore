@@ -86,8 +86,13 @@ public abstract class SignGUI {
         return this;
     }
 
-    public abstract @NotNull SignGUI open(@NotNull Object player);
-    public abstract @NotNull SignGUI open(@NotNull Object player, @NotNull SignType signType);
+    public @NotNull SignGUI open(@NotNull Object player) {
+        return open(player, type());
+    }
+    public @NotNull SignGUI open(@NotNull Object player, @NotNull SignType signType) {
+        return open(player, signType, callback());
+    }
+
     public abstract @NotNull SignGUI open(@NotNull Object player, @NotNull SignType signType, @Nullable IOpenable<String[]> callback);
 
     public enum SignType {
