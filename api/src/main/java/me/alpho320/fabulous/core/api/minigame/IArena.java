@@ -3,7 +3,7 @@ package me.alpho320.fabulous.core.api.minigame;
 import me.alpho320.fabulous.core.api.minigame.condition.IArenaCondition;
 import me.alpho320.fabulous.core.api.minigame.player.ArenaPlayer;
 import me.alpho320.fabulous.core.api.minigame.property.IArenaProperty;
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 

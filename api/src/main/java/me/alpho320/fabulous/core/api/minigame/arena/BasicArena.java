@@ -5,8 +5,10 @@ import me.alpho320.fabulous.core.api.minigame.IArenaState;
 import me.alpho320.fabulous.core.api.minigame.condition.IArenaCondition;
 import me.alpho320.fabulous.core.api.minigame.player.ArenaPlayer;
 import me.alpho320.fabulous.core.api.minigame.property.IArenaProperty;
-import org.jetbrains.annotations.*;
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BasicArena implements IArena {
 

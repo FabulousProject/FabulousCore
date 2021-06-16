@@ -7,8 +7,6 @@ import me.alpho320.fabulous.core.api.manager.impl.message.MessageType;
 import me.alpho320.fabulous.core.bukkit.BukkitCore;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;

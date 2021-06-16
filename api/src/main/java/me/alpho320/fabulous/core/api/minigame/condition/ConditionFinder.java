@@ -1,8 +1,9 @@
 package me.alpho320.fabulous.core.api.minigame.condition;
 
 import me.alpho320.fabulous.core.api.minigame.IArena;
-import org.jetbrains.annotations.*;
-import java.util.function.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Consumer;
 
 public final class ConditionFinder<T> {
 
