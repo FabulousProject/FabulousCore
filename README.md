@@ -22,7 +22,7 @@
     </a> 
     <br>
     <img alt="Latest" src="https://jitpack.io/v/FabulousProject/FabulousCore.svg">
-    <a href="https://app.codacy.com/gh/songoda/EpicSpawners/dashboard">
+    <a href="https://app.codacy.com/gh/FabulousProject/FabulousCore/dashboard">
         <img alt="quality" src="https://img.shields.io/codacy/grade/1538be190da6406aa6a2bc711b2478a2">
     </a>
     <img alt="Last Updated" src="https://img.shields.io/github/last-commit/FabulousProject/FabulousCore">
