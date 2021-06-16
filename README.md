@@ -8,7 +8,7 @@
 
 <p align="center">
  <b>
-      The FabulousCore gives to you create a SignGUI, WorldBorder and send colored/timed message to player(s) with easy way.
+      The FabulousCore gives to you create a SignGUI, WorldBorder and send colored/timed message(s) to player(s) with easy way.
 </b>
 </p>
 
@@ -22,12 +22,12 @@
     </a> 
     <br>
     <img alt="Latest" src="https://jitpack.io/v/FabulousProject/FabulousCore.svg">
-    <a href="https://app.codacy.com/gh/songoda/EpicSpawners/dashboard">
+    <a href="https://app.codacy.com/gh/FabulousProject/FabulousCore/dashboard">
         <img alt="quality" src="https://img.shields.io/codacy/grade/1538be190da6406aa6a2bc711b2478a2">
     </a>
     <img alt="Last Updated" src="https://img.shields.io/github/last-commit/FabulousProject/FabulousCore">
     <br>
-    <a href="https://bstats.org/plugin/bukkit/EpicSpawners/4181">
+    <a href="https://github.com/FabulousProject/FabulousCore/stargazers">
         <img alt="Stars" src="https://img.shields.io/github/stars/FabulousProject/FabulousCore">
     </a>
     <img alt="Maintained" src="https://img.shields.io/maintenance/yes/2021"> 
