@@ -4,49 +4,44 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 public class RandomSelect<T> {
 
-    private final T random;
+    private final @NotNull List<T> list;
 
-    public RandomSelect(@NotNull final List<T> list) {
-        this.random = chooseRandom(list);
+    public RandomSelect(@NotNull List<T> list) {
+        this.list = list;
     }
     
-    private <A> A chooseRandom(@NotNull final List<A> list) {
+    public T choose() {
         return list.get(random(list.size()));
     }
-    
-    private <A> List<A> chooseRandoms(@NotNull final List<A> list, final int limit, final boolean duplicate) {
-        if (list.size() <= limit && !duplicate) {
-            return list;
-        }
 
-        final ArrayList<A> things = new ArrayList<>();
+    public T choose(@NotNull List<T> list) {
+        return list.get(random(list.size() - 1));
+    }
+    
+    public List<T> choose(int limit, boolean duplicate) {
+        if (list.size() <= limit && !duplicate) return list;
+
+        List<T> elements = new ArrayList<>();
         int limitClone = limit;
 
         while (limitClone > 0) {
-            final A thing = chooseRandom(list);
+            T element = choose(list);
 
-            if (things.contains(thing) && !duplicate) {
-                continue;
-            }
+            if (elements.contains(element) && !duplicate) continue;
 
-            things.add(thing);
+            elements.add(element);
             --limitClone;
         }
 
-        return things;
+        return elements;
     }
 
-    private int random(final int seed) {
+    private int random(int seed) {
         return new Random().nextInt(seed);
-    }
-    
-    public Optional<T> value() {
-        return Optional.of(this.random);
     }
 
 }
