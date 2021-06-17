@@ -1,4 +1,4 @@
-package me.alpho320.fabulous.core.bukkit.debugger;
+package me.alpho320.fabulous.core.bukkit.util.debugger;
 
 public enum DebugType {
 

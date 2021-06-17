@@ -4,7 +4,7 @@ import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
 import me.alpho320.fabulous.core.bukkit.BukkitCore;
-import me.alpho320.fabulous.core.bukkit.debugger.Debug;
+import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

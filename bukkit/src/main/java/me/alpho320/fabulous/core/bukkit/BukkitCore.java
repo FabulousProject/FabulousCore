@@ -3,7 +3,7 @@ package me.alpho320.fabulous.core.bukkit;
 import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.APIManager;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
-import me.alpho320.fabulous.core.bukkit.debugger.Debug;
+import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import me.alpho320.fabulous.core.bukkit.manager.BukkitAPIManager;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
