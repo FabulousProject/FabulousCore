@@ -117,7 +117,7 @@ final class MyPlugin extends JavaPlugin {
   @Override
   public void onEnable() {
     this.core = new BukkitCore(this);
-    this.core.init(this); //then you can access with BukkitCore.instance().foo();
+    this.core.init(); //then you can access with BukkitCore.instance().foo();
     
     new SomeClassesThatNeedSmartInventory(this.core).foo();
     new SomeOtherClasses(this.core).foo();
