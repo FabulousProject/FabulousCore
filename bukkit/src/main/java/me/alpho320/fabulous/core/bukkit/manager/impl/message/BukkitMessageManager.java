@@ -62,19 +62,20 @@ public class BukkitMessageManager implements MessageManager {
 
     @Override
     public @NotNull String colored(@NotNull String message) {
-        if(core.version().equals("v1_16_R3")) {
+        String text = message;
+        if(core.versionInt() >= 16) {
 
             Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
-            Matcher matcher = pattern.matcher(message);
+            Matcher matcher = pattern.matcher(text);
 
             while (matcher.find()) {
                 String color = message.substring(matcher.start(), matcher.end());
-                message = message.replace(color, ChatColor.of(color) + "");
-                matcher = pattern.matcher(message);
+                text = text.replace(color, ChatColor.of(color) + "");
+                matcher = pattern.matcher(text);
             }
         }
 
-        return ChatColor.translateAlternateColorCodes('&', message)
+        return ChatColor.translateAlternateColorCodes('&', text)
                 .replace("%prefix%", prefix);
     }
 

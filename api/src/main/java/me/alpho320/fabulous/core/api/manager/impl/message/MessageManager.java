@@ -18,10 +18,11 @@ public interface MessageManager extends IManager {
     @NotNull List<String> coloredWithPlaceholders(@NotNull Object player, List<String> list);
 
     @NotNull default String replace(String text, String[] regex, String[] replacement) {
+        String value = text;
         for(int i = 0; i <= regex.length - 1; i++) {
-            text = text.replaceAll(Pattern.quote(regex[i]), replacement[i]);
+            value = value.replaceAll(Pattern.quote(regex[i]), replacement[i]);
         }
-        return text;
+        return value;
     }
     @NotNull default List<String> replace(Collection<String> list, String[] regex, String[] replacement) {
         Collection<String> l = new ArrayList<>();
