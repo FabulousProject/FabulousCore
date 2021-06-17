@@ -3,6 +3,9 @@ package me.alpho320.fabulous.core.bukkit;
 import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.APIManager;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
+import me.alpho320.fabulous.core.api.util.SoundUtil;
+import me.alpho320.fabulous.core.bukkit.util.BukkitSerializedLocation;
+import me.alpho320.fabulous.core.bukkit.util.BukkitSoundUtil;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import me.alpho320.fabulous.core.bukkit.manager.BukkitAPIManager;
 import org.bukkit.Material;
@@ -17,12 +20,20 @@ public class BukkitCore implements FCore<Plugin> {
     private Plugin plugin;
     private APIManager apiManager;
 
+    private BukkitSerializedLocation serializedLocation;
+    private BukkitSoundUtil soundUtil;
+
     private String version;
     private int versionInt;
 
     public BukkitCore(Plugin plugin) {
         this.plugin = plugin;
         instance = this;
+    }
+
+    @Override
+    public boolean init() {
+        return init(plugin);
     }
 
     @Override
@@ -36,6 +47,9 @@ public class BukkitCore implements FCore<Plugin> {
 
             apiManager = new BukkitAPIManager(this);
             apiManager.init();
+
+            this.serializedLocation = new BukkitSerializedLocation(this);
+            this.soundUtil = new BukkitSoundUtil();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,6 +106,16 @@ public class BukkitCore implements FCore<Plugin> {
     public static BukkitCore instance() {
         if (instance == null) throw new IllegalStateException("please init!");
         return instance;
+    }
+
+    @Override
+    public @NotNull BukkitSerializedLocation serializedLocation() {
+        return serializedLocation;
+    }
+
+    @Override
+    public @NotNull SoundUtil sound() {
+        return soundUtil;
     }
 
 }

@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface SerializedLocation<T> {
 
-    String serializedLocation(T location);
-    List<String> serializedLocation(List<T> location);
+    String serialize(T location);
+    List<String> serialize(List<T> list);
 
-    T deserializedLocation(String location);
-    List<T> deserializedLocation(List<String> location);
+    T deserialize(String location);
+    List<T> deserialize(List<String> list);
 
 }

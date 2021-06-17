@@ -2,11 +2,14 @@ package me.alpho320.fabulous.core.api.util;
 
 import java.util.List;
 
-public interface SoundUtil {
+public interface SoundUtil<ENTITY, SOUND> {
 
-    boolean send(Object entity, Object sound);
-    boolean send(Object entity, Object sound, float volume);
-    boolean send(List<Object> entity, Object sound);
-    boolean send(List<Object> entity, Object sound, float volume);
+    void send(ENTITY entity, SOUND sound);
+    void send(ENTITY entity, SOUND sound, float volume);
+    void send(ENTITY entity, SOUND sound, float volume, boolean nearby);
+
+    void send(List<ENTITY> entities, SOUND sound);
+    void send(List<ENTITY> entities, SOUND sound, float volume);
+    void send(List<ENTITY> entities, SOUND sound, float volume, boolean nearby);
 
 }
