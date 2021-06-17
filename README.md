@@ -8,7 +8,7 @@
 
 <p align="center">
  <b>
-      The FabulousCore gives to you create a SignGUI, WorldBorder and send colored/timed message(s) to player(s) with easy way.
+      The FabulousCore gives to you create a SignGUI, WorldBorder, minigame and send sound & colored/timed message(s) to player(s) with easy way.
 </b>
 </p>
 
