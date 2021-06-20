@@ -109,7 +109,7 @@ public class BukkitCore implements FCore<Plugin> {
     }
 
     @Override
-    public @NotNull BukkitSerializedLocation serializedLocation() {
+    public @NotNull BukkitSerializedLocation location() {
         return serializedLocation;
     }
 

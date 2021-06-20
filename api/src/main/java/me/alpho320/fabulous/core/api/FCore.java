@@ -20,7 +20,7 @@ public interface FCore<T> {
     int versionInt();
 
     @NotNull Object getSignMaterial(@Nullable SignGUI.SignType type);
-    @NotNull SerializedLocation serializedLocation();
+    @NotNull SerializedLocation location();
     @NotNull SoundUtil sound();
 
 }
