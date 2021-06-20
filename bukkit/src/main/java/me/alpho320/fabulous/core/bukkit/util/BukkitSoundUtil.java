@@ -2,7 +2,6 @@ package me.alpho320.fabulous.core.bukkit.util;
 
 import me.alpho320.fabulous.core.api.util.SoundUtil;
 import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
