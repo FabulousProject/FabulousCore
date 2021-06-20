@@ -26,6 +26,8 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Consumer;
+
 public class BukkitSignGUI extends SignGUI {
 
     public BukkitSignGUI(@NotNull SignManager manager) {
@@ -33,7 +35,7 @@ public class BukkitSignGUI extends SignGUI {
     }
 
     @Override
-    public @NotNull SignGUI open(@NotNull Object p, @NotNull SignType signType, @Nullable IOpenable<String[]> callback) {
+    public @NotNull SignGUI open(@NotNull Object p, @NotNull SignType signType, @Nullable Consumer<String[]> whenOpen, @Nullable Consumer<String[]> whenClose) {
         Player player = (Player) p;
 
         PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
@@ -55,7 +57,7 @@ public class BukkitSignGUI extends SignGUI {
         playerConnection.sendPacket(outOpenSignEditor);
 
         setChannelID(blockPosition + player.getName());
-        if (callback != null) callback.whenOpen(lines());
+        if (whenOpen != null) whenOpen.accept(lines());
 
         ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
             @Override
@@ -71,7 +73,7 @@ public class BukkitSignGUI extends SignGUI {
                             Block block = player.getWorld().getBlockAt(position.getX(), position.getY(), position.getZ());
                             block.setType(block.getType());
 
-                            if (callback != null) callback.whenClose(packetSign.c());
+                            if (whenClose != null) whenClose.accept(packetSign.c());
                             manager().remove(id());
 
                             Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;

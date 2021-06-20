@@ -1,11 +1,11 @@
 package me.alpho320.fabulous.core.api.manager.impl.sign;
 
-import me.alpho320.fabulous.core.api.IOpenable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public abstract class SignGUI {
 
@@ -16,7 +16,9 @@ public abstract class SignGUI {
 
     private final @NotNull SignManager manager;
 
-    private @Nullable IOpenable<String[]> callback = null;
+    private @Nullable Consumer<String[]> whenOpen = null;
+    private @Nullable Consumer<String[]> whenClose = null;
+
     private @Nullable String channelID;
 
     public SignGUI(@NotNull SignManager manager) {
@@ -35,10 +37,6 @@ public abstract class SignGUI {
         return signType;
     }
 
-    public @Nullable IOpenable<String[]> callback() {
-        return callback;
-    }
-
     public @Nullable String channelID() {
         return channelID;
     }
@@ -46,7 +44,6 @@ public abstract class SignGUI {
     public @NotNull SignManager manager() {
         return manager;
     }
-
 
     public @NotNull SignGUI setType(@NotNull SignType signType) {
         this.signType = signType;
@@ -67,17 +64,18 @@ public abstract class SignGUI {
         return withLines(lines.toArray(new String[]{}));
     }
 
-    public @NotNull SignGUI addLine(String line) {
-        return withLines(lines()[lines.length]);
-    }
-
     public @NotNull SignGUI setLine(String line, int index) {
         if (index < 4 && index >= 0) this.lines[index] = line;
         return this;
     }
 
-    public @NotNull SignGUI setCallback(@Nullable IOpenable<String[]> callback) {
-        this.callback = callback;
+    public @NotNull SignGUI whenOpen(Consumer<String[]> strings) {
+        this.whenOpen = strings;
+        return this;
+    }
+
+    public @NotNull SignGUI whenClose(Consumer<String[]> strings) {
+        this.whenClose = strings;
         return this;
     }
 
@@ -89,11 +87,12 @@ public abstract class SignGUI {
     public @NotNull SignGUI open(@NotNull Object player) {
         return open(player, type());
     }
+
     public @NotNull SignGUI open(@NotNull Object player, @NotNull SignType signType) {
-        return open(player, signType, callback());
+        return open(player, signType, whenOpen, whenClose);
     }
 
-    public abstract @NotNull SignGUI open(@NotNull Object player, @NotNull SignType signType, @Nullable IOpenable<String[]> callback);
+    public abstract @NotNull SignGUI open(@NotNull Object player, @NotNull SignType signType, @Nullable Consumer<String[]> whenOpen, @Nullable Consumer<String[]> whenClose);
 
     public enum SignType {
         OAK, ACACIA, BIRCH, SPRUCE, CRIMSON, DARK_OAK, JUNGLE;
