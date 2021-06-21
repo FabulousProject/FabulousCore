@@ -31,91 +31,91 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
     private int modelData = -1;
 
     @Override
-    public @NotNull ItemCreator name(@NotNull String name) {
+    public @NotNull BukkitItemCreator name(@NotNull String name) {
         this.name = name;
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator type(@NotNull Material material) {
+    public @NotNull BukkitItemCreator type(@NotNull Material material) {
         this.material = material.toString();
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator type(@NotNull String material) {
+    public @NotNull BukkitItemCreator type(@NotNull String material) {
         this.material = material;
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator amount(int amount) {
+    public @NotNull BukkitItemCreator amount(int amount) {
         this.amount = Math.max(1, amount);
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator damage(short damage) {
+    public @NotNull BukkitItemCreator damage(short damage) {
         this.damage = (short) Math.max(-1, damage);
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator lore(@NotNull List<String> lore) {
+    public @NotNull BukkitItemCreator lore(@NotNull List<String> lore) {
         this.lore = lore;
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator lore(@NotNull String...lore) {
+    public @NotNull BukkitItemCreator lore(@NotNull String...lore) {
         this.lore = Arrays.asList(lore);
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator modelData(int modelData) {
+    public @NotNull BukkitItemCreator modelData(int modelData) {
         this.modelData = modelData;
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator enchant(@NotNull Enchantment enchant) {
+    public @NotNull BukkitItemCreator enchant(@NotNull Enchantment enchant) {
         return enchant(enchant, 1);
     }
 
     @Override
-    public @NotNull ItemCreator enchant(@NotNull Enchantment enchant, int level) {
+    public @NotNull BukkitItemCreator enchant(@NotNull Enchantment enchant, int level) {
         enchantments.put(enchant, level);
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator enchant(@NotNull List<Enchantment> enchs) {
+    public @NotNull BukkitItemCreator enchant(@NotNull List<Enchantment> enchs) {
         enchs.forEach(this::enchant);
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator enchantFromList(@NotNull List<String> enchs) {
+    public @NotNull BukkitItemCreator enchantFromList(@NotNull List<String> enchs) {
         getEnchantmentsFromList(enchs).forEach(this::enchant);
         return this;
     }
 
 
     @Override
-    public @NotNull ItemCreator enchant(@NotNull Map<Enchantment, Integer> enchs) {
+    public @NotNull BukkitItemCreator enchant(@NotNull Map<Enchantment, Integer> enchs) {
         this.enchantments = enchs;
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator flag(@NotNull ItemFlag flag) {
+    public @NotNull BukkitItemCreator flag(@NotNull ItemFlag flag) {
         this.flags.add(flag);
         return this;
     }
 
     @Override
-    public @NotNull ItemCreator flag(@NotNull List<ItemFlag> itemFlags) {
+    public @NotNull BukkitItemCreator flag(@NotNull List<ItemFlag> itemFlags) {
         this.flags.addAll(itemFlags);
         return this;
     }
@@ -124,17 +124,17 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
        @see BukkitItemCreator#getFlagsFromList(List);
      */
     @Override
-    public @NotNull ItemCreator flagFromList(@NotNull List<String> flags) {
+    public @NotNull BukkitItemCreator flagFromList(@NotNull List<String> flags) {
         return flag(getFlagsFromList(flags));
     }
 
     @Override
-    public @NotNull ItemCreator glow() {
+    public @NotNull BukkitItemCreator glow() {
         return glow(true);
     }
 
     @Override
-    public @NotNull ItemCreator glow(boolean state) {
+    public @NotNull BukkitItemCreator glow(boolean state) {
         this.glow = state;
         return this;
     }
