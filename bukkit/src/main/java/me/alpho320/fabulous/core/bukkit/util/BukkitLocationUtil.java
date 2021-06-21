@@ -1,6 +1,6 @@
 package me.alpho320.fabulous.core.bukkit.util;
 
-import me.alpho320.fabulous.core.api.util.SerializedLocation;
+import me.alpho320.fabulous.core.api.util.LocationUtil;
 import me.alpho320.fabulous.core.bukkit.BukkitCore;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
@@ -8,11 +8,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BukkitSerializedLocation implements SerializedLocation<Location> {
+public class BukkitLocationUtil implements LocationUtil<Location> {
 
     private final @NotNull BukkitCore core;
 
-    public BukkitSerializedLocation(@NotNull BukkitCore core) {
+    public BukkitLocationUtil(@NotNull BukkitCore core) {
         this.core = core;
     }
 

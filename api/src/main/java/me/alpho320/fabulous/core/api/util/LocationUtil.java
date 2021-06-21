@@ -2,7 +2,7 @@ package me.alpho320.fabulous.core.api.util;
 
 import java.util.List;
 
-public interface SerializedLocation<T> {
+public interface LocationUtil<T> {
 
     String serialize(T location);
     List<String> serialize(List<T> list);

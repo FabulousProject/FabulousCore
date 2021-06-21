@@ -10,6 +10,7 @@ import me.alpho320.fabulous.core.bukkit.BukkitCore;
 import me.alpho320.fabulous.core.bukkit.manager.impl.interact.BukkitInteractableObjManager;
 import me.alpho320.fabulous.core.bukkit.manager.impl.message.BukkitMessageManager;
 import me.alpho320.fabulous.core.bukkit.manager.impl.sign.BukkitSignManager;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class BukkitAPIManager implements APIManager {
@@ -55,27 +56,27 @@ public class BukkitAPIManager implements APIManager {
     }
 
     @Override
-    public @Nullable CooldownManager cooldownManager() {
+    public @NotNull CooldownManager cooldownManager() {
         return cooldownManager;
     }
 
     @Override
-    public @Nullable MessageManager messageManager() {
+    public @NotNull MessageManager messageManager() {
         return messageManager;
     }
 
     @Override
-    public @Nullable SignManager signManager() {
+    public @NotNull SignManager signManager() {
         return signManager;
     }
 
     @Override
-    public @Nullable WorldBorderManager worldBorderManager() {
+    public @NotNull WorldBorderManager worldBorderManager() {
         return null;
     }
 
     @Override
-    public @Nullable InteractableObjManager interactableObjManager() {
+    public @NotNull InteractableObjManager interactableObjManager() {
         return interactableObjManager;
     }
 

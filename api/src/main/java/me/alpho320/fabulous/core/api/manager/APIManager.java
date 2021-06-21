@@ -5,16 +5,16 @@ import me.alpho320.fabulous.core.api.manager.impl.interact.InteractableObjManage
 import me.alpho320.fabulous.core.api.manager.impl.message.MessageManager;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
 import me.alpho320.fabulous.core.api.manager.impl.worldborder.WorldBorderManager;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 public interface APIManager {
 
     boolean init();
 
-    @Nullable CooldownManager cooldownManager();
-    @Nullable MessageManager messageManager();
-    @Nullable SignManager signManager();
-    @Nullable WorldBorderManager worldBorderManager();
-    @Nullable InteractableObjManager interactableObjManager();
+    @NotNull CooldownManager cooldownManager();
+    @NotNull MessageManager messageManager();
+    @NotNull SignManager signManager();
+    @NotNull WorldBorderManager worldBorderManager();
+    @NotNull InteractableObjManager interactableObjManager();
 
 }

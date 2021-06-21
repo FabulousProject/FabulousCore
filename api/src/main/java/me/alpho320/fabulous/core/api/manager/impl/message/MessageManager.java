@@ -20,7 +20,7 @@ public interface MessageManager extends IManager {
     @NotNull default String replace(String text, String[] regex, String[] replacement) {
         String value = text;
         for(int i = 0; i <= regex.length - 1; i++) {
-            value = value.replaceAll(Pattern.quote(regex[i]), replacement[i]);
+            value = value.replaceAll(regex[i], replacement[i]);
         }
         return value;
     }
@@ -28,7 +28,7 @@ public interface MessageManager extends IManager {
         Collection<String> l = new ArrayList<>();
         for(String s : list) {
             for(int i = 0; i <= regex.length - 1; i++) {
-                s = s.replaceAll(Pattern.quote(regex[i]), replacement[i]);
+                s = s.replaceAll(regex[i], replacement[i]);
             }
             l.add(s);
         }

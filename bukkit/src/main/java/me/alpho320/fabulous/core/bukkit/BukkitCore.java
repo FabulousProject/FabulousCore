@@ -2,27 +2,29 @@ package me.alpho320.fabulous.core.bukkit;
 
 import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.APIManager;
+import me.alpho320.fabulous.core.api.manager.impl.cooldown.CooldownManager;
+import me.alpho320.fabulous.core.api.manager.impl.message.MessageManager;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
-import me.alpho320.fabulous.core.api.util.ItemCreator;
+import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
+import me.alpho320.fabulous.core.api.manager.impl.worldborder.WorldBorderManager;
+import me.alpho320.fabulous.core.api.util.LocationUtil;
 import me.alpho320.fabulous.core.api.util.SoundUtil;
 import me.alpho320.fabulous.core.bukkit.manager.BukkitAPIManager;
-import me.alpho320.fabulous.core.bukkit.util.BukkitItemCreator;
-import me.alpho320.fabulous.core.bukkit.util.BukkitSerializedLocation;
+import me.alpho320.fabulous.core.bukkit.util.BukkitLocationUtil;
 import me.alpho320.fabulous.core.bukkit.util.BukkitSoundUtil;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class BukkitCore implements FCore<Plugin> {
 
     private static BukkitCore instance;
 
     private Plugin plugin;
-    private APIManager apiManager;
+    private APIManager manager;
 
-    private BukkitSerializedLocation serializedLocation;
+    private BukkitLocationUtil serializedLocation;
     private BukkitSoundUtil soundUtil;
 
     private String version;
@@ -39,7 +41,17 @@ public class BukkitCore implements FCore<Plugin> {
     }
 
     @Override
-    public boolean init(Plugin initializer) {
+    public boolean init(@NotNull String prefix) {
+        return init(plugin, prefix);
+    }
+
+    @Override
+    public boolean init(@NotNull Plugin initializer) {
+        return init(initializer, "");
+    }
+
+    @Override
+    public boolean init(@NotNull Plugin initializer, @NotNull String prefix) {
         try {
             this.plugin = initializer;
 
@@ -47,10 +59,10 @@ public class BukkitCore implements FCore<Plugin> {
             version = packageName.substring(packageName.lastIndexOf('.') + 1);
             versionInt = Integer.parseInt(version.split("[_]")[1]);
 
-            apiManager = new BukkitAPIManager(this);
-            apiManager.init();
+            manager = new BukkitAPIManager(this, prefix);
+            manager.init();
 
-            this.serializedLocation = new BukkitSerializedLocation(this);
+            this.serializedLocation = new BukkitLocationUtil(this);
             this.soundUtil = new BukkitSoundUtil();
 
         } catch (Exception e) {
@@ -61,17 +73,17 @@ public class BukkitCore implements FCore<Plugin> {
 
     @Override
     public @NotNull Plugin plugin() {
-        return this.plugin;
+        return plugin;
     }
 
     @Override
-    public @Nullable APIManager apiManager() {
-        return apiManager;
+    public @NotNull APIManager manager() {
+        return manager;
     }
 
     @Override
-    public void setAPIManager(APIManager manager) {
-        this.apiManager = manager;
+    public void setAPIManager(@NotNull APIManager manager) {
+        this.manager = manager;
     }
 
     @Override
@@ -105,13 +117,28 @@ public class BukkitCore implements FCore<Plugin> {
         return material == null ? Material.AIR : material;
     }
 
-    public static BukkitCore instance() {
-        if (instance == null) throw new IllegalStateException("please init!");
-        return instance;
+    @Override
+    public @NotNull CooldownManager cooldown() {
+        return manager().cooldownManager();
     }
 
     @Override
-    public @NotNull BukkitSerializedLocation location() {
+    public @NotNull MessageManager message() {
+        return manager().messageManager();
+    }
+
+    @Override
+    public @NotNull SignManager sign() {
+        return manager().signManager();
+    }
+
+    @Override
+    public @NotNull WorldBorderManager border() {
+        return manager().worldBorderManager();
+    }
+
+    @Override
+    public @NotNull LocationUtil location() {
         return serializedLocation;
     }
 
@@ -120,9 +147,9 @@ public class BukkitCore implements FCore<Plugin> {
         return soundUtil;
     }
 
-    @Override
-    public @NotNull ItemCreator itemCreator() {
-        return new BukkitItemCreator();
+    public static BukkitCore instance() {
+        if (instance == null) throw new IllegalStateException("please init!");
+        return instance;
     }
 
 }
