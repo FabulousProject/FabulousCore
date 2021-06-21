@@ -3,13 +3,13 @@ package me.alpho320.fabulous.core.bukkit;
 import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.APIManager;
 import me.alpho320.fabulous.core.api.manager.impl.cooldown.CooldownManager;
-import me.alpho320.fabulous.core.api.manager.impl.message.MessageManager;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
-import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
 import me.alpho320.fabulous.core.api.manager.impl.worldborder.WorldBorderManager;
 import me.alpho320.fabulous.core.api.util.LocationUtil;
 import me.alpho320.fabulous.core.api.util.SoundUtil;
 import me.alpho320.fabulous.core.bukkit.manager.BukkitAPIManager;
+import me.alpho320.fabulous.core.bukkit.manager.impl.message.BukkitMessageManager;
+import me.alpho320.fabulous.core.bukkit.manager.impl.sign.BukkitSignManager;
 import me.alpho320.fabulous.core.bukkit.util.BukkitLocationUtil;
 import me.alpho320.fabulous.core.bukkit.util.BukkitSoundUtil;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
@@ -22,7 +22,7 @@ public class BukkitCore implements FCore<Plugin> {
     private static BukkitCore instance;
 
     private Plugin plugin;
-    private APIManager manager;
+    private BukkitAPIManager manager;
 
     private BukkitLocationUtil serializedLocation;
     private BukkitSoundUtil soundUtil;
@@ -77,13 +77,13 @@ public class BukkitCore implements FCore<Plugin> {
     }
 
     @Override
-    public @NotNull APIManager manager() {
+    public @NotNull BukkitAPIManager manager() {
         return manager;
     }
 
     @Override
-    public void setAPIManager(@NotNull APIManager manager) {
-        this.manager = manager;
+    public void setManager(@NotNull APIManager manager) {
+        this.manager = (BukkitAPIManager) manager; // TODO: 21.06.2021 check
     }
 
     @Override
@@ -123,12 +123,12 @@ public class BukkitCore implements FCore<Plugin> {
     }
 
     @Override
-    public @NotNull MessageManager message() {
+    public @NotNull BukkitMessageManager message() {
         return manager().messageManager();
     }
 
     @Override
-    public @NotNull SignManager sign() {
+    public @NotNull BukkitSignManager sign() {
         return manager().signManager();
     }
 

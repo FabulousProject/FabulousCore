@@ -2,16 +2,12 @@ package me.alpho320.fabulous.core.bukkit.manager;
 
 import me.alpho320.fabulous.core.api.manager.APIManager;
 import me.alpho320.fabulous.core.api.manager.impl.cooldown.CooldownManager;
-import me.alpho320.fabulous.core.api.manager.impl.interact.InteractableObjManager;
-import me.alpho320.fabulous.core.api.manager.impl.message.MessageManager;
-import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
 import me.alpho320.fabulous.core.api.manager.impl.worldborder.WorldBorderManager;
 import me.alpho320.fabulous.core.bukkit.BukkitCore;
 import me.alpho320.fabulous.core.bukkit.manager.impl.interact.BukkitInteractableObjManager;
 import me.alpho320.fabulous.core.bukkit.manager.impl.message.BukkitMessageManager;
 import me.alpho320.fabulous.core.bukkit.manager.impl.sign.BukkitSignManager;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class BukkitAPIManager implements APIManager {
 
@@ -61,22 +57,23 @@ public class BukkitAPIManager implements APIManager {
     }
 
     @Override
-    public @NotNull MessageManager messageManager() {
+    public @NotNull BukkitMessageManager messageManager() {
         return messageManager;
     }
 
     @Override
-    public @NotNull SignManager signManager() {
+    public @NotNull BukkitSignManager signManager() {
         return signManager;
     }
 
     @Override
     public @NotNull WorldBorderManager worldBorderManager() {
+        // TODO: 21.06.2021
         return null;
     }
 
     @Override
-    public @NotNull InteractableObjManager interactableObjManager() {
+    public @NotNull BukkitInteractableObjManager interactableObjManager() {
         return interactableObjManager;
     }
 

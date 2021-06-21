@@ -20,7 +20,7 @@ public interface FCore<T> {
 
     @NotNull T plugin();
     @NotNull APIManager manager();
-    void setAPIManager(@NotNull APIManager manager);
+    void setManager(@NotNull APIManager manager);
 
     @NotNull String version();
     int versionInt();
