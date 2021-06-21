@@ -34,6 +34,22 @@ public interface MessageManager<COMMAND_SENDER> extends IManager {
         return new ArrayList<>(l);
     }
 
+    @NotNull default String replaceColored(@NotNull String text, @NotNull String[] regex, @NotNull String[] replacement) {
+        return colored(replace(text, regex, replacement));
+    }
+
+    @NotNull default List<String> replaceColored(@NotNull List<String> list, @NotNull String[] regex, @NotNull String[] replacement) {
+        return colored(replace(list, regex, replacement));
+    }
+
+    @NotNull default String replaceColoredWithPlaceholders(@NotNull COMMAND_SENDER sender, @NotNull String text, @NotNull String[] regex, @NotNull String[] replacement) {
+        return withPlaceholders(sender, colored(replace(text, regex, replacement)));
+    }
+
+    @NotNull default List<String> replaceColoredWithPlaceholders(@NotNull COMMAND_SENDER sender, @NotNull List<String> list, @NotNull String[] regex, @NotNull String[] replacement) {
+        return withPlaceholders(sender, colored(replace(list, regex, replacement)));
+    }
+
     void sendMessage(COMMAND_SENDER sender, String message, MessageType type);
     void sendMessage(COMMAND_SENDER sender, List<String> messages, MessageType type);
     void sendMessage(COMMAND_SENDER sender, String message, MessageType type, String[] regex, String[] replacement);
