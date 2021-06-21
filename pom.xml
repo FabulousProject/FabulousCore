@@ -15,6 +15,7 @@
         <module>api</module>
         <module>bukkit</module>
         <module>nms-bukkit</module>
+        <module>nukkit</module>
     </modules>
 
     <repositories>
