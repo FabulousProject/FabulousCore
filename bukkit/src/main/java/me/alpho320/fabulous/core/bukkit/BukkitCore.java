@@ -3,8 +3,10 @@ package me.alpho320.fabulous.core.bukkit;
 import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.APIManager;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
+import me.alpho320.fabulous.core.api.util.ItemCreator;
 import me.alpho320.fabulous.core.api.util.SoundUtil;
 import me.alpho320.fabulous.core.bukkit.manager.BukkitAPIManager;
+import me.alpho320.fabulous.core.bukkit.util.BukkitItemCreator;
 import me.alpho320.fabulous.core.bukkit.util.BukkitSerializedLocation;
 import me.alpho320.fabulous.core.bukkit.util.BukkitSoundUtil;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
@@ -116,6 +118,11 @@ public class BukkitCore implements FCore<Plugin> {
     @Override
     public @NotNull SoundUtil sound() {
         return soundUtil;
+    }
+
+    @Override
+    public @NotNull ItemCreator itemCreator() {
+        return new BukkitItemCreator();
     }
 
 }

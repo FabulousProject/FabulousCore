@@ -1,23 +1,34 @@
 package me.alpho320.fabulous.core.api.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
+import java.util.Map;
 
-public interface ItemCreator<T> {
+public interface ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> {
 
-    ItemCreator<T> name(String name);
-    ItemCreator<T> amount(int amount);
-    ItemCreator<T> damage(short damage);
-    ItemCreator<T> lore(List<String> lore);
-    ItemCreator<T> lore(String...lore);
-    ItemCreator<T> lore(String lore);
-    ItemCreator<T> modelData(int modelData);
-    ItemCreator<T> enchant(Object enchant);
-    ItemCreator<T> enchantments(List<Object> enchs);
-    ItemCreator<T> flag(Object flag);
-    ItemCreator<T> flags(List<Object> flags);
-    ItemCreator<T> type(Object mat);
-    ItemCreator<T> glow();
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> name(@NotNull String name);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> type(@NotNull MATERIAL material);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> type(@NotNull String material);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> amount(int amount);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> damage(short damage);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> lore(@NotNull List<String> lore);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> lore(@NotNull String...lore);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> modelData(int modelData);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> enchant(@NotNull ENCHANTMENT enchant);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> enchant(@NotNull ENCHANTMENT enchant, int level);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> enchant(@NotNull List<ENCHANTMENT> enchs);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> enchantFromList(@NotNull List<String> enchs);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> enchant(@NotNull Map<ENCHANTMENT, Integer> enchs);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> flag(@NotNull FLAG flag);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> flag(@NotNull List<FLAG> flags);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> flagFromList(@NotNull List<String> flags);
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> glow();
+    @NotNull ItemCreator<ITEM, MATERIAL, ENCHANTMENT, FLAG> glow(boolean state);
 
-    T create();
+    @NotNull Map<ENCHANTMENT, Integer> getEnchantmentsFromList(@NotNull List<String> list);
+    @NotNull List<FLAG> getFlagsFromList(@NotNull List<String> list);
+
+    @NotNull ITEM create();
 
 }
