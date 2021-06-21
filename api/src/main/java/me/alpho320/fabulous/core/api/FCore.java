@@ -6,6 +6,7 @@ import me.alpho320.fabulous.core.api.manager.impl.message.MessageManager;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
 import me.alpho320.fabulous.core.api.manager.impl.worldborder.WorldBorderManager;
+import me.alpho320.fabulous.core.api.util.Configuration;
 import me.alpho320.fabulous.core.api.util.LocationUtil;
 import me.alpho320.fabulous.core.api.util.SoundUtil;
 import org.jetbrains.annotations.NotNull;
@@ -17,10 +18,14 @@ public interface FCore<T> {
     boolean init(@NotNull String prefix);
     boolean init(@NotNull T initializer);
     boolean init(@NotNull T initializer, @NotNull String prefix);
+    boolean init(@NotNull T initializer, @NotNull String prefix, @NotNull Configuration messageConfiguration);
 
     @NotNull T plugin();
     @NotNull APIManager manager();
     void setManager(@NotNull APIManager manager);
+
+    @NotNull Configuration messageConfiguration();
+    void setConfiguration(@NotNull Configuration configuration);
 
     @NotNull String version();
     int versionInt();

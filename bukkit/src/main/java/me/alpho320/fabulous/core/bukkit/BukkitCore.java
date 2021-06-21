@@ -5,11 +5,13 @@ import me.alpho320.fabulous.core.api.manager.APIManager;
 import me.alpho320.fabulous.core.api.manager.impl.cooldown.CooldownManager;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
 import me.alpho320.fabulous.core.api.manager.impl.worldborder.WorldBorderManager;
+import me.alpho320.fabulous.core.api.util.Configuration;
 import me.alpho320.fabulous.core.api.util.LocationUtil;
 import me.alpho320.fabulous.core.api.util.SoundUtil;
 import me.alpho320.fabulous.core.bukkit.manager.BukkitAPIManager;
 import me.alpho320.fabulous.core.bukkit.manager.impl.message.BukkitMessageManager;
 import me.alpho320.fabulous.core.bukkit.manager.impl.sign.BukkitSignManager;
+import me.alpho320.fabulous.core.bukkit.util.BukkitConfiguration;
 import me.alpho320.fabulous.core.bukkit.util.BukkitLocationUtil;
 import me.alpho320.fabulous.core.bukkit.util.BukkitSoundUtil;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
@@ -28,6 +30,7 @@ public class BukkitCore implements FCore<Plugin> {
     private BukkitSoundUtil soundUtil;
 
     private String version;
+    private BukkitConfiguration configuration;
     private int versionInt;
 
     public BukkitCore(Plugin plugin) {
@@ -52,6 +55,11 @@ public class BukkitCore implements FCore<Plugin> {
 
     @Override
     public boolean init(@NotNull Plugin initializer, @NotNull String prefix) {
+        return init(initializer, prefix, new BukkitConfiguration("messages", plugin));
+    }
+
+    @Override
+    public boolean init(@NotNull Plugin initializer, @NotNull String prefix, @NotNull Configuration messageConfiguration) {
         try {
             this.plugin = initializer;
 
@@ -64,6 +72,7 @@ public class BukkitCore implements FCore<Plugin> {
 
             this.serializedLocation = new BukkitLocationUtil(this);
             this.soundUtil = new BukkitSoundUtil();
+            this.configuration = (BukkitConfiguration) messageConfiguration; // TODO: 21.06.2021 check
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,6 +93,16 @@ public class BukkitCore implements FCore<Plugin> {
     @Override
     public void setManager(@NotNull APIManager manager) {
         this.manager = (BukkitAPIManager) manager; // TODO: 21.06.2021 check
+    }
+
+    @Override
+    public @NotNull BukkitConfiguration messageConfiguration() {
+        return configuration;
+    }
+
+    @Override
+    public void setConfiguration(@NotNull Configuration configuration) {
+        this.configuration = (BukkitConfiguration) configuration;
     }
 
     @Override

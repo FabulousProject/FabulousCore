@@ -33,7 +33,7 @@ public class BukkitAPIManager implements APIManager {
     public boolean init() {
         try {
 
-            messageManager = new BukkitMessageManager(core, prefix);
+            messageManager = new BukkitMessageManager(core, prefix, core.messageConfiguration());
             messageManager.setup();
 
             cooldownManager = new CooldownManager(core);
