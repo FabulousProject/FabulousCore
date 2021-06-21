@@ -5,8 +5,10 @@ import me.alpho320.fabulous.core.api.manager.impl.message.IActionBar;
 import me.alpho320.fabulous.core.api.manager.impl.message.MessageManager;
 import me.alpho320.fabulous.core.api.manager.impl.message.MessageType;
 import me.alpho320.fabulous.core.bukkit.BukkitCore;
+import me.alpho320.fabulous.core.bukkit.util.BukkitConfiguration;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -18,16 +20,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class BukkitMessageManager implements MessageManager {
+public class BukkitMessageManager implements MessageManager<CommandSender> {
 
     private final BukkitCore core;
     private final String prefix;
+    private final BukkitConfiguration configuration;
 
     private IActionBar actionBar;
 
-    public BukkitMessageManager(BukkitCore core, String prefix) {
+    public BukkitMessageManager(@NotNull BukkitCore core, @NotNull String prefix, @NotNull BukkitConfiguration configuration) {
         this.core = core;
         this.prefix = prefix;
+        this.configuration = configuration;
     }
 
     @Override
@@ -85,35 +89,35 @@ public class BukkitMessageManager implements MessageManager {
     }
 
     @Override
-    public @NotNull String withPlaceholders(@NotNull Object player, @NotNull String text) {
-        return PlaceholderAPI.setPlaceholders((Player) player, text);
+    public @NotNull String withPlaceholders(@NotNull CommandSender sender, @NotNull String text) {
+        return PlaceholderAPI.setPlaceholders((Player) sender, text);
     }
 
     @Override
-    public @NotNull List<String> withPlaceholders(@NotNull Object player, @NotNull List<String> list) {
-        return list.stream().map(text -> withPlaceholders(player, text)).collect(Collectors.toList());
+    public @NotNull List<String> withPlaceholders(@NotNull CommandSender sender, @NotNull List<String> list) {
+        return list.stream().map(text -> withPlaceholders(sender, text)).collect(Collectors.toList());
     }
 
     @Override
-    public @NotNull String coloredWithPlaceholders(@NotNull Object player, String text) {
+    public @NotNull String coloredWithPlaceholders(@NotNull CommandSender sender, String text) {
         return colored(
                 withPlaceholders(
-                        player,
+                        sender,
                         text
                 )
         );
     }
 
     @Override
-    public @NotNull List<String> coloredWithPlaceholders(@NotNull Object player, List<String> list) {
-        return list.stream().map(text -> colored(withPlaceholders(player, text))).collect(Collectors.toList());
+    public @NotNull List<String> coloredWithPlaceholders(@NotNull CommandSender sender, List<String> list) {
+        return list.stream().map(text -> colored(withPlaceholders(sender, text))).collect(Collectors.toList());
     }
 
     @Override
-    public void sendMessage(Object sender, String message, MessageType type) {
+    public void sendMessage(CommandSender sender, String message, MessageType type) {
         if (sender instanceof Player) {
             if (type == MessageType.CHAT) {
-                ((Player) sender).sendMessage(coloredWithPlaceholders(sender, message));
+                sender.sendMessage(coloredWithPlaceholders(sender, message));
             } else if (type == MessageType.TITLE) {
                 ((Player) sender).sendTitle(prefix, coloredWithPlaceholders(sender, message));
             } else if (type == MessageType.ACTIONBAR) {
@@ -122,67 +126,87 @@ public class BukkitMessageManager implements MessageManager {
                 throw new IllegalArgumentException(type + " is not valid a MessageType");
             }
         } else if (sender instanceof ConsoleCommandSender) {
-            ((ConsoleCommandSender)sender).sendMessage(message);
+            sender.sendMessage(message);
         }
     }
 
     @Override
-    public void sendMessage(Object sender, List<String> messages, MessageType type) {
+    public void sendMessage(CommandSender sender, List<String> messages, MessageType type) {
         messages.forEach(text -> sendMessage(sender, text, type));
     }
 
     @Override
-    public void sendMessage(Object sender, String message, MessageType type, String[] regex, String[] replacement) {
+    public void sendMessage(CommandSender sender, String message, MessageType type, String[] regex, String[] replacement) {
         sendMessage(sender, replace(message, regex, replacement), type);
     }
 
     @Override
-    public void sendMessage(Object sender, List<String> message, MessageType type, String[] regex, String[] replacement) {
+    public void sendMessage(CommandSender sender, List<String> message, MessageType type, String[] regex, String[] replacement) {
         message.forEach(text -> sendMessage(sender, replace(text, regex, replacement), type));
     }
 
     @Override
-    public void sendTimerMessage(Object player, String message, MessageType type) {
-        sendTimerMessage(player, message, type, 5);
+    public void sendMessageFromConfig(CommandSender sender, String key, MessageType type) {
+        if (configuration.isString("Messages." + key + ".message"))
+            sendMessage(sender, colored(configuration.getString("Messages." + key + ".message")), type);
+        else if (configuration.isList("Messages." + key + ".message"))
+            sendMessage(sender, colored(configuration.getStringList("Messages." + key + ".message")), type);
+        else
+            throw new IllegalStateException("Configuration of " + configuration + " doesnt have key of " + key);
     }
 
     @Override
-    public void sendTimerMessage(Object player, String message, MessageType type, int time) {
-        sendTimerMessage(player, message, type, time, 20);
+    public void sendMessageFromConfig(CommandSender sender, String key, MessageType type, String[] regex, String[] replacement) {
+        if (configuration.isString("Messages." + key + ".message"))
+            sendMessage(sender, colored(replace(configuration.getString("Messages." + key + ".message"), regex, replacement)), type);
+        else if (configuration.isList("Messages." + key + ".message"))
+            sendMessage(sender, colored(replace(configuration.getStringList("Messages." + key + ".message"), regex, replacement)), type);
+        else
+            throw new IllegalStateException("Configuration of " + configuration + " doesnt have key of " + key);
     }
 
     @Override
-    public void sendTimerMessage(Object player, String message, MessageType type, int time, long period) {
-        AtomicInteger i = new AtomicInteger();
+    public void sendTimerMessage(CommandSender sender, String message, MessageType type) {
+        sendTimerMessage(sender, message, type, 5);
+    }
+
+    @Override
+    public void sendTimerMessage(CommandSender sender, String message, MessageType type, int time) {
+        sendTimerMessage(sender, message, type, time, 20);
+    }
+
+    @Override
+    public void sendTimerMessage(CommandSender sender, String message, MessageType type, int time, long period) {
+        AtomicInteger i = new AtomicInteger(time);
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (i.get() > 0) {
-                    sendMessage(player, message.replaceAll("%time%", String.valueOf(i.get())), type);
+                    sendMessage(sender, message.replaceAll("%time%", String.valueOf(i.get())), type);
                 } else {
                     cancel();
                 }
-                i.getAndIncrement();
+                i.getAndDecrement();
             }
         }.runTaskTimerAsynchronously(core.plugin(), 0, period);
     }
 
     @Override
-    public void sendTimerMessage(Object player, List<String> messages, MessageType type, int time) {
-        sendTimerMessage(player, messages, type, time, 20L);
+    public void sendTimerMessage(CommandSender sender, List<String> messages, MessageType type, int time) {
+        sendTimerMessage(sender, messages, type, time, 20L);
     }
 
     @Override
-    public void sendTimerMessage(Object player, List<String> messages, MessageType type, int time, long period) {
-        AtomicInteger i = new AtomicInteger();
+    public void sendTimerMessage(CommandSender sender, List<String> messages, MessageType type, int time, long period) {
+        AtomicInteger i = new AtomicInteger(time);
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (i.get() > 0) {
                     sendMessage(
-                            player,
+                            sender,
                             replace(
                                     messages,
                                     new String[]{"%time%"},
@@ -193,29 +217,65 @@ public class BukkitMessageManager implements MessageManager {
                 } else {
                     cancel();
                 }
-                i.getAndIncrement();
+                i.getAndDecrement();
             }
         }.runTaskTimerAsynchronously(core.plugin(), 0, period);
     }
 
     @Override
-    public void sendTimerMessage(Object player, String message, MessageType type, String[] regex, String[] replacement, int time) {
-        sendTimerMessage(player, replace(message, regex, replacement), type, time);
+    public void sendTimerMessage(CommandSender sender, String message, MessageType type, String[] regex, String[] replacement, int time) {
+        sendTimerMessage(sender, replace(message, regex, replacement), type, time);
     }
 
     @Override
-    public void sendTimerMessage(Object player, String message, MessageType type, String[] regex, String[] replacement, int time, long period) {
-        sendTimerMessage(player, replace(message, regex, replacement), type, time, period);
+    public void sendTimerMessage(CommandSender sender, String message, MessageType type, String[] regex, String[] replacement, int time, long period) {
+        sendTimerMessage(sender, replace(message, regex, replacement), type, time, period);
     }
 
     @Override
-    public void sendTimerMessage(Object player, List<String> messages, MessageType type, String[] regex, String[] replacement, int time) {
-        sendTimerMessage(player, replace(messages, regex, replacement), type, time);
+    public void sendTimerMessage(CommandSender sender, List<String> messages, MessageType type, String[] regex, String[] replacement, int time) {
+        sendTimerMessage(sender, replace(messages, regex, replacement), type, time);
     }
 
     @Override
-    public void sendTimerMessage(Object player, List<String> messages, MessageType type, String[] regex, String[] replacement, int time, long period) {
-        sendTimerMessage(player, replace(messages, regex, replacement), type, time, period);
+    public void sendTimerMessage(CommandSender sender, List<String> messages, MessageType type, String[] regex, String[] replacement, int time, long period) {
+        sendTimerMessage(sender, replace(messages, regex, replacement), type, time, period);
+    }
+
+    @Override
+    public void sendTimerMessageFromConfig(CommandSender sender, String key, MessageType type) {
+        sendTimerMessageFromConfig(sender, key, type, 5);
+    }
+
+    @Override
+    public void sendTimerMessageFromConfig(CommandSender sender, String key, MessageType type, int time) {
+        sendTimerMessageFromConfig(sender, key, type, time, 20);
+    }
+
+    @Override
+    public void sendTimerMessageFromConfig(CommandSender sender, String key, MessageType type, int time, long period) {
+        if (configuration.isString("Messages." + key + ".message"))
+            sendTimerMessage(sender, colored(configuration.getString("Message." + key + ".message")), type, time, period);
+        else if (configuration.isList("Messages." + key + ".message"))
+            sendTimerMessage(sender, colored(configuration.getStringList("Message." + key + ".message")), type, time, period);
+        else
+            throw new IllegalStateException("Configuration of " + configuration + " doesnt have key of " + key);
+    }
+    
+
+    @Override
+    public void sendTimerMessageFromConfig(CommandSender sender, String key, MessageType type, String[] regex, String[] replacement, int time) {
+        sendTimerMessageFromConfig(sender, key, type, regex, replacement, time, 20);
+    }
+
+    @Override
+    public void sendTimerMessageFromConfig(CommandSender sender, String key, MessageType type, String[] regex, String[] replacement, int time, long period) {
+        if (configuration.isString("Messages." + key + ".message"))
+            sendTimerMessage(sender, colored(configuration.getString("Message." + key + ".message")), type, regex, replacement, time, period);
+        else if (configuration.isList("Messages." + key + ".message"))
+            sendTimerMessage(sender, colored(configuration.getStringList("Message." + key + ".message")), type, regex, replacement, time, period);
+        else
+            throw new IllegalStateException("Configuration of " + configuration + " doesnt have key of " + key);
     }
 
 }

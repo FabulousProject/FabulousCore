@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public interface MessageManager extends IManager {
+public interface MessageManager<COMMAND_SENDER> extends IManager {
 
     @NotNull String colored(@NotNull String text);
     @NotNull List<String> colored(@NotNull List<String> list);
-    @NotNull String withPlaceholders(@NotNull Object player, @NotNull String text);
-    @NotNull List<String> withPlaceholders(@NotNull Object player, @NotNull List<String> list);
-    @NotNull String coloredWithPlaceholders(@NotNull Object player, String text);
-    @NotNull List<String> coloredWithPlaceholders(@NotNull Object player, List<String> list);
+    @NotNull String withPlaceholders(@NotNull COMMAND_SENDER sender, @NotNull String text);
+    @NotNull List<String> withPlaceholders(@NotNull COMMAND_SENDER sender, @NotNull List<String> list);
+    @NotNull String coloredWithPlaceholders(@NotNull COMMAND_SENDER sender, String text);
+    @NotNull List<String> coloredWithPlaceholders(@NotNull COMMAND_SENDER sender, List<String> list);
 
     @NotNull default String replace(String text, String[] regex, String[] replacement) {
         String value = text;
@@ -34,19 +34,28 @@ public interface MessageManager extends IManager {
         return new ArrayList<>(l);
     }
 
-    void sendMessage(Object sender, String message, MessageType type);
-    void sendMessage(Object sender, List<String> messages, MessageType type);
-    void sendMessage(Object sender, String message, MessageType type, String[] regex, String[] replacement);
-    void sendMessage(Object sender, List<String> message, MessageType type, String[] regex, String[] replacement);
+    void sendMessage(COMMAND_SENDER sender, String message, MessageType type);
+    void sendMessage(COMMAND_SENDER sender, List<String> messages, MessageType type);
+    void sendMessage(COMMAND_SENDER sender, String message, MessageType type, String[] regex, String[] replacement);
+    void sendMessage(COMMAND_SENDER sender, List<String> message, MessageType type, String[] regex, String[] replacement);
 
-    void sendTimerMessage(Object player, String message, MessageType type);
-    void sendTimerMessage(Object player, String message, MessageType type, int time);
-    void sendTimerMessage(Object player, String message, MessageType type, int time, long period);
-    void sendTimerMessage(Object player, List<String> messages, MessageType type, int time);
-    void sendTimerMessage(Object player, List<String> messages, MessageType type, int time, long period);
-    void sendTimerMessage(Object player, String message, MessageType type, String[] regex, String[] replacement, int time);
-    void sendTimerMessage(Object player, String message, MessageType type, String[] regex, String[] replacement, int time, long period);
-    void sendTimerMessage(Object player, List<String> messages, MessageType type, String[] regex, String[] replacement, int time);
-    void sendTimerMessage(Object player, List<String> messages, MessageType type, String[] regex, String[] replacement, int time, long period);
+    void sendMessageFromConfig(COMMAND_SENDER sender, String key, MessageType type);
+    void sendMessageFromConfig(COMMAND_SENDER sender, String key, MessageType type, String[] regex, String[] replacement);
+
+    void sendTimerMessage(COMMAND_SENDER sender, String message, MessageType type);
+    void sendTimerMessage(COMMAND_SENDER sender, String message, MessageType type, int time);
+    void sendTimerMessage(COMMAND_SENDER sender, String message, MessageType type, int time, long period);
+    void sendTimerMessage(COMMAND_SENDER sender, List<String> messages, MessageType type, int time);
+    void sendTimerMessage(COMMAND_SENDER sender, List<String> messages, MessageType type, int time, long period);
+    void sendTimerMessage(COMMAND_SENDER sender, String message, MessageType type, String[] regex, String[] replacement, int time);
+    void sendTimerMessage(COMMAND_SENDER sender, String message, MessageType type, String[] regex, String[] replacement, int time, long period);
+    void sendTimerMessage(COMMAND_SENDER sender, List<String> messages, MessageType type, String[] regex, String[] replacement, int time);
+    void sendTimerMessage(COMMAND_SENDER sender, List<String> messages, MessageType type, String[] regex, String[] replacement, int time, long period);
+
+    void sendTimerMessageFromConfig(COMMAND_SENDER sender, String key, MessageType type);
+    void sendTimerMessageFromConfig(COMMAND_SENDER sender, String key, MessageType type, int time);
+    void sendTimerMessageFromConfig(COMMAND_SENDER sender, String key, MessageType type, int time, long period);
+    void sendTimerMessageFromConfig(COMMAND_SENDER sender, String key, MessageType type, String[] regex, String[] replacement, int time);
+    void sendTimerMessageFromConfig(COMMAND_SENDER sender, String key, MessageType type, String[] regex, String[] replacement, int time, long period);
 
 }
