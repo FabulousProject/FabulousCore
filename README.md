@@ -171,7 +171,7 @@ BukkitCore.instance().sound().send(
 ### Serialize a Location
 ```java
 BukkitCore.instance().location().serialize(
-        claim.bedrockLocation()
+        player.getLocation()
 ); 
 ```
 
