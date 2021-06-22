@@ -127,22 +127,19 @@ final class MyPlugin extends JavaPlugin {
 
 ### Creating a SignGUI
 ```java
-SignGUI sign = BukkitCore.instance().apiManager().signManager()
-        .create() // creates a new instance.
-        .setType(SignGUI.SignType.OAK) // Types: OAK, ACACIA, BIRCH, SPRUCE, CRIMSON, DARK_OAK, JUNGLE.
-        .withLines("Hi!", "how are u?", "must be four", "lines!")
-        .setCallback(new IOpenable<String[]>() {
-            @Override
-            public void whenOpen(String[] strings) {
-                player.sendMessage("opened!");
-            }
-
-            @Override
-            public void whenClose(String[] strings) {
-                player.sendMessage("closed!");
-            }
-        })
-        .open(player);
+SignGUI sign = BukkitCore.instance().sign()
+	.create() // creates a new instance.
+	.setType(SignGUI.SignType.OAK) // Types: OAK, ACACIA, BIRCH, SPRUCE, CRIMSON, DARK_OAK, JUNGLE.
+	.withLines("Hi!", "how are u?", "must be four", "lines!")
+	.whenOpen(strings -> {			
+		player.sendMessage("opened!");
+	    }
+	)
+	.whenClose(strings -> {
+		player.sendMessage("closed!");
+	    }
+	)
+	.open(player);
 ```
 
 ### <b>NOTICE: If you have any questions, suggestions or issues with the core, please contact me on GitHub Issues section or Alpho320#9202 (Discord)</b>
