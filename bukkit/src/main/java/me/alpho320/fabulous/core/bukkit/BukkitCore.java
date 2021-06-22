@@ -64,15 +64,15 @@ public class BukkitCore implements FCore<Plugin> {
             this.plugin = initializer;
 
             String packageName = plugin.getServer().getClass().getPackage().getName();
-            version = packageName.substring(packageName.lastIndexOf('.') + 1);
-            versionInt = Integer.parseInt(version.split("[_]")[1]);
+            this.version = packageName.substring(packageName.lastIndexOf('.') + 1);
+            this.versionInt = Integer.parseInt(version.split("[_]")[1]);
+            this.configuration = (BukkitConfiguration) messageConfiguration; // TODO: 21.06.2021 check
 
             manager = new BukkitAPIManager(this, prefix);
             manager.init();
 
             this.serializedLocation = new BukkitLocationUtil(this);
             this.soundUtil = new BukkitSoundUtil();
-            this.configuration = (BukkitConfiguration) messageConfiguration; // TODO: 21.06.2021 check
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,12 +157,12 @@ public class BukkitCore implements FCore<Plugin> {
     }
 
     @Override
-    public @NotNull LocationUtil location() {
+    public @NotNull BukkitLocationUtil location() {
         return serializedLocation;
     }
 
     @Override
-    public @NotNull SoundUtil sound() {
+    public @NotNull BukkitSoundUtil sound() {
         return soundUtil;
     }
 

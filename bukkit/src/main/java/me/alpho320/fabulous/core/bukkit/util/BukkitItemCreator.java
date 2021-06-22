@@ -1,6 +1,7 @@
 package me.alpho320.fabulous.core.bukkit.util;
 
 import me.alpho320.fabulous.core.api.util.ItemCreator;
+import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -150,13 +151,20 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
         if (enchantments.size() > 0)
             item.addUnsafeEnchantments(enchantments);
 
+        Debug.debug(2, "item1 " + item);
+
         if (item.hasItemMeta()) {
+            Debug.debug(2, "meta");
             ItemMeta meta = item.getItemMeta();
 
-            if (!name.equals("null"))
+            if (!name.equals("null")) {
+                Debug.debug(2, "name " + name);
                 meta.setDisplayName(name);
-            if (lore.size() > 0)
+            }
+            if (lore.size() > 0) {
+                Debug.debug(2, "lore " + lore);
                 meta.setLore(lore);
+            }
             if (flags.size() > 0)
                 flags.forEach(meta::addItemFlags);
             if (modelData > 0)
@@ -169,6 +177,7 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
             item.setItemMeta(meta);
         }
 
+        Debug.debug(2, "last item " + item);
         return item;
     }
 

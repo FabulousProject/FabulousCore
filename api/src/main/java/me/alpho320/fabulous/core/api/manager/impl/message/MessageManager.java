@@ -26,10 +26,11 @@ public interface MessageManager<COMMAND_SENDER> extends IManager {
     @NotNull default List<String> replace(Collection<String> list, String[] regex, String[] replacement) {
         Collection<String> l = new ArrayList<>();
         for(String s : list) {
+            String copy = s;
             for(int i = 0; i <= regex.length - 1; i++) {
-                s = s.replaceAll(regex[i], replacement[i]);
+                copy = copy.replaceAll(regex[i], replacement[i]);
             }
-            l.add(s);
+            l.add(copy);
         }
         return new ArrayList<>(l);
     }

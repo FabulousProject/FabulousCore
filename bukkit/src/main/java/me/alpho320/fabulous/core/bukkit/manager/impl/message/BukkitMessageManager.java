@@ -6,6 +6,7 @@ import me.alpho320.fabulous.core.api.manager.impl.message.MessageManager;
 import me.alpho320.fabulous.core.api.manager.impl.message.MessageType;
 import me.alpho320.fabulous.core.bukkit.BukkitCore;
 import me.alpho320.fabulous.core.bukkit.util.BukkitConfiguration;
+import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -36,11 +37,14 @@ public class BukkitMessageManager implements MessageManager<CommandSender> {
 
     @Override
     public boolean setup() {
+        Debug.debug(2, "Core " + core);
+        Debug.debug(2, "Prefix " + prefix);
+        Debug.debug(2, "Configuration " + configuration);
 
         try {
             PlaceholderAPI.getPlaceholderPattern();
         } catch (Exception e) {
-            core.plugin().getLogger().warning("BukkitMessageManager - PlaceholderAPI not found!");
+            Debug.debug(1, "BukkitMessageManager - PlaceholderAPI not found!");
             return false;
         }
 
@@ -52,9 +56,10 @@ public class BukkitMessageManager implements MessageManager<CommandSender> {
                 this.actionBar = (IActionBar) clazz.getConstructor().newInstance();
                 return true;
             }
-            core.plugin().getLogger().warning(core.version() + " is not valid version!");
+            Debug.debug(1, core.version() + " is not valid version!");
             return false;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -73,14 +78,14 @@ public class BukkitMessageManager implements MessageManager<CommandSender> {
             Matcher matcher = pattern.matcher(text);
 
             while (matcher.find()) {
-                String color = message.substring(matcher.start(), matcher.end());
+                String color = text.substring(matcher.start(), matcher.end());
                 text = text.replace(color, ChatColor.of(color) + "");
                 matcher = pattern.matcher(text);
             }
         }
 
         return ChatColor.translateAlternateColorCodes('&', text)
-                .replace("%prefix%", prefix);
+                .replaceAll("%prefix%", prefix);
     }
 
     @Override
