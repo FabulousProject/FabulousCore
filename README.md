@@ -127,22 +127,66 @@ final class MyPlugin extends JavaPlugin {
 
 ### Creating a SignGUI
 ```java
-SignGUI sign = BukkitCore.instance().apiManager().signManager()
-        .create() // creates a new instance.
-        .setType(SignGUI.SignType.OAK) // Types: OAK, ACACIA, BIRCH, SPRUCE, CRIMSON, DARK_OAK, JUNGLE.
-        .withLines("Hi!", "how are u?", "must be four", "lines!")
-        .setCallback(new IOpenable<String[]>() {
-            @Override
-            public void whenOpen(String[] strings) {
-                player.sendMessage("opened!");
-            }
+SignGUI sign = BukkitCore.instance().sign()
+	.create() // creates a new instance.
+	.setType(SignGUI.SignType.OAK) // Types: OAK, ACACIA, BIRCH, SPRUCE, CRIMSON, DARK_OAK, JUNGLE.
+	.withLines("Hi!", "how are u?", "must be four", "lines!")
+	.whenOpen(strings -> {			
+		player.sendMessage("opened!");
+	    }
+	)
+	.whenClose(strings -> {
+		player.sendMessage("closed!");
+	    }
+	)
+	.open(player);
+```
 
-            @Override
-            public void whenClose(String[] strings) {
-                player.sendMessage("closed!");
-            }
-        })
-        .open(player);
+### Creating a ItemStack
+```java
+ItemStack item = new BukkitItemCreator()
+        .type(Material.IRON_SWORD)
+        .name(BukkitCore.instance().message().colored("&6&lAMAZING SWORD!"))
+        .amount(3)
+        .damage(1)
+        .lore(
+                "awsome lore",
+                "really!"
+        )
+        .enchant(Enchantment.DAMAGE_ALL, 10)
+        .modelData(20)
+        .flag(ItemFlag.HIDE_ATTRIBUTES)
+        .glow()
+        .create();   
+```
+
+### Sending a Sound
+```java
+BukkitCore.instance().sound().send(
+        player,
+        Sound.ENTITY_PLAYER_LEVELUP
+);  
+```
+
+### Serialize a Location
+```java
+BukkitCore.instance().location().serialize(
+        player.getLocation()
+); 
+```
+
+### Deserialize a Location
+```java
+BukkitCore.instance().location().deserialize(
+        mySerializedString
+); 
+```
+
+### Getting a Random Element From List
+```java
+T randomElement = new RandomSelect<>(myList).choose();
+
+Player target = new RandomSelect<>(playerList).choose();
 ```
 
 ### <b>NOTICE: If you have any questions, suggestions or issues with the core, please contact me on GitHub Issues section or Alpho320#9202 (Discord)</b>
