@@ -143,7 +143,9 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
 
     @Override
     public @NotNull ItemStack create() {
+        // if length is greater than 30, thats mean material is a custom head. (example: https://minecraft-heads.com/custom-heads/)
         ItemStack item = material.length() >= 30 ? itemFromBase64(material) : new ItemStack(Material.matchMaterial(material));
+        ItemMeta meta = item.getItemMeta();
 
         item.setAmount(amount);
         if (damage > 0)
@@ -152,30 +154,26 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
             item.addUnsafeEnchantments(enchantments);
 
         Debug.debug(2, "item1 " + item);
+        Debug.debug(2, "hasMeta " + item.hasItemMeta());
 
-        if (item.hasItemMeta()) {
-            Debug.debug(2, "meta");
-            ItemMeta meta = item.getItemMeta();
 
-            if (!name.equals("null")) {
-                Debug.debug(2, "name " + name);
-                meta.setDisplayName(name);
-            }
-            if (lore.size() > 0) {
-                Debug.debug(2, "lore " + lore);
-                meta.setLore(lore);
-            }
-            if (flags.size() > 0)
-                flags.forEach(meta::addItemFlags);
-            if (modelData > 0)
-                meta.setCustomModelData(modelData);
-            if (glow) {
-                meta.addEnchant(Enchantment.DURABILITY, 1, true);
-                meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            }
-
-            item.setItemMeta(meta);
+        if (!name.equals("null")) {
+            Debug.debug(2, "name " + name);
+            meta.setDisplayName(name);
         }
+        if (lore.size() > 0) {
+            Debug.debug(2, "lore " + lore);
+            meta.setLore(lore);
+        }
+        if (flags.size() > 0)
+            flags.forEach(meta::addItemFlags);
+        if (modelData > 0)
+            meta.setCustomModelData(modelData);
+        if (glow) {
+            meta.addEnchant(Enchantment.DURABILITY, 1, true);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        }
+        item.setItemMeta(meta);
 
         Debug.debug(2, "last item " + item);
         return item;
