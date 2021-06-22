@@ -168,4 +168,25 @@ BukkitCore.instance().sound().send(
 );  
 ```
 
+### Serialize a Location
+```java
+BukkitCore.instance().location().serialize(
+        claim.bedrockLocation()
+); 
+```
+
+### Deserialize a Location
+```java
+BukkitCore.instance().location().deserialize(
+        mySerializedString
+); 
+```
+
+### Getting a Random Element From List
+```java
+T randomElement = new RandomSelect<>(myList).choose();
+
+Player target = new RandomSelect<>(playerList).choose();
+```
+
 ### <b>NOTICE: If you have any questions, suggestions or issues with the core, please contact me on GitHub Issues section or Alpho320#9202 (Discord)</b>
