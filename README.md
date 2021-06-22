@@ -160,4 +160,12 @@ ItemStack item = new BukkitItemCreator()
         .create();   
 ```
 
+### Sending a Sound
+```java
+BukkitCore.instance().sound().send(
+        player,
+        Sound.ENTITY_PLAYER_LEVELUP
+);  
+```
+
 ### <b>NOTICE: If you have any questions, suggestions or issues with the core, please contact me on GitHub Issues section or Alpho320#9202 (Discord)</b>
