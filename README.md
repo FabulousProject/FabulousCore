@@ -142,4 +142,22 @@ SignGUI sign = BukkitCore.instance().sign()
 	.open(player);
 ```
 
+### Creating a ItemStack
+```java
+ItemStack item = new BukkitItemCreator()
+        .type(Material.IRON_SWORD)
+        .name(BukkitCore.instance().message().colored("&6&lAMAZING SWORD!"))
+        .amount(3)
+        .damage(1)
+        .lore(
+                "awsome lore",
+                "really!"
+        )
+        .enchant(Enchantment.DAMAGE_ALL, 10)
+        .modelData(20)
+        .flag(ItemFlag.HIDE_ATTRIBUTES)
+        .glow()
+        .create();   
+```
+
 ### <b>NOTICE: If you have any questions, suggestions or issues with the core, please contact me on GitHub Issues section or Alpho320#9202 (Discord)</b>
