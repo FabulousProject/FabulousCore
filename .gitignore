@@ -3,3 +3,4 @@
 .settings/
 dependency-reduced-pom.xml
 /.idea
+*.iml
