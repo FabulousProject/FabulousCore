@@ -1,16 +1,13 @@
 package me.alpho320.fabulous.core.bukkit.util;
 
-import me.alpho320.fabulous.core.bukkit.BukkitCore;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
 
 public class FileUtil {
-
-    private final static Plugin plugin = BukkitCore.instance().plugin();
 
     public static String removeExtension(String fileName) {
         if (fileName.indexOf(".") > 0) {
@@ -20,12 +17,12 @@ public class FileUtil {
         }
     }
 
-    public static FileConfiguration callFile(String path) {
+    public static FileConfiguration callFile(JavaPlugin plugin, String path) {
         File file = new File(plugin.getDataFolder(),path + ".yml");
         return YamlConfiguration.loadConfiguration(file);
     }
 
-    public static void saveFile(String path, FileConfiguration config) {
+    public static void saveFile(JavaPlugin plugin, String path, FileConfiguration config) {
         File file = new File(plugin.getDataFolder(),path + ".yml");
         try{
             config.save(file);
