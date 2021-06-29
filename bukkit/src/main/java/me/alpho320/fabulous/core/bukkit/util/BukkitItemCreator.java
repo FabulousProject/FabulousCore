@@ -5,6 +5,7 @@ import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Enchantment, ItemFlag> {
+public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Enchantment, ItemFlag, Player> {
 
     private @NotNull String name = "null";
     private @NotNull String material = "AIR";
@@ -143,8 +144,20 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
 
     @Override
     public @NotNull ItemStack create() {
-        // if length is greater than 30, thats mean material is a custom head. (example: https://minecraft-heads.com/custom-heads/)
-        ItemStack item = material.length() >= 30 ? itemFromBase64(material) : new ItemStack(Material.matchMaterial(material));
+        return create(null);
+    }
+
+    @Override
+    public @NotNull ItemStack create(Player player) {
+        ItemStack item;
+
+        if (material.length() >= 30) {
+            item = itemFromBase64(material); // if length is greater than 30, thats mean material is a custom head. (example: https://minecraft-heads.com/custom-heads/)
+        } else if (material.startsWith("head_") && player != null) {
+            item = skullFromName(material.split("_")[1]);
+        } else {
+            item = new ItemStack(Material.matchMaterial(material));
+        }
         ItemMeta meta = item.getItemMeta();
 
         item.setAmount(amount);
@@ -223,12 +236,43 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
 
 
     /**
+     * Creates a player skull based on a player's name.
+     *
+     * @param name The Player's name
+     * @return The head of the Player
+     *
+     * @deprecated names don't make for good identifiers
+     */
+    @Deprecated
+    public ItemStack skullFromName(String name) {
+        ItemStack item = getHeadItem();
+
+        return itemWithName(item, name);
+    }
+
+    /**
+     * Creates a player skull based on a player's name.
+     *
+     * @param item The item to apply the name to
+     * @param name The Player's name
+     * @return The head of the Player
+     *
+     * @deprecated names don't make for good identifiers
+     */
+    @Deprecated
+    public ItemStack itemWithName(ItemStack item, String name) {
+        return Bukkit.getUnsafe().modifyItemStack(item,
+                "{SkullOwner:\"" + name + "\"}"
+        );
+    }
+
+    /**
      * Creates a player skull based on a base64 string containing the link to the skin.
      *
      * @param base64 The base64 string containing the texture
      * @return The head with a custom texture
      */
-    private ItemStack itemFromBase64(String base64) {
+    public ItemStack itemFromBase64(String base64) {
         ItemStack item = getHeadItem();
         return itemWithBase64(item, base64);
     }
@@ -240,7 +284,7 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
      * @param base64 The base64 string containing the texture
      * @return The head with a custom texture
      */
-    private ItemStack itemWithBase64(ItemStack item, String base64) {
+    public ItemStack itemWithBase64(ItemStack item, String base64) {
         UUID hashAsId = new UUID(base64.hashCode(), base64.hashCode());
         return Bukkit.getUnsafe().modifyItemStack(item,
                 "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
@@ -258,7 +302,7 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
         }
     }
 
-    private ItemStack getHeadItem() {
+    public ItemStack getHeadItem() {
         if (newerApi()) {
             return new ItemStack(Material.valueOf("PLAYER_HEAD"));
         } else {
