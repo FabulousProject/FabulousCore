@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Enchantment, ItemFlag, Player> {
 
     private @NotNull String name = "null";
@@ -153,22 +152,25 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
 
         if (material.length() >= 30) {
             item = itemFromBase64(material); // if length is greater than 30, thats mean material is a custom head. (example: https://minecraft-heads.com/custom-heads/)
-        } else if (material.startsWith("head_") && player != null) {
-            item = skullFromName(material.split("_")[1]);
+        } else if (player != null) {
+            if (material.startsWith("head_"))
+                item = skullFromName(material.split("_")[1]);
+            else if (material.equalsIgnoreCase("%player_head%"))
+                item = skullFromName(player.getName());
+            else
+                item = new ItemStack(Material.matchMaterial(material));
         } else {
             item = new ItemStack(Material.matchMaterial(material));
         }
         ItemMeta meta = item.getItemMeta();
 
         item.setAmount(amount);
-        if (damage > 0)
-            item.setDurability(damage);
-        if (enchantments.size() > 0)
-            item.addUnsafeEnchantments(enchantments);
+
+        if (damage > 0) item.setDurability(damage);
+        if (enchantments.size() > 0) item.addUnsafeEnchantments(enchantments);
 
         Debug.debug(2, "item1 " + item);
         Debug.debug(2, "hasMeta " + item.hasItemMeta());
-
 
         if (!name.equals("null")) {
             Debug.debug(2, "name " + name);
@@ -178,10 +180,10 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
             Debug.debug(2, "lore " + lore);
             meta.setLore(lore);
         }
-        if (flags.size() > 0)
-            flags.forEach(meta::addItemFlags);
-        if (modelData > 0)
-            meta.setCustomModelData(modelData);
+
+        if (flags.size() > 0) flags.forEach(meta::addItemFlags);
+        if (modelData > 0) meta.setCustomModelData(modelData);
+
         if (glow) {
             meta.addEnchant(Enchantment.DURABILITY, 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
