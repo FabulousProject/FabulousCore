@@ -74,6 +74,7 @@ public class BukkitCore implements FCore<Plugin> {
             this.serializedLocation = new BukkitLocationUtil(this);
             this.soundUtil = new BukkitSoundUtil();
 
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
