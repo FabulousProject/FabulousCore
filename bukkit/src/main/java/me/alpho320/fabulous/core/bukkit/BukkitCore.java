@@ -6,8 +6,6 @@ import me.alpho320.fabulous.core.api.manager.impl.cooldown.CooldownManager;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
 import me.alpho320.fabulous.core.api.manager.impl.worldborder.WorldBorderManager;
 import me.alpho320.fabulous.core.api.util.Configuration;
-import me.alpho320.fabulous.core.api.util.LocationUtil;
-import me.alpho320.fabulous.core.api.util.SoundUtil;
 import me.alpho320.fabulous.core.bukkit.manager.BukkitAPIManager;
 import me.alpho320.fabulous.core.bukkit.manager.impl.message.BukkitMessageManager;
 import me.alpho320.fabulous.core.bukkit.manager.impl.sign.BukkitSignManager;
@@ -74,6 +72,7 @@ public class BukkitCore implements FCore<Plugin> {
             this.serializedLocation = new BukkitLocationUtil(this);
             this.soundUtil = new BukkitSoundUtil();
 
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
