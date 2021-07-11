@@ -260,9 +260,9 @@ public class BukkitMessageManager implements MessageManager<CommandSender> {
     @Override
     public void sendTimerMessageFromConfig(CommandSender sender, String key, MessageType type, int time, long period) {
         if (configuration.isString("Messages." + key + ".message"))
-            sendTimerMessage(sender, colored(configuration.getString("Message." + key + ".message")), type, time, period);
+            sendTimerMessage(sender, colored(configuration.getString("Messages." + key + ".message")), type, time, period);
         else if (configuration.isList("Messages." + key + ".message"))
-            sendTimerMessage(sender, colored(configuration.getStringList("Message." + key + ".message")), type, time, period);
+            sendTimerMessage(sender, colored(configuration.getStringList("Messages." + key + ".message")), type, time, period);
         else
             throw new IllegalStateException("Configuration of " + configuration + " doesnt have key of " + key);
     }
@@ -276,9 +276,9 @@ public class BukkitMessageManager implements MessageManager<CommandSender> {
     @Override
     public void sendTimerMessageFromConfig(CommandSender sender, String key, MessageType type, String[] regex, String[] replacement, int time, long period) {
         if (configuration.isString("Messages." + key + ".message"))
-            sendTimerMessage(sender, colored(configuration.getString("Message." + key + ".message")), type, regex, replacement, time, period);
+            sendTimerMessage(sender, colored(configuration.getString("Messages." + key + ".message")), type, regex, replacement, time, period);
         else if (configuration.isList("Messages." + key + ".message"))
-            sendTimerMessage(sender, colored(configuration.getStringList("Message." + key + ".message")), type, regex, replacement, time, period);
+            sendTimerMessage(sender, colored(configuration.getStringList("Messages." + key + ".message")), type, regex, replacement, time, period);
         else
             throw new IllegalStateException("Configuration of " + configuration + " doesnt have key of " + key);
     }
