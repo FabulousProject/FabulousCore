@@ -119,7 +119,7 @@ final class MyPlugin extends JavaPlugin {
     this.core = new BukkitCore(this);
     this.core.init(); //then you can access with BukkitCore.instance().foo();
     
-    new SomeClassesThatNeedSmartInventory(this.core).foo();
+    new SomeClassesThatNeedBukkitCore(this.core).foo();
     new SomeOtherClasses(this.core).foo();
   }
 }
