@@ -217,12 +217,12 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
         for (String enchantment : list) {
             try {
                 String[] split = enchantment.split(":");
-
+                Debug.debug(2, "Enchantment of " + split[0] + " loading.");
                 if (Enchantment.getByName(split[0]) == null) throw new IllegalArgumentException(split[0] + " is not valid a enchantment!");
 
                 map.put(Enchantment.getByName(split[0]), Integer.parseInt(split[1]));
             } catch (Exception e) {
-                throw new IllegalArgumentException(enchantment + " is not valid type of ench!");
+                e.printStackTrace();
             }
         }
 
@@ -240,7 +240,7 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
             try {
                 flags.add(ItemFlag.valueOf(flag));
             } catch (Exception e) {
-                throw new IllegalArgumentException(flag + " is not valid ItemFlag!");
+                e.printStackTrace();
             }
         }
         return flags;
