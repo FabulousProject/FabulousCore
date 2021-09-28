@@ -1,6 +1,7 @@
 package me.alpho320.fabulous.core.bukkit.util;
 
 import me.alpho320.fabulous.core.api.util.ItemCreator;
+import me.alpho320.fabulous.core.bukkit.BukkitCore;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,6 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -159,6 +165,10 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
                 item = skullFromName(player.getName());
             else
                 item = new ItemStack(Material.matchMaterial(material));
+        // [SPLASH]_POTION:SPEED:2
+        } else if (material.contains("POTION") || material.contains("potion")) {
+            String[] split = material.split(":");
+            item = new Potion(PotionType.valueOf(split[1]), Integer.parseInt(split[2]), material.contains("SPLASH")).toItemStack(amount);
         } else {
             item = new ItemStack(Material.matchMaterial(material));
         }
@@ -207,12 +217,12 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
         for (String enchantment : list) {
             try {
                 String[] split = enchantment.split(":");
-
+                Debug.debug(2, "Enchantment of " + split[0] + " loading.");
                 if (Enchantment.getByName(split[0]) == null) throw new IllegalArgumentException(split[0] + " is not valid a enchantment!");
 
                 map.put(Enchantment.getByName(split[0]), Integer.parseInt(split[1]));
             } catch (Exception e) {
-                throw new IllegalArgumentException(enchantment + " is not valid type of ench!");
+                e.printStackTrace();
             }
         }
 
@@ -230,7 +240,7 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
             try {
                 flags.add(ItemFlag.valueOf(flag));
             } catch (Exception e) {
-                throw new IllegalArgumentException(flag + " is not valid ItemFlag!");
+                e.printStackTrace();
             }
         }
         return flags;
