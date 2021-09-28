@@ -1,6 +1,7 @@
 package me.alpho320.fabulous.core.bukkit.util;
 
 import me.alpho320.fabulous.core.api.util.ItemCreator;
+import me.alpho320.fabulous.core.bukkit.BukkitCore;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,6 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -159,6 +165,10 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
                 item = skullFromName(player.getName());
             else
                 item = new ItemStack(Material.matchMaterial(material));
+        // [SPLASH]_POTION:SPEED:2
+        } else if (material.contains("POTION") || material.contains("potion")) {
+            String[] split = material.split(":");
+            item = new Potion(PotionType.valueOf(split[1]), Integer.parseInt(split[2]), material.contains("SPLASH")).toItemStack(amount);
         } else {
             item = new ItemStack(Material.matchMaterial(material));
         }
