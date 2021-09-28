@@ -15,7 +15,7 @@ public class RandomSelect<T> {
     }
     
     public T choose() {
-        return list.get(random(list.size()));
+        return list.get(random(list.size() - 1));
     }
 
     public T choose(@NotNull List<T> list) {
