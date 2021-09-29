@@ -176,7 +176,7 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
         if (enchantments.size() > 0) {
             for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
                 Debug.debug(2, "Ench: " + entry.getKey() + "-" + entry.getValue());
-                item.addEnchantment(entry.getKey(), entry.getValue());
+                meta.addEnchant(entry.getKey(), entry.getValue(), true);
             }
         }
 
