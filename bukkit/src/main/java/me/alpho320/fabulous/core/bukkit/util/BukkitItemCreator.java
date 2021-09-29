@@ -177,7 +177,12 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
         item.setAmount(amount);
 
         if (damage > 0) item.setDurability(damage);
-        if (enchantments.size() > 0) item.addUnsafeEnchantments(enchantments);
+        if (enchantments.size() > 0) {
+            for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+                Debug.debug(2, "Ench: " + entry.getKey() + "-" + entry.getValue());
+                item.addEnchantment(entry.getKey(), entry.getValue());
+            }
+        }
 
         Debug.debug(2, "item1 " + item);
         Debug.debug(2, "hasMeta " + item.hasItemMeta());
