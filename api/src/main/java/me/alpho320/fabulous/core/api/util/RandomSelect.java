@@ -15,11 +15,11 @@ public class RandomSelect<T> {
     }
     
     public T choose() {
-        return list.get(random(list.size() - 1));
+        return list.get(random(list.size() >= 2 ? list.size() - 1 : list.size()));
     }
 
     public T choose(@NotNull List<T> list) {
-        return list.get(random(list.size() - 1));
+        return list.get(random(list.size() >= 2 ? list.size() - 1 : list.size()));
     }
     
     public List<T> choose(int limit, boolean duplicate) {
