@@ -23,6 +23,7 @@
         <module>v1_14_R1</module>
         <module>v1_15_R1</module>
         <module>v1_16_R3</module>
+        <module>v1_17_R1</module>
     </modules>
 
     <repositories>
@@ -52,7 +53,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
     </properties>
 </project>
