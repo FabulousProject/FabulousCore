@@ -73,7 +73,7 @@ public class BukkitSignGUI extends SignGUI {
 
                                 Channel channel = ((CraftPlayer) player).getHandle().b.a.k;
                                 channel.eventLoop().submit(() -> {
-                                    channel.pipeline().remove("fsign_api_pipeline_channel_" + player.getName());
+                                    channel.pipeline().remove("fsign_api_pipeline_channel_" + player.getName() + blockPosition);
                                     return null;
                                 });
                             }

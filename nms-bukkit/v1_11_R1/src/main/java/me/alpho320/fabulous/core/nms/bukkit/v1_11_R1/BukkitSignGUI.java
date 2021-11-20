@@ -77,7 +77,7 @@ public class BukkitSignGUI extends SignGUI {
 
                             Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
                             channel.eventLoop().submit(() -> {
-                                channel.pipeline().remove("fsign_api_pipeline_channel_" + player.getName());
+                                channel.pipeline().remove("fsign_api_pipeline_channel_" + player.getName() + blockPosition);
                                 return null;
                             });
                         }
@@ -91,7 +91,7 @@ public class BukkitSignGUI extends SignGUI {
         channel.eventLoop().submit(() -> {
             try {
                 ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel.pipeline();
-                pipeline.addBefore("packet_handler", "fsign_api_pipeline_channel_" + player.getName(), channelDuplexHandler);
+                pipeline.addBefore("packet_handler", "fsign_api_pipeline_channel_" + player.getName() + blockPosition, channelDuplexHandler);
             } catch (Exception ignored) {}
             return null;
         });
