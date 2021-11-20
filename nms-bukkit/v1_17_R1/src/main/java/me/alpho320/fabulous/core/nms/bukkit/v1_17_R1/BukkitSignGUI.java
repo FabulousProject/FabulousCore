@@ -54,7 +54,7 @@ public class BukkitSignGUI extends SignGUI {
 
         try {
             ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().b.a.k.pipeline();
-            pipeline.addBefore("packet_handler"," fsign_api_pipeline_channel_" + player.getName() + blockPosition, new ChannelDuplexHandler() {
+            pipeline.addBefore("packet_handler","fsign_api_pipeline_channel_" + player.getName() + blockPosition, new ChannelDuplexHandler() {
                 @Override
                 public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception {
                     if (packet instanceof PacketPlayInUpdateSign) {
