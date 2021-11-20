@@ -4,6 +4,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
+import io.netty.util.concurrent.Future;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
 import net.minecraft.core.BlockPosition;
@@ -23,6 +24,7 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 
 public class BukkitSignGUI extends SignGUI {
@@ -52,37 +54,43 @@ public class BukkitSignGUI extends SignGUI {
         setChannelID(blockPosition + player.getName());
         if (whenOpen != null) whenOpen.accept(lines());
 
-        try {
-            ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().b.a.k.pipeline();
-            pipeline.addBefore("packet_handler","fsign_api_pipeline_channel_" + player.getName() + blockPosition, new ChannelDuplexHandler() {
-                @Override
-                public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception {
-                    if (packet instanceof PacketPlayInUpdateSign) {
-                        PacketPlayInUpdateSign packetSign = (PacketPlayInUpdateSign) packet;
+        ChannelDuplexHandler channelHandler = new ChannelDuplexHandler() {
+            @Override
+            public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception {
+                if (packet instanceof PacketPlayInUpdateSign) {
+                    PacketPlayInUpdateSign packetSign = (PacketPlayInUpdateSign) packet;
 
-                        Bukkit.getScheduler().runTask((Plugin) manager().core().plugin(), () -> {
-                            BlockPosition position = packetSign.b();
-                            String id = position + player.getName();
+                    Bukkit.getScheduler().runTask((Plugin) manager().core().plugin(), () -> {
+                        BlockPosition position = packetSign.b();
+                        String id = position + player.getName();
 
-                            if (channelID() != null && channelID().equals(id)) {
-                                Block block = player.getWorld().getBlockAt(position.getX(), position.getY(), position.getZ());
-                                block.setType(block.getType());
+                        if (channelID() != null && channelID().equals(id)) {
+                            Block block = player.getWorld().getBlockAt(position.getX(), position.getY(), position.getZ());
+                            block.setType(block.getType());
 
-                                if (whenClose != null) whenClose.accept(packetSign.c());
-                                manager().remove(id());
+                            if (whenClose != null) whenClose.accept(packetSign.c());
+                            manager().remove(id());
 
-                                Channel channel = ((CraftPlayer) player).getHandle().b.a.k;
-                                channel.eventLoop().submit(() -> {
-                                    channel.pipeline().remove("fsign_api_pipeline_channel_" + player.getName() + blockPosition);
-                                    return null;
-                                });
-                            }
-                        });
-                    }
-                    super.channelRead(ctx, packet);
-                }
-            });
-        } catch (Exception ignored) {}
+                            Channel channel = ((CraftPlayer) player).getHandle().b.a.k;
+                            channel.eventLoop().submit(() -> {
+                                channel.pipeline().remove("fsign_api_pipeline_channel_" + player.getName() + blockPosition);
+                                return null;
+                            });
+                        }
+                    });
+
+                super.channelRead(ctx, packet);
+            }
+        };
+        Callable<Object> callable = () -> {
+            try {
+                ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().b.a.k.pipeline();
+                pipeline.addBefore("packet_handler", "fsign_api_pipeline_channel_" + player.getName() + blockPosition, channelHandler);
+            } catch (Exception ignored) {}
+            return null;
+        };
+        Channel channel = ((CraftPlayer) player).getHandle().b.a.k;
+        channel.eventLoop().submit(callable);
 
         return this;
     }
