@@ -52,35 +52,37 @@ public class BukkitSignGUI extends SignGUI {
         setChannelID(blockPosition + player.getName());
         if (whenOpen != null) whenOpen.accept(lines());
 
-        ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().b.a.k.pipeline();
-        pipeline.addBefore("packet_handler"," fsign_api_pipeline_channel_" + player.getName(), new ChannelDuplexHandler() {
-            @Override
-            public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception {
-                if (packet instanceof PacketPlayInUpdateSign) {
-                    PacketPlayInUpdateSign packetSign = (PacketPlayInUpdateSign) packet;
+        try {
+            ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().b.a.k.pipeline();
+            pipeline.addBefore("packet_handler"," fsign_api_pipeline_channel_" + player.getName() + blockPosition, new ChannelDuplexHandler() {
+                @Override
+                public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception {
+                    if (packet instanceof PacketPlayInUpdateSign) {
+                        PacketPlayInUpdateSign packetSign = (PacketPlayInUpdateSign) packet;
 
-                    Bukkit.getScheduler().runTask((Plugin) manager().core().plugin(), () -> {
-                        BlockPosition position = packetSign.b();
-                        String id = position + player.getName();
+                        Bukkit.getScheduler().runTask((Plugin) manager().core().plugin(), () -> {
+                            BlockPosition position = packetSign.b();
+                            String id = position + player.getName();
 
-                        if (channelID() != null && channelID().equals(id)) {
-                            Block block = player.getWorld().getBlockAt(position.getX(), position.getY(), position.getZ());
-                            block.setType(block.getType());
+                            if (channelID() != null && channelID().equals(id)) {
+                                Block block = player.getWorld().getBlockAt(position.getX(), position.getY(), position.getZ());
+                                block.setType(block.getType());
 
-                            if (whenClose != null) whenClose.accept(packetSign.c());
-                            manager().remove(id());
+                                if (whenClose != null) whenClose.accept(packetSign.c());
+                                manager().remove(id());
 
-                            Channel channel = ((CraftPlayer) player).getHandle().b.a.k;
-                            channel.eventLoop().submit(() -> {
-                                channel.pipeline().remove("fsign_api_pipeline_channel_" + player.getName());
-                                return null;
-                            });
-                        }
-                    });
+                                Channel channel = ((CraftPlayer) player).getHandle().b.a.k;
+                                channel.eventLoop().submit(() -> {
+                                    channel.pipeline().remove("fsign_api_pipeline_channel_" + player.getName());
+                                    return null;
+                                });
+                            }
+                        });
+                    }
+                    super.channelRead(ctx, packet);
                 }
-                super.channelRead(ctx, packet);
-            }
-        });
+            });
+        } catch (Exception ignored) {}
 
         return this;
     }
