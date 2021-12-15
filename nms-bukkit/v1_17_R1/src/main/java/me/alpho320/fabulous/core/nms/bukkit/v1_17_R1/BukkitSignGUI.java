@@ -53,7 +53,7 @@ public class BukkitSignGUI extends SignGUI {
 
         setChannelID(blockPosition + player.getName());
         if (whenOpen != null) whenOpen.accept(lines());
-        
+
         ChannelDuplexHandler channelHandler = new ChannelDuplexHandler() {
             @Override
             public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception {
