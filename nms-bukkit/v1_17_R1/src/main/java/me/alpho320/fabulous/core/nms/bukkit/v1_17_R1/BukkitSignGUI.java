@@ -78,7 +78,7 @@ public class BukkitSignGUI extends SignGUI {
                             });
                         }
                     });
-
+                }
                 super.channelRead(ctx, packet);
             }
         };
