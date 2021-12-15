@@ -1,5 +1,6 @@
 package me.alpho320.fabulous.core.bukkit.util;
 
+import dev.lone.itemsadder.api.CustomStack;
 import me.alpho320.fabulous.core.api.util.ItemCreator;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import org.bukkit.Bukkit;
@@ -152,7 +153,12 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
     public @NotNull ItemStack create(Player player) {
         ItemStack item;
 
-        if (material.length() >= 30) {
+        if (material.startsWith("ITEMSADDER-")) {
+            CustomStack stack = CustomStack.getInstance(material.split("-")[1]);
+            if (stack == null) throw new IllegalStateException(material + " is not itemsadder item!");
+
+            item = stack.getItemStack().clone();
+        } else if (material.length() >= 30) {
             item = itemFromBase64(material); // if length is greater than 30, thats mean material is a custom head. (example: https://minecraft-heads.com/custom-heads/)
         } else if (player != null) {
             if (material.startsWith("head_"))
