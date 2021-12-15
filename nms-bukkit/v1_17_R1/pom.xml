@@ -16,7 +16,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
-            <version>1.17.1-R0.1-20211024.093637-11</version>
+            <version>1.17.1-R0.1-20211128.012138-19</version>
             <scope>provided</scope>
         </dependency>
 
