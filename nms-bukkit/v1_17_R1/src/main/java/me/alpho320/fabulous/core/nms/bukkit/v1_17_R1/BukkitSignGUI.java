@@ -78,10 +78,12 @@ public class BukkitSignGUI extends SignGUI {
                             });
                         }
                     });
+
+                    super.channelRead(ctx, packet);
                 }
-                super.channelRead(ctx, packet);
             }
         };
+
         Callable<Object> callable = () -> {
             try {
                 ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().b.a.k.pipeline();
