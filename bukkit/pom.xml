@@ -10,8 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bukkit</artifactId>
-    <version>1.1.54</version>
-
+    <version>1.1.55</version>
 
     <repositories>
 
@@ -238,6 +237,14 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>me.alpho320.fabulous.core</groupId>
+            <artifactId>v1_19_R2</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <pluginRepositories>
