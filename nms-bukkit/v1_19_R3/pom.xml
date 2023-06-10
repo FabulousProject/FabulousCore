@@ -22,7 +22,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
-            <version>1.19.4-R0.1-20230402.050655-8</version>
+            <version>1.19.4-R0.1-20230607.161313-15</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
