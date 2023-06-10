@@ -10,7 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bukkit</artifactId>
-    <version>1.1.56</version>
+
+    <version>1.1.57</version>
     <repositories>
 
         <repository>
@@ -253,7 +254,6 @@
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
-
     </dependencies>
 
     <pluginRepositories>
