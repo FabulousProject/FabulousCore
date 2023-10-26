@@ -12,6 +12,8 @@ import me.alpho320.fabulous.core.api.util.SoundUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Field;
+
 public interface FCore<T> {
 
     boolean init();
@@ -40,5 +42,17 @@ public interface FCore<T> {
     @NotNull SoundUtil sound();
 
 
+    static @Nullable <T> T getField(Object object, Class<?> clazz, String fieldName) {
+        try {
+            Field field = clazz.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            Object value = field.get(object);
+            field.setAccessible(false);
+            return (value != null) ? (T) value : null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
