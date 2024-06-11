@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bukkit</artifactId>
-    <version>1.1.61</version>
+    <version>1.1.64</version>
   
     <repositories>
 
@@ -333,7 +333,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.5.2</version>
                 <executions>
                     <!-- Run shade goal on package phase -->
                     <execution>
