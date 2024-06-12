@@ -1,7 +1,9 @@
 package me.alpho320.fabulous.core.bukkit.util;
 
+import com.cryptomorin.xseries.XSkull;
 import dev.lone.itemsadder.api.CustomStack;
 import me.alpho320.fabulous.core.api.util.ItemCreator;
+import me.alpho320.fabulous.core.bukkit.SkullCreator;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -10,8 +12,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionType;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -19,7 +23,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Enchantment, ItemFlag, Player> {
 
@@ -167,10 +170,12 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
                 item = skullFromName(player.getName());
             else
                 item = new ItemStack(Material.matchMaterial(material));
-        // [SPLASH]_POTION:SPEED:2
+        // [SPLASH]_POTION:SPEED:2:100
         } else if (material.contains("POTION") || material.contains("potion")) {
             String[] split = material.split(":");
-            item = new Potion(PotionType.valueOf(split[1]), Integer.parseInt(split[2]), material.contains("SPLASH")).toItemStack(amount);
+            item = new ItemStack(Material.matchMaterial(split[0]));
+            PotionMeta meta = (PotionMeta)item.getItemMeta();
+            meta.addCustomEffect(new PotionEffect(PotionEffectType.getByName(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3])), true);
         } else {
             item = new ItemStack(Material.matchMaterial(material));
         }
@@ -193,16 +198,17 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
             Debug.debug(2, "name " + name);
             meta.setDisplayName(name);
         }
-        if (lore.size() > 0) {
+        if (!lore.isEmpty()) {
             Debug.debug(2, "lore " + lore);
             meta.setLore(lore);
         }
 
-        if (flags.size() > 0) flags.forEach(meta::addItemFlags);
+        if (!flags.isEmpty()) flags.forEach(meta::addItemFlags);
         if (modelData > 0) meta.setCustomModelData(modelData);
 
         if (glow) {
-            meta.addEnchant(Enchantment.DURABILITY, 1, true);
+            Enchantment enchantment = Enchantment.getByName("DURABILITY");
+            if (enchantment == null) meta.addEnchant(Enchantment.UNBREAKING, 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         }
         item.setItemMeta(meta);
@@ -280,9 +286,10 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
      */
     @Deprecated
     public ItemStack itemWithName(ItemStack item, String name) {
-        return Bukkit.getUnsafe().modifyItemStack(item,
+        return XSkull.of(item).profile(Bukkit.getOfflinePlayer(name)).apply();
+        /*return Bukkit.getUnsafe().modifyItemStack(item,
                 "{SkullOwner:\"" + name + "\"}"
-        );
+        );*/
     }
 
     /**
@@ -292,8 +299,7 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
      * @return The head with a custom texture
      */
     public ItemStack itemFromBase64(String base64) {
-        ItemStack item = getHeadItem();
-        return itemWithBase64(item, base64);
+        return SkullCreator.itemFromBase64(base64);
     }
 
     /**
@@ -304,10 +310,7 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
      * @return The head with a custom texture
      */
     public ItemStack itemWithBase64(ItemStack item, String base64) {
-        UUID hashAsId = new UUID(base64.hashCode(), base64.hashCode());
-        return Bukkit.getUnsafe().modifyItemStack(item,
-                "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
-        );
+        return SkullCreator.itemWithBase64(item, base64);
     }
 
     private boolean newerApi() {
