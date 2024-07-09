@@ -63,7 +63,10 @@ public class BukkitCore implements FCore<Plugin> {
 
             String packageName = plugin.getServer().getClass().getPackage().getName();
             this.version = packageName.substring(packageName.lastIndexOf('.') + 1);
-            this.versionInt = Integer.parseInt(version.split("[_]")[1]);
+            this.versionInt = Integer.parseInt(plugin.getServer().getBukkitVersion().split("[.]")[1]);
+
+            Debug.debug(0, "BukkitCore | ServerVersion: " + version + " (" + versionInt + ")");
+
             this.configuration = (BukkitConfiguration) messageConfiguration; // TODO: 21.06.2021 check
 
             manager = new BukkitAPIManager(this, prefix);
