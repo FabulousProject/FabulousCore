@@ -63,6 +63,17 @@ public class BukkitCore implements FCore<Plugin> {
 
             String packageName = plugin.getServer().getClass().getPackage().getName();
             this.version = packageName.substring(packageName.lastIndexOf('.') + 1);
+
+            // for 1.20.5+
+            if (version.equalsIgnoreCase("craftbukkit")) {
+                String bukkitVersion = plugin.getServer().getMinecraftVersion();
+                if (bukkitVersion.equals("1.20.4")) {
+                    version = "v1_20_R3";
+                } else if (bukkitVersion.equals("1.20.6")) {
+                    version = "v1_20_R4";
+                }
+            }
+
             this.versionInt = Integer.parseInt(plugin.getServer().getBukkitVersion().split("[.]")[1]);
 
             Debug.debug(0, "BukkitCore | ServerVersion: " + version + " (" + versionInt + ")");
