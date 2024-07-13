@@ -286,7 +286,13 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
      */
     @Deprecated
     public ItemStack itemWithName(ItemStack item, String name) {
-        return XSkull.of(item).profile(Bukkit.getOfflinePlayer(name)).apply();
+        try {
+            ItemStack stack = XSkull.of(item).profile(Bukkit.getOfflinePlayer(name)).apply();
+            return stack;
+        } catch (Exception | Error e) {
+            e.printStackTrace();
+        }
+        return new ItemStack(Material.PLAYER_HEAD);
         /*return Bukkit.getUnsafe().modifyItemStack(item,
                 "{SkullOwner:\"" + name + "\"}"
         );*/
