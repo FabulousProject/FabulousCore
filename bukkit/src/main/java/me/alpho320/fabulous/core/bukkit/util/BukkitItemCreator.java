@@ -161,8 +161,8 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
             if (stack == null) throw new IllegalStateException(material + " is not itemsadder item!");
 
             item = stack.getItemStack().clone();
-        } else if (material.length() >= 30) {
-            item = itemFromBase64(material); // if length is greater than 30, thats mean material is a custom head. (example: https://minecraft-heads.com/custom-heads/)
+        } else if (material.length() >= 50) {
+            item = itemFromBase64(material); // if length is greater than 50, thats mean material is a custom head. (example: https://minecraft-heads.com/custom-heads/)
         } else if (player != null) {
             if (material.startsWith("head_"))
                 item = skullFromName(material.split("_")[1]);
