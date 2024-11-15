@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bukkit</artifactId>
-    <version>1.1.73</version>
+    <version>1.1.74</version>
   
     <repositories>
 
@@ -294,6 +294,24 @@
         <dependency>
             <groupId>me.alpho320.fabulous.core</groupId>
             <artifactId>v1_20_R4</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>me.alpho320.fabulous.core</groupId>
+            <artifactId>v1_21_R1</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>me.alpho320.fabulous.core</groupId>
+            <artifactId>v1_21_R2</artifactId>
             <version>1.0</version>
             <type>jar</type>
             <scope>compile</scope>

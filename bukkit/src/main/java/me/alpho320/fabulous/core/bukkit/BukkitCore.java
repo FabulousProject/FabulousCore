@@ -67,10 +67,15 @@ public class BukkitCore implements FCore<Plugin> {
             // for 1.20.5+
             if (version.equalsIgnoreCase("craftbukkit")) {
                 String bukkitVersion = plugin.getServer().getMinecraftVersion();
+                Debug.debug(0, "BukkitCore | MinecraftVersion: " + bukkitVersion);
                 if (bukkitVersion.equals("1.20.4")) {
                     version = "v1_20_R3";
                 } else if (bukkitVersion.equals("1.20.6")) {
                     version = "v1_20_R4";
+                } else if (bukkitVersion.equals("1.21.1")) {
+                    version = "v1_21_R1";
+                } else if (bukkitVersion.equals("1.21.2") || bukkitVersion.equals("1.21.3")) {
+                    version = "v1_21_R2";
                 }
             }
 
