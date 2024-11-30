@@ -1,6 +1,7 @@
 package me.alpho320.fabulous.core.bukkit.util;
 
-import com.cryptomorin.xseries.XSkull;
+import com.cryptomorin.xseries.profiles.builder.XSkull;
+import com.cryptomorin.xseries.profiles.objects.Profileable;
 import dev.lone.itemsadder.api.CustomStack;
 import me.alpho320.fabulous.core.api.util.ItemCreator;
 import me.alpho320.fabulous.core.bukkit.SkullCreator;
@@ -287,7 +288,7 @@ public class BukkitItemCreator implements ItemCreator<ItemStack, Material, Encha
     @Deprecated
     public ItemStack itemWithName(ItemStack item, String name) {
         try {
-            ItemStack stack = XSkull.of(item).profile(Bukkit.getOfflinePlayer(name)).apply();
+            ItemStack stack = XSkull.of(item).profile(Profileable.of(Bukkit.getOfflinePlayer(name))).apply();
             return stack;
         } catch (Exception | Error e) {
             e.printStackTrace();

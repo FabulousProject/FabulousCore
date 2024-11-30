@@ -1,16 +1,18 @@
 package me.alpho320.fabulous.core.bukkit;
 
-// Copyright (c) 2017 deanveloper (see LICENSE.md for more info)
-
-import com.cryptomorin.xseries.XSkull;
+import com.cryptomorin.xseries.profiles.builder.XSkull;
+import com.cryptomorin.xseries.profiles.objects.ProfileInputType;
+import com.cryptomorin.xseries.profiles.objects.Profileable;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
@@ -161,8 +163,7 @@ public class SkullCreator {
             return null;
         }
         SkullMeta meta = (SkullMeta) item.getItemMeta();
-        mutateItemMeta(meta, base64);
-        item.setItemMeta(meta);
+        mutateItemMeta(item, meta, base64);
 
         return item;
     }
@@ -283,9 +284,9 @@ public class SkullCreator {
         }
     }
 
-    private static void mutateItemMeta(SkullMeta meta, String b64) {
+    private static void mutateItemMeta(ItemStack item, SkullMeta meta, String b64) {
         try {
-            XSkull.setProfile(meta, makeProfile(b64));
+            item.setItemMeta(XSkull.of(meta).profile(Profileable.of(ProfileInputType.BASE64, b64)).apply());
         } catch (Exception | Error e) {
             try {
                 if (metaSetProfileMethod == null) {
@@ -302,7 +303,8 @@ public class SkullCreator {
                         metaProfileField.setAccessible(true);
                     }
                     metaProfileField.set(meta, makeProfile(b64));
-                } catch (NoSuchFieldException | IllegalAccessException ex2) {
+                } catch (Exception | Error ex2) {
+                    Debug.debug(2, "Error setting skull texture of " + b64 + " (" + ex2.getMessage() + ")");
                     ex2.printStackTrace();
                 }
             }
