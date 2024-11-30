@@ -1,6 +1,7 @@
 
 <p align="center">
-![img](images/fabulouscore.png)
+    <img src="https://github.com/FabulousProject/FabulousCore/blob/master/images/fabulouscore.png?raw=true" alt="FabulousCore">
+</p>
 
 <h1 align="center">FabulousCore</h1>
 
