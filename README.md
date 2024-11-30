@@ -1,8 +1,6 @@
 
 <p align="center">
-<img alt="FabulousCore"
-    src="https://cdn.discordapp.com/attachments/627487868343812106/854502480893050900/fabulouscore.png">
-</p>
+![img](images/fabulouscore.png)
 
 <h1 align="center">FabulousCore</h1>
 
