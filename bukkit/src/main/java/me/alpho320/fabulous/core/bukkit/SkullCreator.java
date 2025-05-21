@@ -3,6 +3,8 @@ package me.alpho320.fabulous.core.bukkit;
 import com.cryptomorin.xseries.profiles.builder.XSkull;
 import com.cryptomorin.xseries.profiles.objects.ProfileInputType;
 import com.cryptomorin.xseries.profiles.objects.Profileable;
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
@@ -315,11 +317,22 @@ public class SkullCreator {
                         profileField = meta.getClass().getDeclaredField("profile");
                         profileField.setAccessible(true);
                         profileField.set(meta, profile);
+                        item.setItemMeta(meta);
                     } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex3) {
-                        Debug.debug(2, "Error setting skull texture of " + b64 + " (" + ex2.getMessage() + ")");
-                        ex3.printStackTrace();
+                        try {
+                            item.editMeta(SkullMeta.class, skullMeta -> {
+                                final UUID uuid = UUID.randomUUID();
+                                final PlayerProfile playerProfile = Bukkit.createProfile(uuid, uuid.toString().substring(0, 16));
+                                playerProfile.setProperty(new ProfileProperty("textures", b64));
+
+                                skullMeta.setPlayerProfile(playerProfile);
+                            });
+                        } catch (Exception | Error ex4) {
+                            Debug.debug(1, "SkullCreator | Error setting skull texture of " + b64 + " (" + ex4.getMessage() + ") with reflection");
+                            ex4.printStackTrace();
+                        }
                     }
-                    item.setItemMeta(meta);
+
                 }
             }
         }
