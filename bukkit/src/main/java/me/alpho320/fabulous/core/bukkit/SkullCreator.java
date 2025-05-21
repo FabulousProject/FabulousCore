@@ -288,6 +288,10 @@ public class SkullCreator {
         try {
             item.setItemMeta(XSkull.of(meta).profile(Profileable.of(ProfileInputType.BASE64, b64)).apply());
         } catch (Exception | Error e) {
+            if (Debug.isDebug()) {
+                Debug.debug(1, "SkullCreator | Error setting skull texture of " + b64 + " (" + e.getMessage() + ") with XSkull");
+                e.printStackTrace();
+            }
             try {
                 if (metaSetProfileMethod == null) {
                     metaSetProfileMethod = meta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
@@ -304,8 +308,18 @@ public class SkullCreator {
                     }
                     metaProfileField.set(meta, makeProfile(b64));
                 } catch (Exception | Error ex2) {
-                    Debug.debug(2, "Error setting skull texture of " + b64 + " (" + ex2.getMessage() + ")");
-                    ex2.printStackTrace();
+                    GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+                    profile.getProperties().put("textures", new Property("textures", b64));
+                    Field profileField;
+                    try {
+                        profileField = meta.getClass().getDeclaredField("profile");
+                        profileField.setAccessible(true);
+                        profileField.set(meta, profile);
+                    } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex3) {
+                        Debug.debug(2, "Error setting skull texture of " + b64 + " (" + ex2.getMessage() + ")");
+                        ex3.printStackTrace();
+                    }
+                    item.setItemMeta(meta);
                 }
             }
         }

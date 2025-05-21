@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bukkit</artifactId>
-    <version>1.1.79</version>
+    <version>1.1.80</version>
   
     <repositories>
 
@@ -55,6 +55,11 @@
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
 
+        <repository>
+            <id>minecraft-libraries</id>
+            <name>Minecraft Libraries</name>
+            <url>https://libraries.minecraft.net/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -75,7 +80,7 @@
         <dependency>
             <groupId>com.mojang</groupId>
             <artifactId>authlib</artifactId>
-            <version>1.5.21</version>
+            <version>6.0.54</version>
             <scope>provided</scope>
         </dependency>
 
