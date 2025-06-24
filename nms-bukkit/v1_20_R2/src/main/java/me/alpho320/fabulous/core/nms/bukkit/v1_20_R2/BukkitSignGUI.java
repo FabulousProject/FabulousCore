@@ -34,7 +34,6 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
-import static jdk.internal.net.http.common.Log.CHANNEL;
 
 public class BukkitSignGUI extends SignGUI {
 

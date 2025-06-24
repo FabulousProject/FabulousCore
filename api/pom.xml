@@ -70,7 +70,7 @@
                 <configuration>
                     <relocations>
                         <relocation>
-                            <pattern>io.github.portlek</pattern>
+                            <pattern>me.alpho320.fabulous.core.bukkit.util.inv</pattern>
                             <shadedPattern>me.alpho320.fabulous.core.util.inv</shadedPattern>
                         </relocation>
 

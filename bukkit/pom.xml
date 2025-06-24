@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bukkit</artifactId>
-    <version>1.1.86</version>
+    <version>1.1.87</version>
   
     <repositories>
 
@@ -116,16 +116,16 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.portlek</groupId>
-            <artifactId>SmartInventory</artifactId>
-            <version>4.4.10</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>api-itemsadder</artifactId>
             <version>2.4.8</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.38</version>
         </dependency>
 
         <dependency>
@@ -358,6 +358,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
+                <configuration>
+                    <source>11</source>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.38</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
 
             <!-- Maven Assembly Plugin -->
@@ -416,8 +426,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
 </project>
