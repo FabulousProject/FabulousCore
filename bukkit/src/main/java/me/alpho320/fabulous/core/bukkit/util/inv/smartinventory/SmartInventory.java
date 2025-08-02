@@ -120,7 +120,7 @@ public interface SmartInventory {
    */
   @NotNull
   static List<SmartHolder> getHolders() {
-    return Bukkit.getOnlinePlayers().stream()
+    return new ArrayList<>(Bukkit.getOnlinePlayers()).stream()
       .map(SmartInventory::getHolder)
       .filter(Optional::isPresent)
       .map(Optional::get)
