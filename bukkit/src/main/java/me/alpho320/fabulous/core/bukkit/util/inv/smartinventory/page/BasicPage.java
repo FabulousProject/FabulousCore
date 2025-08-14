@@ -197,8 +197,10 @@ public final class BasicPage implements Page {
       else
         Debug.debug(1, "SmartInventory closed: No holder found for player: " + player.getName() + " | openInv: " + openInventory + " | inv: " + openInventory.getTopInventory());
     }, () -> {
-      Thread.dumpStack();
-      Debug.debug(1, "SmartInventory close failed: No holder found for player: " + player.getName() + " | openInv: " + player.getOpenInventory() + " | inv: " + player.getOpenInventory().getTopInventory() + " | size: " + SmartInventory.INVENTORIES.size());
+      if (Debug.isDebug()) {
+        Thread.dumpStack();
+        Debug.debug(1, "SmartInventory close failed: No holder found for player: " + player.getName() + " | openInv: " + player.getOpenInventory() + " | inv: " + player.getOpenInventory().getTopInventory() + " | size: " + SmartInventory.INVENTORIES.size());
+      }
     });
   }
 
