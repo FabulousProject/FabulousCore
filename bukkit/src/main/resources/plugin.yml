@@ -1,0 +1,3 @@
+name: FabulousCore
+main: me.alpho320.fabulous.core.bukkit.Bootstrap
+version: 1.0

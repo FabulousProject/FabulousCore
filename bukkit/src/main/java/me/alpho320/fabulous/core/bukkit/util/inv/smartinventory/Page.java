@@ -25,13 +25,11 @@
 
 package me.alpho320.fabulous.core.bukkit.util.inv.smartinventory;
 
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.Handle;
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.InventoryContents;
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.InventoryProvider;
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.SmartInventory;
+import me.alpho320.fabulous.core.bukkit.util.inv.observer.Source;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.event.abs.*;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.page.BasicPage;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
@@ -150,6 +148,14 @@ public interface Page {
    * @param player the player to close.
    */
   void close(@NotNull Player player);
+
+  /**
+   * closes the page for the given holder.
+   *
+   * @param holder the holder to close.
+   * @param event
+   */
+  void close(@NotNull SmartHolder holder, @NotNull InventoryCloseEvent event);
 
   /**
    * obtains column of the page.
@@ -418,6 +424,12 @@ public interface Page {
    */
   @NotNull
   Page title(@NotNull String title);
+
+  @NotNull Source<InventoryContents> source();
+
+  default void unsubscribeProvider() {
+    source().unsubscribe(this.provider());
+  }
 
   /**
    * adds the given consumer as a bottom inventory click event.

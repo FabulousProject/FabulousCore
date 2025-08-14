@@ -25,12 +25,7 @@
 
 package me.alpho320.fabulous.core.bukkit.util.inv.smartinventory;
 
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.*;
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.InventoryContents;
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.InventoryOpener;
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.InventoryProvider;
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.Page;
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.SmartHolder;
+import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.event.PgTickEvent;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.listener.*;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.opener.ChestInventoryOpener;
@@ -108,8 +103,12 @@ public interface SmartInventory {
       return Optional.empty();
     }
 
-    INVENTORIES.put(topInventory, (SmartHolder) holder);
-    return Optional.of((SmartHolder) holder)
+    final SmartHolder smartHolder = (SmartHolder) holder;
+
+    Debug.debug(2, "SmartInventory | Updating cache player: " + player.getName() + " | Holder: " + holder.getClass().getSimpleName() + " | isActive: " + (smartHolder).isActive());
+    INVENTORIES.put(topInventory, smartHolder);
+
+    return Optional.of(smartHolder)
       .filter(SmartHolder::isActive);
   }
 

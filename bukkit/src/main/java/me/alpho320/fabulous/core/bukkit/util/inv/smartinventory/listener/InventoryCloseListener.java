@@ -25,7 +25,9 @@
 
 package me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.listener;
 
+import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.SmartHolder;
+import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.SmartInventory;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.event.PgCloseEvent;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -57,25 +59,34 @@ public final class InventoryCloseListener implements Listener {
   @EventHandler
   public void onInventoryClose(final InventoryCloseEvent event) {
     final var holder = event.getInventory().getHolder();
+    Debug.debug(2, "SmartInventoryCloseListener | Inventory: " + event.getInventory() +" | Holder: " + (holder == null ? "null" : holder.getClass().getSimpleName()));
     if (!(holder instanceof SmartHolder)) {
       return;
     }
+    final var player = event.getPlayer();
     final var smartHolder = (SmartHolder) holder;
     final var inventory = event.getInventory();
     final var page = smartHolder.getPage();
     final var close = new PgCloseEvent(smartHolder.getContents(), event);
     page.accept(close);
+
     if (!page.canClose(close)) {
       if (page.async()) {
         Bukkit.getScheduler().runTaskAsynchronously(smartHolder.getPlugin(), () ->
-                event.getPlayer().openInventory(inventory));
+                player.openInventory(inventory));
       } else {
         Bukkit.getScheduler().runTask(smartHolder.getPlugin(), () ->
-                event.getPlayer().openInventory(inventory));
+                player.openInventory(inventory));
       }
       return;
     }
     inventory.clear();
-    this.stopTickFunction.accept(event.getPlayer().getUniqueId());
+    this.stopTickFunction.accept(player.getUniqueId());
+
+    page.inventory().stopTick(player.getUniqueId());
+    page.unsubscribeProvider();
+    smartHolder.setActive(false);
+    SmartHolder remove = SmartInventory.INVENTORIES.remove(inventory);
+    Debug.debug(2,"SmartInventoryCloseListener | AfterCloseSize: " + SmartInventory.INVENTORIES.size() + " | Removed: " + (remove == null ? "null" : remove.getClass().getSimpleName()));
   }
 }

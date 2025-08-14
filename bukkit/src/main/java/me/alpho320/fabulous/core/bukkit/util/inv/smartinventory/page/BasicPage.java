@@ -183,7 +183,7 @@ public final class BasicPage implements Page {
 
   @Override
   public void close(@NotNull final Player player) {
-    SmartInventory.getHolder(player).ifPresent(holder -> {
+    SmartInventory.getHolder(player).ifPresentOrElse(holder -> {
       InventoryView openInventory = player.getOpenInventory();
       this.accept(new PgCloseEvent(holder.getContents(), new InventoryCloseEvent(openInventory)));
       this.inventory().stopTick(player.getUniqueId());
@@ -191,9 +191,30 @@ public final class BasicPage implements Page {
       holder.setActive(false);
       player.closeInventory();
       SmartHolder remove = SmartInventory.INVENTORIES.remove(openInventory.getTopInventory());
-      if (Debug.isDebug())
-        Debug.debug(2, "SmartInventory closed: " + remove.getPage().id() + " for player: " + player.getName() + " | inv: " + remove + " | getHolder: " + SmartInventory.getHolder(player).orElse(null));
+      //if (Debug.isDebug())
+      if (remove != null)
+        Debug.debug(2, "SmartInventory closed: " + remove.getPage().id() + " for player: " + player.getName() + " | inv: " + remove +  " | size: "  + SmartInventory.INVENTORIES.size());
+      else
+        Debug.debug(1, "SmartInventory closed: No holder found for player: " + player.getName() + " | openInv: " + openInventory + " | inv: " + openInventory.getTopInventory());
+    }, () -> {
+      Thread.dumpStack();
+      Debug.debug(1, "SmartInventory close failed: No holder found for player: " + player.getName() + " | openInv: " + player.getOpenInventory() + " | inv: " + player.getOpenInventory().getTopInventory() + " | size: " + SmartInventory.INVENTORIES.size());
     });
+  }
+
+  @Override
+  public void close(@NotNull SmartHolder holder, @NotNull InventoryCloseEvent event) {
+    Player player = holder.getPlayer();
+    InventoryView openInventory = event.getView();
+    this.source.unsubscribe(this.provider());
+    holder.setActive(false);
+    //player.closeInventory();
+    SmartHolder remove = SmartInventory.INVENTORIES.remove(event.getInventory());
+    //if (Debug.isDebug())
+    if (remove != null)
+      Debug.debug(2, "SmartInventory closed: " + remove.getPage().id() + " for player: " + player.getName() + " | inv: " + remove + " | size: "  + SmartInventory.INVENTORIES.size());
+    else
+      Debug.debug(1, "SmartInventory closed: No holder found for player: " + player.getName() + " | openInv: " + openInventory + " | inv: " + openInventory.getTopInventory());
   }
 
   @Override
@@ -232,6 +253,11 @@ public final class BasicPage implements Page {
   @Override
   public SmartInventory inventory() {
     return this.inventory;
+  }
+
+  @Override
+  public @NotNull Source<InventoryContents> source() {
+    return this.source;
   }
 
   @Override
