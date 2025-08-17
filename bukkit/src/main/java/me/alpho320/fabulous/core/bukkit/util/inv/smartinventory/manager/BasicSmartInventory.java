@@ -25,6 +25,7 @@
 
 package me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.manager;
 
+import com.github.Anon8281.universalScheduler.UniversalRunnable;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.InventoryOpener;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.SmartInventory;
 import lombok.Getter;
@@ -60,7 +61,7 @@ public final class BasicSmartInventory implements SmartInventory {
   /**
    * the tasks.
    */
-  private final Map<UUID, BukkitRunnable> tasks = new ConcurrentHashMap<>();
+  private final Map<UUID, UniversalRunnable> tasks = new ConcurrentHashMap<>();
 
   static {
     try {

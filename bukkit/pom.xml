@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bukkit</artifactId>
-    <version>1.1.93</version>
+    <version>1.1.94</version>
   
     <repositories>
 
@@ -119,6 +119,13 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.38</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.Anon8281</groupId>
+            <artifactId>UniversalScheduler</artifactId>
+            <version>0.1.7</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -334,6 +341,15 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>me.alpho320.fabulous.core</groupId>
+            <artifactId>v1_21_R5</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
     <pluginRepositories>
@@ -405,6 +421,16 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <relocations>
+
+                        <relocation>
+                            <pattern>com.github.Anon8281.universalScheduler</pattern>
+                            <shadedPattern>me.alpho320.fabulous.vaults.util.universalScheduler</shadedPattern>
+                        </relocation>
+
+                    </relocations>
+                </configuration>
             </plugin>
         </plugins>
 

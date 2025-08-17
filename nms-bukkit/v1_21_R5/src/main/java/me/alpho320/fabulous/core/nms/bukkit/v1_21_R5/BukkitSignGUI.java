@@ -1,12 +1,11 @@
-package me.alpho320.fabulous.core.nms.bukkit.v1_21_R3;
+package me.alpho320.fabulous.core.nms.bukkit.v1_21_R5;
 
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignGUI;
 import me.alpho320.fabulous.core.api.manager.impl.sign.SignManager;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelPipeline;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.chat.IChatBaseComponent;
@@ -21,20 +20,15 @@ import net.minecraft.world.level.World;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.SignText;
 import net.minecraft.world.level.block.entity.TileEntitySign;
-import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_21_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R5.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class BukkitSignGUI extends SignGUI {
@@ -54,6 +48,7 @@ public class BukkitSignGUI extends SignGUI {
         NETWORK_MANAGER_FIELD = networkManagerField;
     }
 
+
     public Material getMaterial() {
         if (type().equals(SignType.OAK)) return Material.OAK_SIGN;
         else if (type().equals(SignType.ACACIA)) return Material.ACACIA_SIGN;
@@ -65,7 +60,6 @@ public class BukkitSignGUI extends SignGUI {
         else return Material.OAK_SIGN;
     }
 
-
     public BukkitSignGUI(@NotNull SignManager manager) {
         super(manager);
     }
@@ -73,8 +67,9 @@ public class BukkitSignGUI extends SignGUI {
     @Override
     public @NotNull SignGUI open(@NotNull Object player, @NotNull SignType signType, @Nullable Consumer<String[]> whenOpen, @Nullable Consumer<String[]> whenClose) {
         try {
+
             EntityPlayer p = ((CraftPlayer) player).getHandle();
-            PlayerConnection conn = p.f;
+            PlayerConnection conn = p.g;
 
             if (NETWORK_MANAGER_FIELD == null)
                 throw new IllegalStateException("Unable to find NetworkManager field in PlayerConnection class.");
@@ -87,10 +82,9 @@ public class BukkitSignGUI extends SignGUI {
             Location loc = getDefaultLocation((Player) player);
             BlockPosition pos = new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 
-            TileEntitySign sign = new TileEntitySign(pos, Blocks.cM.m());
+            TileEntitySign sign = new TileEntitySign(pos, Blocks.cP.m());
             SignText signText = sign.a(true) // flag = front/back of sign
                     .a(EnumColor.a);
-
             for (int i = 0; i < lines().length; i++)
                 signText = signText.a(i, IChatBaseComponent.a(lines()[i]));
             sign.a(signText, true);
@@ -111,8 +105,8 @@ public class BukkitSignGUI extends SignGUI {
 
             Runnable runnable = () -> {
                 ((CraftPlayer) player).sendBlockChange(loc, getMaterial().createBlockData());
-                sign.a(p.cU());
-                conn.b(sign.s());
+                sign.a(p.ai());
+                conn.b(sign.u());
                 sign.a((World) null);
                 conn.b(new PacketPlayOutOpenSignEditor(pos, true)); // flag = front/back of sign
 
@@ -154,6 +148,7 @@ public class BukkitSignGUI extends SignGUI {
 
         return this;
     }
+
 
     public void closeSignEditor(Player player, SignEditor signEditor) {
         Location loc = signEditor.getLocation();

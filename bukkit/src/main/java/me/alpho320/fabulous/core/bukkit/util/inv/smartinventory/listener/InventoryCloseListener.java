@@ -25,6 +25,7 @@
 
 package me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.listener;
 
+import me.alpho320.fabulous.core.bukkit.BukkitCore;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.SmartHolder;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.SmartInventory;
@@ -72,10 +73,10 @@ public final class InventoryCloseListener implements Listener {
 
     if (!page.canClose(close)) {
       if (page.async()) {
-        Bukkit.getScheduler().runTaskAsynchronously(smartHolder.getPlugin(), () ->
+        BukkitCore.instance().taskScheduler().runTaskAsynchronously(() ->
                 player.openInventory(inventory));
       } else {
-        Bukkit.getScheduler().runTask(smartHolder.getPlugin(), () ->
+        BukkitCore.instance().taskScheduler().runTask(() ->
                 player.openInventory(inventory));
       }
       return;

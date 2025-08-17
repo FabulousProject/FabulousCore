@@ -25,6 +25,7 @@
 
 package me.alpho320.fabulous.core.bukkit.util.inv.smartinventory;
 
+import com.github.Anon8281.universalScheduler.UniversalRunnable;
 import me.alpho320.fabulous.core.bukkit.util.debugger.Debug;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.event.PgTickEvent;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.listener.*;
@@ -36,7 +37,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -212,10 +212,10 @@ public interface SmartInventory {
    *
    * @param uniqueId the uniqueId to obtain.
    *
-   * @return a {@link BukkitRunnable} instance.
+   * @return a {@link UniversalRunnable} instance.
    */
   @NotNull
-  default Optional<BukkitRunnable> getTask(@NotNull final UUID uniqueId) {
+  default Optional<UniversalRunnable> getTask(@NotNull final UUID uniqueId) {
     return Optional.ofNullable(this.getTasks().get(uniqueId));
   }
 
@@ -225,7 +225,7 @@ public interface SmartInventory {
    * @return tasks.
    */
   @NotNull
-  Map<UUID, BukkitRunnable> getTasks();
+  Map<UUID, UniversalRunnable> getTasks();
 
   /**
    * initiates the manager.
@@ -259,7 +259,7 @@ public interface SmartInventory {
    * @param uniqueId the unique id to set.
    * @param task the task to set.
    */
-  default void setTask(@NotNull final UUID uniqueId, @NotNull final BukkitRunnable task) {
+  default void setTask(@NotNull final UUID uniqueId, @NotNull final UniversalRunnable task) {
     this.getTasks().put(uniqueId, task);
   }
 
@@ -270,7 +270,7 @@ public interface SmartInventory {
    */
   default void stopTick(@NotNull final UUID uniqueId) {
     this.getTask(uniqueId).ifPresent(runnable -> {
-      Bukkit.getScheduler().cancelTask(runnable.getTaskId());
+      runnable.cancel();
       this.removeTask(uniqueId);
     });
   }
@@ -282,7 +282,7 @@ public interface SmartInventory {
    * @param page the page to start.
    */
   default void tick(@NotNull final UUID uniqueId, @NotNull final Page page) {
-    final BukkitRunnable task = new BukkitRunnable() {
+    final UniversalRunnable task = new UniversalRunnable() {
       @Override
       public void run() {
         SmartInventory.getHolder(uniqueId)

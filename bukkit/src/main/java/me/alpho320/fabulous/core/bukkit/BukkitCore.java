@@ -1,5 +1,7 @@
 package me.alpho320.fabulous.core.bukkit;
 
+import com.github.Anon8281.universalScheduler.UniversalScheduler;
+import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import me.alpho320.fabulous.core.api.FCore;
 import me.alpho320.fabulous.core.api.manager.APIManager;
 import me.alpho320.fabulous.core.api.manager.impl.cooldown.CooldownManager;
@@ -24,6 +26,8 @@ public class BukkitCore implements FCore<Plugin> {
     private Plugin plugin;
     private BukkitAPIManager manager;
 
+    private TaskScheduler taskScheduler;
+
     private BukkitLocationUtil serializedLocation;
     private BukkitSoundUtil soundUtil;
 
@@ -34,6 +38,7 @@ public class BukkitCore implements FCore<Plugin> {
     public BukkitCore(Plugin plugin) {
         this.plugin = plugin;
         instance = this;
+        this.taskScheduler = UniversalScheduler.getScheduler(plugin);
     }
 
     @Override
@@ -80,6 +85,8 @@ public class BukkitCore implements FCore<Plugin> {
                     version = "v1_21_R3";
                 } else if (bukkitVersion.equals("1.21.5")) {
                     version = "v1_21_R4";
+                } else if (bukkitVersion.equals("1.21.6") || bukkitVersion.equals("1.21.7") || bukkitVersion.equals("1.21.8")) {
+                    version = "v1_21_R5";
                 }
             }
 
@@ -105,6 +112,10 @@ public class BukkitCore implements FCore<Plugin> {
     @Override
     public @NotNull Plugin plugin() {
         return plugin;
+    }
+
+    public TaskScheduler taskScheduler() {
+        return this.taskScheduler;
     }
 
     @Override

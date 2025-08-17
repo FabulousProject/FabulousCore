@@ -25,6 +25,7 @@
 
 package me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.event;
 
+import me.alpho320.fabulous.core.bukkit.BukkitCore;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.InventoryContents;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.event.abs.OutsideClickEvent;
 import lombok.RequiredArgsConstructor;
@@ -64,7 +65,7 @@ public final class PgOutsideClickEvent implements OutsideClickEvent {
 
   @Override
   public void close() {
-    Bukkit.getScheduler().runTask(this.plugin, () ->
+    BukkitCore.instance().taskScheduler().runTask( () ->
       this.contents.page().close(this.contents.player()));
   }
 
