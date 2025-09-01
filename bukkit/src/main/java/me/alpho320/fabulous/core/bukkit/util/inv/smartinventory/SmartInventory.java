@@ -97,7 +97,10 @@ public interface SmartInventory {
     if (founded != null) {
       return Optional.of(founded).filter(SmartHolder::isActive);
     }
-
+    Optional<InventoryOpener> defaultOpener = findDefaultOpener(topInventory.getType());
+    if (defaultOpener.isEmpty()) { // No default opener for this type, so this inventory can't be a SmartInventory its not opened by us this is minecraft's inventory(furnace, brewer, crafter etc..) etc.
+      return Optional.empty();
+    }
     final InventoryHolder holder = topInventory.getHolder();
     if (!(holder instanceof SmartHolder)) {
       return Optional.empty();
@@ -174,6 +177,13 @@ public interface SmartInventory {
       .map(SmartHolder::getPage)
       .filter(page -> page.id().equals(id))
       .forEach(Page::notifyUpdateForAll);
+  }
+
+  static Optional<me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.InventoryOpener> findDefaultOpener(@NotNull final InventoryType type) {
+      return SmartInventory.DEFAULT_OPENERS
+              .stream()
+              .filter(opener -> opener.supports(type))
+              .findFirst();
   }
 
   /**
