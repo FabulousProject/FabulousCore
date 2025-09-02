@@ -88,6 +88,7 @@ public final class InventoryCloseListener implements Listener {
     page.unsubscribeProvider();
     smartHolder.setActive(false);
     SmartHolder remove = SmartInventory.INVENTORIES.remove(inventory);
-    Debug.debug(2,"SmartInventoryCloseListener | AfterCloseSize: " + SmartInventory.INVENTORIES.size() + " | Removed: " + (remove == null ? "null" : remove.getClass().getSimpleName()));
+    SmartHolder removedHolder = SmartInventory.PLAYER_HOLDER.remove(player.getName());
+    Debug.debug(2,"SmartInventoryCloseListener | AfterCloseSize: " + SmartInventory.INVENTORIES.size() + " | Removed: " + (remove == null ? "null" : remove.getClass().getSimpleName()) + " | Player: " + player.getName() + " | RemovedHolder: " + (removedHolder == null ? "null" : removedHolder.getClass().getSimpleName()) + " AfterClosePlayerSize: " + SmartInventory.PLAYER_HOLDER.size());
   }
 }

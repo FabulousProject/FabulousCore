@@ -58,6 +58,8 @@ public interface SmartInventory {
     new ChestInventoryOpener());
 
   static Map<Inventory, SmartHolder> INVENTORIES = new ConcurrentHashMap<>();
+  // PlayerName, SmartHolder
+  static Map<String, SmartHolder> PLAYER_HOLDER = new ConcurrentHashMap<>();
 
   /**
    * all listener to register.
@@ -101,7 +103,18 @@ public interface SmartInventory {
     if (defaultOpener.isEmpty()) { // No default opener for this type, so this inventory can't be a SmartInventory its not opened by us this is minecraft's inventory(furnace, brewer, crafter etc..) etc.
       return Optional.empty();
     }
-    final InventoryHolder holder = topInventory.getHolder();
+
+    SmartHolder holder = PLAYER_HOLDER.getOrDefault(player.getName(), null);
+    if (holder == null) {
+        Debug.debug(2, "SmartInventory | Holder is null for player: " + player.getName());
+        return Optional.empty();
+    }
+
+    INVENTORIES.put(topInventory, holder);
+    Debug.debug(2, "SmartInventory | Updating cache player: " + player.getName() + " | Holder: " + holder.getClass().getSimpleName() + " | isActive: " + (holder).isActive());
+    return Optional.of(holder).filter(SmartHolder::isActive);
+
+      /*final InventoryHolder holder = topInventory.getHolder();
     if (!(holder instanceof SmartHolder)) {
       return Optional.empty();
     }
@@ -112,7 +125,7 @@ public interface SmartInventory {
     INVENTORIES.put(topInventory, smartHolder);
 
     return Optional.of(smartHolder)
-      .filter(SmartHolder::isActive);
+      .filter(SmartHolder::isActive);*/
   }
 
   /**

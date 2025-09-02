@@ -55,6 +55,7 @@ public final class ChestInventoryOpener implements InventoryOpener {
     holder.setActive(true);
     final var handle = Bukkit.createInventory(holder, page.row() * page.column(), page.title());
     SmartInventory.INVENTORIES.put(handle, holder);
+    SmartInventory.PLAYER_HOLDER.put(contents.player().getName(), holder);
     this.fill(handle, contents);
     contents.player().openInventory(handle);
     return handle;

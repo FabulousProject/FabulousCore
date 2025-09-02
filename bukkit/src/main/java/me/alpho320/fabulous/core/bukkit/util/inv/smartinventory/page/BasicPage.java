@@ -191,6 +191,7 @@ public final class BasicPage implements Page {
       holder.setActive(false);
       player.closeInventory();
       SmartHolder remove = SmartInventory.INVENTORIES.remove(openInventory.getTopInventory());
+      SmartHolder removedHolder = SmartInventory.PLAYER_HOLDER.remove(player.getName());
       //if (Debug.isDebug())
       if (remove != null)
         Debug.debug(2, "SmartInventory closed: " + remove.getPage().id() + " for player: " + player.getName() + " | inv: " + remove +  " | size: "  + SmartInventory.INVENTORIES.size());
@@ -212,11 +213,17 @@ public final class BasicPage implements Page {
     holder.setActive(false);
     //player.closeInventory();
     SmartHolder remove = SmartInventory.INVENTORIES.remove(event.getInventory());
+    SmartHolder removedHolder = SmartInventory.PLAYER_HOLDER.remove(player.getName());
     //if (Debug.isDebug())
     if (remove != null)
       Debug.debug(2, "SmartInventory closed: " + remove.getPage().id() + " for player: " + player.getName() + " | inv: " + remove + " | size: "  + SmartInventory.INVENTORIES.size());
     else
       Debug.debug(1, "SmartInventory closed: No holder found for player: " + player.getName() + " | openInv: " + openInventory + " | inv: " + openInventory.getTopInventory());
+
+    if (removedHolder != null)
+      Debug.debug(2, "SmartInventory.PLAYER_HOLDER removed: " + removedHolder.getPage().id() + " for player: " + player.getName() + " | inv: " + removedHolder + " | size:  "  + SmartInventory.PLAYER_HOLDER.size());
+    else
+        Debug.debug(1, "SmartInventory.PLAYER_HOLDER removed: No holder found for player: " + player.getName() + " | openInv: " + openInventory + " | inv: " + openInventory.getTopInventory());
   }
 
   @Override
@@ -282,8 +289,8 @@ public final class BasicPage implements Page {
     contents.pagination().page(page);
     properties.forEach(contents::setProperty);
     this.accept(new PgInitEvent(contents));
-    this.provider().init(contents);
     final var opened = opener.open(contents);
+    this.provider().init(contents);
     if (this.tickEnable()) {
       this.inventory().tick(player.getUniqueId(), this);
     }
