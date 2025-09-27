@@ -31,6 +31,7 @@ import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.util.SlotPos;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.util.TitleUpdater;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -190,8 +191,11 @@ public final class BasicInventoryContents implements InventoryContents {
    * @param item the item to update.
    */
   private void update(final int row, final int column, @Nullable final ItemStack item) {
-    if (SmartInventory.getOpenedPlayers(this.page).contains(this.player())) {
-      this.getTopInventory().setItem(this.page.column() * row + column, item);
-    }
+    /*if (SmartInventory.getOpenedPlayers(this.page).contains(this.player())) {*/
+      Inventory topInventory = this.player().getOpenInventory().getTopInventory();
+
+      if (topInventory != null && topInventory.getHolder() instanceof SmartHolder) {
+          this.getTopInventory().setItem(this.page.column() * row + column, item);
+      }
   }
 }
