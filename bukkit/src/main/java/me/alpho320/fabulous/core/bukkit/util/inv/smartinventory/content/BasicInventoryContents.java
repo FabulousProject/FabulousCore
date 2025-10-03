@@ -195,7 +195,10 @@ public final class BasicInventoryContents implements InventoryContents {
       Inventory topInventory = this.player().getOpenInventory().getTopInventory();
 
       if (topInventory != null && topInventory.getHolder() instanceof SmartHolder) {
-          this.getTopInventory().setItem(this.page.column() * row + column, item);
+          SmartHolder holder = (SmartHolder) topInventory.getHolder();
+          if (holder.getInventory().equals(topInventory) || page.id().equals(holder.getPage().id())) {
+              this.getTopInventory().setItem(this.page.column() * row + column, item);
+          }
       }
   }
 }
