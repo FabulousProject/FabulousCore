@@ -87,6 +87,8 @@ public class BukkitCore implements FCore<Plugin> {
                     version = "v1_21_R4";
                 } else if (bukkitVersion.equals("1.21.6") || bukkitVersion.equals("1.21.7") || bukkitVersion.equals("1.21.8")) {
                     version = "v1_21_R5";
+                } else if (bukkitVersion.equals("1.21.11")) {
+                    version = "v1_21_R7";
                 }
             }
 

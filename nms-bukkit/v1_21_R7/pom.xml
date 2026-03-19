@@ -3,53 +3,32 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>me.alpho320.fabulous.core</groupId>
+        <artifactId>nms-bukkit</artifactId>
+        <version>1.0</version>
+    </parent>
 
-    <groupId>me.alpho320.fabulous.core</groupId>
-    <artifactId>FabulousCore</artifactId>
-    <version>parent</version>
-    <packaging>pom</packaging>
+    <artifactId>v1_21_R7</artifactId>
 
-    <description>a fabulous core for minecraft.</description>
+    <dependencies>
 
-    <modules>
-        <module>api</module>
-        <module>bukkit</module>
-        <module>nms-bukkit</module>
-        <module>nukkit</module>
-    </modules>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.21.11-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
 
-    <repositories>
-
-        <repository>
-            <id>jitpack</id>
-            <url>https://jitpack.io/</url>
-        </repository>
-
-
-
-    </repositories>
+    </dependencies>
 
     <pluginRepositories>
         <pluginRepository>
             <id>apache.snapshots</id>
             <url>https://repository.apache.org/snapshots/</url>
         </pluginRepository>
-        <pluginRepository>
-            <id>bytecode.space</id>
-            <url>https://repo.bytecode.space/repository/maven-public/</url>
-        </pluginRepository>
+
     </pluginRepositories>
-
-    <dependencies>
-
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>23.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-    </dependencies>
 
     <build>
         <finalName>FabulousCore-${project.version}</finalName>
@@ -59,8 +38,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
 
@@ -68,7 +47,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.2.0</version>
                 <configuration>
                     <!-- get all project dependencies -->
                     <descriptorRefs>
@@ -106,19 +85,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>me.alpho320.fabulous.core.bukkit.util.inv</pattern>
-                            <shadedPattern>me.alpho320.fabulous.core.util.inv</shadedPattern>
-                        </relocation>
-
-                        <relocation>
-                            <pattern>com.github.cryptomorin</pattern>
-                            <shadedPattern>me.alpho320.fabulous.bosses.util.xseries</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
             </plugin>
         </plugins>
 
@@ -130,11 +96,11 @@
         </resources>
     </build>
 
-
     <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
     </properties>
+
 
 </project>

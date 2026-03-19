@@ -196,6 +196,9 @@ public final class BasicInventoryContents implements InventoryContents {
 
       if (topInventory != null && topInventory.getHolder() instanceof SmartHolder) {
           SmartHolder holder = (SmartHolder) topInventory.getHolder();
+          if (holder == null || !holder.isActive()) return; // holder is not active
+
+          // check if the holder's inventory is the same as the top inventory and the page is the same as the holder's page
           if (holder.getInventory().equals(topInventory) || page.id().equals(holder.getPage().id())) {
               this.getTopInventory().setItem(this.page.column() * row + column, item);
           }

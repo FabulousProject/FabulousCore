@@ -38,6 +38,7 @@
         <module>v1_21_R3</module>
         <module>v1_21_R4</module>
         <module>v1_21_R5</module>
+        <module>v1_21_R7</module>
     </modules>
 
     <repositories>
@@ -73,6 +74,15 @@
         </dependency>
 
     </dependencies>
+
+    <pluginRepositories>
+
+        <pluginRepository>
+            <id>bytecode.space</id>
+            <url>https://repo.bytecode.space/repository/maven-public/</url>
+        </pluginRepository>
+
+    </pluginRepositories>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
