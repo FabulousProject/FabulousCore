@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bukkit</artifactId>
-    <version>1.1.103</version>
+    <version>1.1.104</version>
   
     <repositories>
 
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
-            <version>13.2.0</version>
+            <version>13.6.0</version>
         </dependency>
 
         <dependency>
