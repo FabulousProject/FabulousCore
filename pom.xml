@@ -16,6 +16,7 @@
         <module>bukkit</module>
         <module>nms-bukkit</module>
         <module>nukkit</module>
+        <module>lock</module>
     </modules>
 
     <repositories>
