@@ -310,29 +310,22 @@ public class SkullCreator {
                     }
                     metaProfileField.set(meta, makeProfile(b64));
                 } catch (Exception | Error ex2) {
-                    GameProfile profile = new GameProfile(UUID.randomUUID(), "");
-                    profile.getProperties().put("textures", new Property("textures", b64));
-                    Field profileField;
+                    // Final fallback: Paper's PlayerProfile API. We avoid touching
+                    // com.mojang.authlib.GameProfile directly here because its method
+                    // signatures (e.g. getProperties()) vary across versions and throw
+                    // NoSuchMethodError at runtime on newer servers.
                     try {
-                        profileField = meta.getClass().getDeclaredField("profile");
-                        profileField.setAccessible(true);
-                        profileField.set(meta, profile);
-                        item.setItemMeta(meta);
-                    } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex3) {
-                        try {
-                            item.editMeta(SkullMeta.class, skullMeta -> {
-                                final UUID uuid = UUID.randomUUID();
-                                final PlayerProfile playerProfile = Bukkit.createProfile(uuid, uuid.toString().substring(0, 16));
-                                playerProfile.setProperty(new ProfileProperty("textures", b64));
+                        item.editMeta(SkullMeta.class, skullMeta -> {
+                            final UUID uuid = UUID.randomUUID();
+                            final PlayerProfile playerProfile = Bukkit.createProfile(uuid, uuid.toString().substring(0, 16));
+                            playerProfile.setProperty(new ProfileProperty("textures", b64));
 
-                                skullMeta.setPlayerProfile(playerProfile);
-                            });
-                        } catch (Exception | Error ex4) {
-                            Debug.debug(1, "SkullCreator | Error setting skull texture of " + b64 + " (" + ex4.getMessage() + ") with reflection");
-                            ex4.printStackTrace();
-                        }
+                            skullMeta.setPlayerProfile(playerProfile);
+                        });
+                    } catch (Exception | Error ex4) {
+                        Debug.debug(1, "SkullCreator | Error setting skull texture of " + b64 + " (" + ex4.getMessage() + ") with reflection");
+                        ex4.printStackTrace();
                     }
-
                 }
             }
         }
