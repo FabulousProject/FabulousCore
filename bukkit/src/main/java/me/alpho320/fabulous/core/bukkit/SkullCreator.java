@@ -317,7 +317,11 @@ public class SkullCreator {
                     try {
                         item.editMeta(SkullMeta.class, skullMeta -> {
                             final UUID uuid = UUID.randomUUID();
-                            final PlayerProfile playerProfile = Bukkit.createProfile(uuid, uuid.toString().substring(0, 16));
+                            // The name must be a valid Minecraft username (no hyphens, <= 16 chars),
+                            // otherwise Paper treats the profile as incomplete and tries to re-resolve
+                            // it online, which fails and falls back to the default (Steve) texture.
+                            final String name = uuid.toString().replace("-", "").substring(0, 16);
+                            final PlayerProfile playerProfile = Bukkit.createProfile(uuid, name);
                             playerProfile.setProperty(new ProfileProperty("textures", b64));
 
                             skullMeta.setPlayerProfile(playerProfile);
