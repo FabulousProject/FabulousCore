@@ -83,7 +83,7 @@ public class BukkitSignGUI extends SignGUI {
             Location loc = getDefaultLocation((Player) player);
             BlockPosition pos = new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 
-            TileEntitySign sign = new TileEntitySign(pos, Blocks.cP.m());
+            TileEntitySign sign = new TileEntitySign(pos, Blocks.db.m());
             SignText signText = sign.a(true) // flag = front/back of sign
                     .a(EnumColor.a);
             for (int i = 0; i < lines().length; i++)
