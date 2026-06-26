@@ -50,6 +50,12 @@ public final class InventoryDragListener implements Listener {
       return;
     }
     final var smartHolder = (SmartHolder) holder;
+    // Respect external cancellation (see InventoryClickListener): if another listener already
+    // cancelled this drag, do not dispatch the icon drag handlers below. Placed before the
+    // framework's own setCancelled(...) so it only honours cancels made by other listeners.
+    if (event.isCancelled()) {
+      return;
+    }
     final var inventory = event.getInventory();
     final var contents = smartHolder.getContents();
     for (final var slot : event.getRawSlots()) {

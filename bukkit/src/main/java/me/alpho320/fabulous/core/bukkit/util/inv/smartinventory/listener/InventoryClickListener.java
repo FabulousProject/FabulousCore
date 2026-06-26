@@ -55,6 +55,16 @@ public final class InventoryClickListener implements Listener {
       return;
     }
     final var smartHolder = (SmartHolder) holder;
+    // Respect external cancellation. If an earlier listener already cancelled this click
+    // (e.g. to block GUI interaction during a sensitive op such as a cross-server transfer),
+    // bail out BEFORE dispatching any icon/page handler below. The icon click handler runs a
+    // button's action (depo claims, withdrawals, …); letting it fire on an already-cancelled
+    // click means "cancelling the click" does not actually block the action — an abusable dupe
+    // window. Placed before the framework's own setCancelled(...) calls so it only catches
+    // cancels made by other listeners, never the framework's own non-editable/collect guards.
+    if (event.isCancelled()) {
+      return;
+    }
     if (event.getAction() == InventoryAction.COLLECT_TO_CURSOR) {
       event.setCancelled(true);
       return;
