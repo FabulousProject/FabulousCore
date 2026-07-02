@@ -191,17 +191,18 @@ public final class BasicInventoryContents implements InventoryContents {
    * @param item the item to update.
    */
   private void update(final int row, final int column, @Nullable final ItemStack item) {
-    /*if (SmartInventory.getOpenedPlayers(this.page).contains(this.player())) {*/
       Inventory topInventory = this.player().getOpenInventory().getTopInventory();
+      if (topInventory == null) return;
 
-      if (topInventory != null && topInventory.getHolder() instanceof SmartHolder) {
-          SmartHolder holder = (SmartHolder) topInventory.getHolder();
-          if (holder == null || !holder.isActive()) return; // holder is not active
+      // Resolved via the INVENTORIES cache instead of topInventory.getHolder(): getHolder()
+      // reads block state on block inventories and throws on region-threaded servers
+      // (Folia, ShreddedPaper) when the block belongs to another region thread.
+      SmartHolder holder = SmartInventory.getHolder(this.player(), topInventory).filter(SmartHolder::isActive).orElse(null);
+      if (holder == null) return; // holder is not active
 
-          // check if the holder's inventory is the same as the top inventory and the page is the same as the holder's page
-          if (holder.getInventory().equals(topInventory) || page.id().equals(holder.getPage().id())) {
-              this.getTopInventory().setItem(this.page.column() * row + column, item);
-          }
+      // check if the holder's inventory is the same as the top inventory and the page is the same as the holder's page
+      if (holder.getInventory().equals(topInventory) || page.id().equals(holder.getPage().id())) {
+          this.getTopInventory().setItem(this.page.column() * row + column, item);
       }
   }
 }

@@ -59,13 +59,18 @@ public final class InventoryCloseListener implements Listener {
    */
   @EventHandler
   public void onInventoryClose(final InventoryCloseEvent event) {
-    final var holder = event.getInventory().getHolder();
+    // Do NOT use event.getInventory().getHolder() here: on region-threaded servers
+    // (Folia, ShreddedPaper) it reads the block state of block inventories (chest,
+    // barrel, ...) and throws "Cannot get block asynchronously!" when the block is
+    // owned by another region thread. SmartInventory.getHolder resolves the holder
+    // from the INVENTORIES cache without touching blocks.
+    final var holder = SmartInventory.getHolder(event.getPlayer(), event.getInventory()).orElse(null);
     Debug.debug(2, "SmartInventoryCloseListener | Inventory: " + event.getInventory() +" | Holder: " + (holder == null ? "null" : holder.getClass().getSimpleName()));
-    if (!(holder instanceof SmartHolder)) {
+    if (holder == null) {
       return;
     }
     final var player = event.getPlayer();
-    final var smartHolder = (SmartHolder) holder;
+    final var smartHolder = holder;
     final var inventory = event.getInventory();
     final var page = smartHolder.getPage();
     final var close = new PgCloseEvent(smartHolder.getContents(), event);

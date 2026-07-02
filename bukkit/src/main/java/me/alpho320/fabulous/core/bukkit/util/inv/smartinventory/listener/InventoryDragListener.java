@@ -25,7 +25,7 @@
 
 package me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.listener;
 
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.SmartHolder;
+import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.SmartInventory;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.event.IcDragEvent;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.util.SlotPos;
 import org.bukkit.event.EventHandler;
@@ -45,11 +45,13 @@ public final class InventoryDragListener implements Listener {
    */
   @EventHandler(priority = EventPriority.LOW)
   public void onInventoryDrag(final InventoryDragEvent event) {
-    final var holder = event.getInventory().getHolder();
-    if (!(holder instanceof SmartHolder)) {
+    // Resolved via the INVENTORIES cache instead of event.getInventory().getHolder():
+    // getHolder() reads block state on block inventories and throws on region-threaded
+    // servers (Folia, ShreddedPaper) when the block belongs to another region thread.
+    final var smartHolder = SmartInventory.getHolder(event.getWhoClicked(), event.getInventory()).orElse(null);
+    if (smartHolder == null) {
       return;
     }
-    final var smartHolder = (SmartHolder) holder;
     // Respect external cancellation (see InventoryClickListener): if another listener already
     // cancelled this drag, do not dispatch the icon drag handlers below. Placed before the
     // framework's own setCancelled(...) so it only honours cancels made by other listeners.

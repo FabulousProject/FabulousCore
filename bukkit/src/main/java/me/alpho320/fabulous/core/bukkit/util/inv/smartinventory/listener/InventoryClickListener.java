@@ -25,7 +25,7 @@
 
 package me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.listener;
 
-import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.SmartHolder;
+import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.SmartInventory;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.event.IcClickEvent;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.event.PgBottomClickEvent;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.event.PgClickEvent;
@@ -50,11 +50,13 @@ public final class InventoryClickListener implements Listener {
    */
   @EventHandler
   public void onInventoryClick(final InventoryClickEvent event) {
-    final var holder = event.getInventory().getHolder();
-    if (!(holder instanceof SmartHolder)) {
+    // Resolved via the INVENTORIES cache instead of event.getInventory().getHolder():
+    // getHolder() reads block state on block inventories and throws on region-threaded
+    // servers (Folia, ShreddedPaper) when the block belongs to another region thread.
+    final var smartHolder = SmartInventory.getHolder(event.getWhoClicked(), event.getInventory()).orElse(null);
+    if (smartHolder == null) {
       return;
     }
-    final var smartHolder = (SmartHolder) holder;
     // Respect external cancellation. If an earlier listener already cancelled this click
     // (e.g. to block GUI interaction during a sensitive op such as a cross-server transfer),
     // bail out BEFORE dispatching any icon/page handler below. The icon click handler runs a

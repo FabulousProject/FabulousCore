@@ -31,6 +31,7 @@ import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.event.PgTickEven
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.listener.*;
 import me.alpho320.fabulous.core.bukkit.util.inv.smartinventory.opener.ChestInventoryOpener;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryType;
@@ -126,6 +127,36 @@ public interface SmartInventory {
 
     return Optional.of(smartHolder)
       .filter(SmartHolder::isActive);*/
+  }
+
+  /**
+   * obtains the smart holder of the given {@code inventory} without touching
+   * {@link Inventory#getHolder()}. On region-threaded servers (Folia, ShreddedPaper)
+   * calling {@code getHolder()} on a block inventory (chest, barrel, ...) reads the
+   * block state and throws when the block belongs to another region thread, so the
+   * lookup must go through the {@link #INVENTORIES} cache instead.
+   *
+   * @param viewer the player viewing the inventory, used as a cache-miss fallback.
+   * @param inventory the inventory to obtain.
+   *
+   * @return smart holder.
+   */
+  @NotNull
+  static Optional<SmartHolder> getHolder(@NotNull final HumanEntity viewer, @NotNull final Inventory inventory) {
+    final SmartHolder found = INVENTORIES.get(inventory);
+    if (found != null) {
+      return Optional.of(found);
+    }
+    if (findDefaultOpener(inventory.getType()).isEmpty()) {
+      return Optional.empty();
+    }
+    final SmartHolder holder = PLAYER_HOLDER.get(viewer.getName());
+    if (holder == null || !holder.isActive()) {
+      return Optional.empty();
+    }
+    INVENTORIES.put(inventory, holder);
+    Debug.debug(2, "SmartInventory | Updating cache player: " + viewer.getName() + " | Holder: " + holder.getClass().getSimpleName() + " | isActive: " + holder.isActive());
+    return Optional.of(holder);
   }
 
   /**
